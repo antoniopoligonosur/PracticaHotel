@@ -6,6 +6,8 @@ Este proyecto es una aplicación web desarrollada con Django para la gestión in
 
 # DIAGRAMA ENTIDAD RELACION:
 
+<img width="1696" height="1093" alt="Diagrama_Antonio_Mateos_Delgado drawio" src="https://github.com/user-attachments/assets/c06bda56-89e7-4a62-9bf1-f647bb898fa4" />
+
 -----------------------------------
 
 # EXPLICACION DE MODELOS Y ATRIBUTOS USADOS:
