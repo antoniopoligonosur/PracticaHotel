@@ -4,13 +4,11 @@ Este proyecto es una aplicación web desarrollada con Django para la gestión in
 
 -----------------------------------
 
-DIAGRAMA ENTIDAD RELACION:
-
-
+# DIAGRAMA ENTIDAD RELACION:
 
 -----------------------------------
 
-EXPLICACION DE MODELOS Y ATRIBUTOS USADOS:
+# EXPLICACION DE MODELOS Y ATRIBUTOS USADOS:
 
 # Hotel: información general del hotel.
 # - nombre: nombre único del hotel.
@@ -86,7 +84,7 @@ EXPLICACION DE MODELOS Y ATRIBUTOS USADOS:
 
 -----------------------------------
 
-PARAMETROS USADOS EN "models":
+# PARAMETROS USADOS EN "models":
 
 # max_length → define el número máximo de caracteres permitidos en campos tipo texto (CharField, EmailField...).
 # unique → evita que se repitan valores en la base de datos (crea una restricción de unicidad).
@@ -118,7 +116,7 @@ PARAMETROS USADOS EN "models":
 
 -----------------------------------
 
-EXPLICACION DE PARAMETROS USADOS EN "generar_datos"
+# EXPLICACION DE PARAMETROS USADOS EN "generar_datos"
 
 # from django.db import transactionSirve para agrupar varias operaciones en una sola "transacción".
 # Si algo falla dentro de transaction.atomic(), se deshace todo (rollback).
