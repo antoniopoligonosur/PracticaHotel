@@ -22,3 +22,4 @@ urlpatterns = [
    path('',include('hotel.urls')),
 ]
 
+handler404 = "hotel.views.mi_error_404"

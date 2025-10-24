@@ -1,0 +1,43 @@
+<html>
+<head>
+    <title>Listado de Hoteles</title>
+</head>
+<body>
+
+<h1>Listado de Hoteles</h1>
+
+<table border="1" cellpadding="5" cellspacing="0">
+    <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Descripción</th>
+            <th>Dirección</th>
+            <th>Fecha Fundación</th>
+            <th>Calificación</th>
+            <th>Nº Habitaciones</th>
+            <th>Restaurante</th>
+            <th>Correo Contacto</th>
+            <th>Sitio Web</th>
+            <th>Hora Apertura</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for hotel in hoteles_mostrar %}
+        <tr>
+            <td>{{ hotel.nombre }}</td>
+            <td>{{ hotel.descripcion }}</td>
+            <td>{{ hotel.direccion }}</td>
+            <td>{{ hotel.fecha_fundacion }}</td>
+            <td>{{ hotel.calificacion }}</td>
+            <td>{{ hotel.num_habitaciones }}</td>
+            <td>{% if hotel.tiene_restaurante %}Sí{% else %}No{% endif %}</td>
+            <td>{{ hotel.correo_contacto }}</td>
+            <td>{{ hotel.sitio_web }}</td>
+            <td>{{ hotel.hora_apertura }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+</body>
+</html>

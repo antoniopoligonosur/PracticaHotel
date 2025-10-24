@@ -10,6 +10,11 @@ class Hotel(models.Model):
     fecha_fundacion = models.DateField(null=True, blank=True)
     calificacion = models.DecimalField(max_digits=3, decimal_places=2, default=0.00)
     servicios = models.ManyToManyField('Servicio', blank=True, related_name='hoteles')
+    num_habitaciones = models.IntegerField(validators=[MinValueValidator(1)], default=1)
+    tiene_restaurante = models.BooleanField(default=False)
+    correo_contacto = models.EmailField(blank=True, null=True)
+    sitio_web = models.URLField(blank=True, null=True)                   
+    hora_apertura = models.TimeField(null=True, blank=True)
 
     def __str__(self):
         return self.nombre
