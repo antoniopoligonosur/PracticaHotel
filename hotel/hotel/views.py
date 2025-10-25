@@ -1,18 +1,20 @@
 from django.shortcuts import render
-from .models import Hotel
-# from django.views.defaults import page_not_found   # no necesario aquí
+from .models import Hotel, ContactoHotel
 
 def index(request):
     return render(request, 'hotel/index.html')
 
-def listar_hoteles(request):
-    #hoteles = Hotel.objects.prefetch_related("servicios").all()
+#ESTA VISTA SIRVE PARA MOSTRAR EL CONTENIDO DE CONTACTO Y SU INFORMACIÓN RELACIONADA CON HOTEL:
+# Muestra nombre_contacto, telefono, correo, sitio_web y hotel.
 
+def contacto_lista(request):
+    contacto = ContactoHotel.objects.select_related("hotel")
     
-    hoteles = Hotel.objects.raw("SELECT * FROM hotel_hotel h"
-                             " JOIN hotel_hotel_servicios hs ON hs.hotel_id = h.id")
-    
-    return render(request, 'hotel/hotel.html', {"hoteles_mostrar": hoteles})
+    '''
+    contacto = ContactoHotel.objects.raw(" SELECT * FROM hotel_contactohotel ch "
+                                         " JOIN hotel_hotel h ON h.id = ch.hotel_id ")
+    '''
+    return render(request, 'hotel/contacto_lista.html', {'contacto_lista':contacto})
 
 def mi_error_404(request, exception=None):
     return render(request, 'errores/404.html', status=404)
