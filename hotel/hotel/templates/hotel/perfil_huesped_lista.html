@@ -1,0 +1,31 @@
+<html>
+<head>
+    <title>Listado de Perfiles de Huéspedes</title>
+</head>
+<body>
+
+<h1>Listado de Perfiles de Huéspedes</h1>
+
+<table border="1" cellpadding="5" cellspacing="0">
+    <thead>
+        <tr>
+            <th>huesped</th>
+            <th>nacionalidad</th>
+            <th>numero_pasaporte</th>
+            <th>puntos_fidelidad</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for ph in perfil_lista %}
+        <tr>
+            <td>{{ ph.huesped.nombre }} {{ ph.huesped.apellido }}</td>
+            <td>{{ ph.nacionalidad }}</td>
+            <td>{{ ph.numero_pasaporte }}</td>
+            <td>{{ ph.puntos_fidelidad }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+</body>
+</html>

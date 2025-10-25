@@ -99,6 +99,20 @@ def huesped_lista(request):
     '''
     return render(request, 'hotel/huesped_lista.html', {'huesped_lista': huespedes})
 
+# 6) Perfil Huésped
+# ESTA VISTA SIRVE PARA MOSTRAR EL CONTENIDO DE PERFILHUESPED Y SU HUESPED RELACIONADO:
+# Muestra huesped, nacionalidad y puntos_fidelidad
+def perfil_huesped_lista(request):
+    
+    perfiles = PerfilHuesped.objects.select_related('huesped').all()
+
+    '''
+    perfiles = PerfilHuesped.objects.raw(" SELECT ph.* FROM hotel_perfilhuesped ph "
+                                        " JOIN hotel_huesped h ON h.id = ph.huesped_id "
+                                         " ORDER BY ph.puntos_fidelidad DESC ")
+    ''' 
+    return render(request, 'hotel/perfil_huesped_lista.html', {'perfil_lista': perfiles})
+
 
 def mi_error_404(request, exception=None):
     return render(request, 'errores/404.html', status=404)
