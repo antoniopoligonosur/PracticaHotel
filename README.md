@@ -150,3 +150,7 @@ fake.image_url(), fake.company(), fake.company_email(), fake.phone_number(), fak
 bothify: fake.bothify('??######') → generar pasaportes o códigos con letras y números
 
 -----------------------------------
+
+#URL1
+ESTA VISTA SIRVE PARA MOSTRAR EL CONTENIDO DE CONTACTO Y SU INFORMACIÓN RELACIONADA CON HOTEL:
+Muestra nombre_contacto, telefono, correo, sitio_web y hotel.
