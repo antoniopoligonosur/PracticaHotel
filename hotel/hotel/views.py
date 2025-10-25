@@ -64,5 +64,27 @@ def tipo_habitacion_lista(request):
     '''
     return render(request, 'hotel/tipo_habitacion_lista.html', {'tipo_lista': tipos})
 
+# 4) Habitaciones
+# ESTA VISTA SIRVE PARA MOSTRAR EL CONTENIDO DE HABITACION Y SU INFORMACION RELACIONADA CON TIPO Y HOTEL:
+# Muestra hotel, número, piso, tipo y disponible.
+
+# Si se recibe un parámetro hotel_id en la URL, se filtran las habitaciones
+# para mostrar solo las que pertenecen a ese hotel. 
+# Si no se recibe, se muestran todas las habitaciones.
+
+def habitacion_lista(request, hotel_id=None):
+    
+    qs = Habitacion.objects.select_related('tipo', 'hotel').prefetch_related('servicios')
+    if hotel_id is not None:
+        qs = qs.filter(hotel_id=hotel_id)
+    
+    '''
+    habitacion = Habitacion.objects.raw(" SELECT hb.* FROM hotel_habitacion hb "
+                                        " JOIN hotel_hotel h ON h.id = hb.hotel_id "
+                                        " WHERE hb.hotel_id = %s" % (hotel_id if hotel_id else 0))
+    '''
+    
+    return render(request, 'hotel/habitacion_lista.html', {'habitacion_lista': qs})
+
 def mi_error_404(request, exception=None):
     return render(request, 'errores/404.html', status=404)

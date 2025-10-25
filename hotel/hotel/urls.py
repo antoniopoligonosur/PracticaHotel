@@ -9,5 +9,7 @@ urlpatterns = [
     path('hotel/lista', views.hotel_lista, name='hotel_lista'),
    # 3) Tipo Habitacion
     path('tipohabitacion/lista', views.tipo_habitacion_lista, name='tipo_habitacion'),
-]
+   # 4) Habitacion
+   path('habitacion/lista/<int:hotel_id>/', views.habitacion_lista, name='habitacion_lista'),
 
+]
