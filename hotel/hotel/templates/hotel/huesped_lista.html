@@ -1,0 +1,31 @@
+<html>
+<head>
+    <title>Listado de Huéspedes</title>
+</head>
+<body>
+
+<h1>Listado de Huéspedes</h1>
+
+<table border="1" cellpadding="5" cellspacing="0">
+    <thead>
+        <tr>
+            <th>nombre</th>
+            <th>apellido</th>
+            <th>correo</th>
+            <th>telefono</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for h in huesped_lista %}
+        <tr>
+            <td>{{ h.nombre }}</td>
+            <td>{{ h.apellido }}</td>
+            <td>{{ h.correo }}</td>
+            <td>{{ h.telefono }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+</body>
+</html>

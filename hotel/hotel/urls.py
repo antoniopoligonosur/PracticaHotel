@@ -11,5 +11,7 @@ urlpatterns = [
     path('tipohabitacion/lista', views.tipo_habitacion_lista, name='tipo_habitacion'),
    # 4) Habitacion
    path('habitacion/lista/<int:hotel_id>/', views.habitacion_lista, name='habitacion_lista'),
+   # 5) Huesped
+   path('huesped/lista', views.huesped_lista, name='huesped_lista'),
 
 ]

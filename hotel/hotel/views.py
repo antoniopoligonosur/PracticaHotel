@@ -86,5 +86,19 @@ def habitacion_lista(request, hotel_id=None):
     
     return render(request, 'hotel/habitacion_lista.html', {'habitacion_lista': qs})
 
+# 5) Huéspedes
+# ESTA VISTA SIRVE PARA MOSTRAR EL CONTENIDO DE HUESPED Y SU PERFIL RELACIONADO:
+# Muestra nombre, apellido, correo y telefono
+def huesped_lista(request):
+    huespedes = Huesped.objects.all().prefetch_related('perfil')
+
+    '''
+    huespedes = Huesped.objects.raw(" SELECT h.* FROM hotel_huesped h "
+                                    " LEFT JOIN hotel_perfilhuesped ph ON ph.huesped_id = h.id "
+                                    " WHERE ph.nacionalidad = 'España' ")
+    '''
+    return render(request, 'hotel/huesped_lista.html', {'huesped_lista': huespedes})
+
+
 def mi_error_404(request, exception=None):
     return render(request, 'errores/404.html', status=404)
