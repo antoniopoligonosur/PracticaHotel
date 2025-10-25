@@ -1,0 +1,31 @@
+<html>
+<head>
+    <title>Listado de Tipos de Habitación</title>
+</head>
+<body>
+
+<h1>Listado de Tipos de Habitación</h1>
+
+<table border="1" cellpadding="5" cellspacing="0">
+    <thead>
+        <tr>
+            <th>nombre</th>
+            <th>descripcion</th>
+            <th>capacidad</th>
+            <th>precio_base</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for t in tipo_lista %}
+        <tr>
+            <td>{{ t.nombre }}</td>
+            <td>{{ t.descripcion }}</td>
+            <td>{{ t.capacidad }}</td>
+            <td>{{ t.precio_base }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+</body>
+</html>

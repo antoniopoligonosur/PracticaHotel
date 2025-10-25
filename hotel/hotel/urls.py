@@ -7,5 +7,7 @@ urlpatterns = [
    path('contacto/lista', views.contacto_lista, name='contacto_lista'),
    # 2) Hotel
     path('hotel/lista', views.hotel_lista, name='hotel_lista'),
+   # 3) Tipo Habitacion
+    path('tipohabitacion/lista', views.tipo_habitacion_lista, name='tipo_habitacion'),
 ]
 
