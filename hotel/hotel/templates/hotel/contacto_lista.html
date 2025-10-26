@@ -1,0 +1,33 @@
+<html>
+<head>
+    <title>Listado de ces</title>
+</head>
+<body>
+
+<h1>Listado de Contactos</h1>
+
+<table border="1" cellpadding="5" cellspacing="0">
+    <thead>
+        <tr>
+            <th>nombre_contacto</th>
+            <th>telefono</th>
+            <th>correo</th>
+            <th>sitio_web</th>
+            <th>hotel</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for c in contacto_lista %}
+        <tr>
+            <td>{{ c.nombre_contacto }}</td>
+            <td>{{ c.telefono }}</td>
+            <td>{{ c.correo }}</td>
+            <td>{{ c.sitio_web }}</td>
+            <td>{{ c.hotel.nombre }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+</body>
+</html>

@@ -1,0 +1,33 @@
+<html>
+<head>
+    <title>Listado de Facturas</title>
+</head>
+<body>
+
+<h1>Listado de Facturas</h1>
+
+<table border="1" cellpadding="5" cellspacing="0">
+    <thead>
+        <tr>
+            <th>numero_factura</th>
+            <th>reserva</th>
+            <th>emitida_en</th>
+            <th>monto_total</th>
+            <th>pagada</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for f in factura_lista %}
+        <tr>
+            <td>{{ f.numero_factura }}</td>
+            <td>{{ f.reserva.id }} - {{ f.reserva.huesped.nombre }}</td>
+            <td>{{ f.emitida_en }}</td>
+            <td>{{ f.monto_total }}</td>
+            <td>{{ f.pagada }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+</body>
+</html>

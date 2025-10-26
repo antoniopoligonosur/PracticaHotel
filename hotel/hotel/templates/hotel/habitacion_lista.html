@@ -1,0 +1,33 @@
+<html>
+<head>
+    <title>Listado de Habitaciones</title>
+</head>
+<body>
+
+<h1>Listado de Habitaciones</h1>
+
+<table border="1" cellpadding="5" cellspacing="0">
+    <thead>
+        <tr>
+            <th>hotel</th>
+            <th>numero</th>
+            <th>piso</th>
+            <th>tipo</th>
+            <th>disponible</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for hb in habitacion_lista %}
+        <tr>
+            <td>{{ hb.hotel.nombre }}</td>
+            <td>{{ hb.numero }}</td>
+            <td>{{ hb.piso }}</td>
+            <td>{{ hb.tipo.nombre }}</td>
+            <td>{{ hb.disponible }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+</body>
+</html>

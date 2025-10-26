@@ -9,6 +9,12 @@ class Hotel(models.Model):
     direccion = models.CharField(max_length=200)
     fecha_fundacion = models.DateField(null=True, blank=True)
     calificacion = models.DecimalField(max_digits=3, decimal_places=2, default=0.00)
+    num_habitaciones = models.IntegerField(validators=[MinValueValidator(1)], default=1)
+    tiene_restaurante = models.BooleanField(default=False)
+    correo_contacto = models.EmailField(blank=True, null=True)
+    sitio_web = models.URLField(blank=True, null=True)                   
+    hora_apertura = models.TimeField(null=True, blank=True)
+    
     servicios = models.ManyToManyField('Servicio', blank=True, related_name='hoteles')
 
     def __str__(self):
@@ -16,11 +22,12 @@ class Hotel(models.Model):
 
 
 class ContactoHotel(models.Model):
-    hotel = models.OneToOneField(Hotel, on_delete=models.CASCADE, related_name='contacto')
     nombre_contacto = models.CharField(max_length=100)
     telefono = models.CharField(max_length=20, validators=[RegexValidator(r'^\+?\d{7,15}$')])
     correo = models.EmailField(unique=True)
     sitio_web = models.URLField(null=True, blank=True)
+    
+    hotel = models.OneToOneField(Hotel, on_delete=models.CASCADE, related_name='contacto')
 
     def __str__(self):
         return self.nombre_contacto
@@ -91,11 +98,13 @@ class Reserva(models.Model):
     ]
     huesped = models.ForeignKey(Huesped, on_delete=models.CASCADE, related_name='reservas')
     habitacion = models.ForeignKey(Habitacion, on_delete=models.PROTECT, related_name='reservas')
+    servicios = models.ManyToManyField(Servicio, through='ReservaServicio', blank=True, related_name='reservas')
+    
     fecha_entrada = models.DateField()
     fecha_salida = models.DateField()
     estado = models.CharField(max_length=1, choices=ESTADOS, default='P')
     creada_en = models.DateTimeField(auto_now_add=True)
-    servicios = models.ManyToManyField(Servicio, through='ReservaServicio', blank=True, related_name='reservas')
+    
 
     def __str__(self):
         return f"Reserva {self.id} - {self.huesped.nombre}"
