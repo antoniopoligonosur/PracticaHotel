@@ -9,9 +9,8 @@ from .models import (
 def index(request):
     return render(request, 'hotel/index.html')
 
-# 1) Contacto
-# ESTA VISTA SIRVE PARA MOSTRAR EL CONTENIDO DE CONTACTO Y SU INFORMACIÓN RELACIONADA CON HOTEL:
-# Muestra nombre_contacto, telefono, correo, sitio_web y hotel.
+# 1) CONTACTO
+# Muestra los contactos de los hoteles junto con la información del hotel relacionado
 
 def contacto_lista(request):
     contacto = ContactoHotel.objects.select_related("hotel")
@@ -22,9 +21,9 @@ def contacto_lista(request):
     '''
     return render(request, 'hotel/contacto_lista.html', {'contacto_lista':contacto})
 
-# 2) Hoteles
-# ESTA VISTA SIRVE PARA MOSTRAR EL CONTENIDO DE HOTEL Y SU INFORMACION RELACIONADA CON SERVICIOS:
-# Muestra nombre, descripcion, direccion, calificacion y num_habitaciones
+# 2) HOTELES
+# Muestra los hoteles con sus servicios asociados (usando "LIMIT 10" para restringir la cantidad de resultados
+# y mostrar únicamente los 10 hoteles con mejor calificación).
 
 def hotel_lista(request):
     hoteles = Hotel.objects.prefetch_related('servicios').all()
@@ -36,21 +35,14 @@ def hotel_lista(request):
     '''
     return render(request, 'hotel/hotel_lista.html', {'hotel_lista': hoteles})
 
-# 3) Tipos de Habitación
-# ESTA VISTA SIRVE PARA MOSTRAR EL CONTENIDO DE TIPOHABITACION:
-# Muestra nombre, capacidad y precio_base
+# 3) TIPOS DE HABITACIÓN
+# Muestra los tipos de habitación existentes, y si el usuario introduce un nombre en la URL (?nombre=suite),
+# se filtran solo los que contengan ese texto.
 
-# En esta vista se utiliza un condicional (if) porque queremos que la misma ruta sirva
-# tanto para mostrar todas las habitaciones como para filtrar por nombre cuando el usuario lo indique.
-
-# 1. Se usa request.GET.get('nombre') para obtener el parámetro opcional "nombre"
-#    desde la URL (por ejemplo: /tipohabitacion/lista?nombre=suite).
-
-# 2. Si el parámetro "nombre" tiene un valor, se aplica un filtro con filter(nombre__icontains=nombre)
-#    para mostrar solo los tipos de habitación cuyo nombre contenga ese texto.
-
-# 3. Si no se pasa ningún valor, se ejecuta TipoHabitacion.objects.all()
-#    para mostrar todos los registros disponibles.
+# Explicación del uso del condicional:
+# Permite reutilizar la misma vista para dos comportamientos:
+# - Si el usuario busca por nombre, se aplicará un filtro
+# - Si no hay filtro, se mostrarán todos los tipos de habitación.
 
 def tipo_habitacion_lista(request):
     nombre = request.GET.get('nombre')  # Obtiene el nombre desde la URL
@@ -65,16 +57,12 @@ def tipo_habitacion_lista(request):
     '''
     return render(request, 'hotel/tipo_habitacion_lista.html', {'tipo_lista': tipos})
 
-# 4) Habitaciones
-# ESTA VISTA SIRVE PARA MOSTRAR EL CONTENIDO DE HABITACION Y SU INFORMACION RELACIONADA CON TIPO Y HOTEL:
-# Muestra hotel, número, piso, tipo y disponible.
+# 4) HABITACIONES
+# Muestra las habitaciones filtradas por el id del hotel recibido en la URL.
+# Cada habitación incluye sus datos de tipo, hotel y servicios asociados.
 
-# Si se recibe un parámetro hotel_id en la URL, se filtran las habitaciones
-# para mostrar solo las que pertenecen a ese hotel. 
-# Si no se recibe, se muestran todas las habitaciones.
-
-# Al filtrarse con id, en la web por defecto te mostrará la id "1" la cual solo tiene asociada una habitacion, y si pruebas
-# por ejemplo el id "8" te saldrán 2
+# Nota: Al filtrarse por id, por defecto en la web se mostrará el hotel con id "1"
+# (que solo tiene una habitación asociada). Si pruebas con el id "8", verás que devuelve dos.
 
 def habitacion_lista(request, hotel_id):
     
@@ -88,7 +76,9 @@ def habitacion_lista(request, hotel_id):
     
     return render(request, 'hotel/habitacion_lista.html', {'habitacion_lista': qs})
 
-# 5) Hotel - Detalle
+# 5) HOTEL - DETALLE
+# Muestra la información de un hotel específico junto con todos sus servicios.
+# Se usa "prefetch"
 def detalle_hotel(request, id_hotel):
     hotel = Hotel.objects.prefetch_related(
         Prefetch('servicios')
@@ -96,9 +86,8 @@ def detalle_hotel(request, id_hotel):
     
     return render(request, 'hotel/detalle_hotel.html', {'hotel': hotel})
 
-# 6) Perfil Huésped
-# ESTA VISTA SIRVE PARA MOSTRAR EL CONTENIDO DE PERFILHUESPED Y SU HUESPED RELACIONADO:
-# Muestra huesped, nacionalidad y puntos_fidelidad
+# 6) PERFIL HUÉSPED
+# Muestra la lista de perfiles de huéspedes junto con la información básica del huésped relacionado.
 def perfil_huesped_lista(request):
     
     perfiles = PerfilHuesped.objects.select_related('huesped').all()
@@ -110,9 +99,10 @@ def perfil_huesped_lista(request):
     ''' 
     return render(request, 'hotel/perfil_huesped_lista.html', {'perfil_lista': perfiles})
 
-# 7) Servicios
-# ESTA VISTA SIRVE PARA MOSTRAR EL CONTENIDO DE SERVICIO:
-# Muestra nombre, precio, es_opcional y duracion_minutos
+# 7) SERVICIOS
+# Muestra los servicios disponibles.
+# En la versión SQL se utiliza "OR" para mostrar los servicios opcionales
+# o aquellos cuyo precio sea inferior a un valor determinado.
 def servicio_lista(request):
     
     servicios = Servicio.objects.all()
@@ -124,9 +114,9 @@ def servicio_lista(request):
     '''
     return render(request, 'hotel/servicio_lista.html', {'servicio_lista': servicios})
 
-# 8) Reservas
-# ESTA VISTA SIRVE PARA MOSTRAR EL CONTENIDO DE RESERVA Y SU INFORMACION RELACIONADA CON HUESPED Y HABITACION:
-# Muestra id, huesped, habitacion, fecha_entrada, fecha_salida, estado y total_servicios
+# 8) HOTELES POR FECHA
+# Muestra los hoteles fundados en un año y mes concretos.
+# Esta vista recibe 2 parámetros en la URL: "anyo_hotel" y "mes_hotel".
 
 def dame_hotel_fecha(request, anyo_hotel, mes_hotel):
     
@@ -145,7 +135,9 @@ def dame_hotel_fecha(request, anyo_hotel, mes_hotel):
     
     return render(request, 'hotel/hotel_lista.html', {'hotel_lista': hoteles})
 
-# 9) Hotel - Calificacion
+# 9) HOTEL - CALIFICACIÓN
+# Muestra los hoteles con una calificación exacta recibida por parámetro.
+# Se emplea una expresión regular para comparar valores concretos.
 
 def dame_hotel_calificacion(request, calificacion_hotel):
     
@@ -159,7 +151,9 @@ def dame_hotel_calificacion(request, calificacion_hotel):
     """
     return render(request, 'hotel/hotel_lista.html', {'hotel_lista': hoteles})
 
-# 10) Hotel - Calificacion - Agreggate
+# 10) ESTADÍSTICAS DE HOTELES
+# Calcula estadísticas de calificación de los hoteles (media, máxima y mínima)
+# usando funciones de agregación (aggregate).
 
 def hoteles_estadisticas_calificacion(request):
     """
@@ -177,6 +171,9 @@ def hoteles_estadisticas_calificacion(request):
     "SELECT 1 AS id, AVG(calificacion) AS media_calificacion, MAX(calificacion) AS max_calificacion, MIN(calificacion) AS min_calificacion FROM hotel_hotel ")[0])
      
     return render(request, 'hotel/estadistica_hotel.html', {'estadistica': estadisticas})
+
+
+# ERRORES PERSONALIZADOS
 
 # Error 404 - Página no encontrada
 def mi_error_404(request, exception=None):
