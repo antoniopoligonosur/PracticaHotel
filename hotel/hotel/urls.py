@@ -17,5 +17,7 @@ urlpatterns = [
    path('perfil_huesped/lista', views.perfil_huesped_lista, name='perfil_huesped_lista'),
    # 7) Servicio
    path('servicio/lista', views.servicio_lista, name='servicio_lista'),
+   # 8) Reserva
+   path('reserva/lista', views.reserva_lista, name='reserva_lista'),
 
 ]

@@ -127,6 +127,19 @@ def servicio_lista(request):
     '''
     return render(request, 'hotel/servicio_lista.html', {'servicio_lista': servicios})
 
+# 8) Reservas
+# ESTA VISTA SIRVE PARA MOSTRAR EL CONTENIDO DE RESERVA Y SU INFORMACION RELACIONADA CON HUESPED Y HABITACION:
+# Muestra id, huesped, habitacion, fecha_entrada, fecha_salida, estado y total_servicios
+def reserva_lista(request):
+    reservas = Reserva.objects.select_related('huesped', 'habitacion').annotate(total_servicios=Sum('servicios__precio'))
+
+    '''
+    reservas = Reserva.objects.raw(" SELECT r.id, SUM(s.precio) AS total_servicios FROM hotel_reserva r "
+                                   " LEFT JOIN hotel_reservaservicio rs ON rs.reserva_id = r.id "
+                                   " LEFT JOIN hotel_servicio s ON s.id = rs.servicio_id "
+                                   " GROUP BY r.id ")
+    '''
+    return render(request, 'hotel/reserva_lista.html', {'reserva_lista': reservas})
 
 def mi_error_404(request, exception=None):
     return render(request, 'errores/404.html', status=404)
