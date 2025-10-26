@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.db.models import Sum
+from django.db.models import Sum, Avg, Min, Max, Prefetch
 from .models import (
     Hotel, ContactoHotel, TipoHabitacion, Habitacion, Huesped,
     PerfilHuesped, Servicio, Reserva, Factura, ReservaServicio
@@ -72,32 +72,28 @@ def tipo_habitacion_lista(request):
 # para mostrar solo las que pertenecen a ese hotel. 
 # Si no se recibe, se muestran todas las habitaciones.
 
-def habitacion_lista(request, hotel_id=None):
+# Al filtrarse con id, en la web por defecto te mostrará la id "1" la cual solo tiene asociada una habitacion, y si pruebas
+# por ejemplo el id "8" te saldrán 2
+
+def habitacion_lista(request, hotel_id):
     
-    qs = Habitacion.objects.select_related('tipo', 'hotel').prefetch_related('servicios')
-    if hotel_id is not None:
-        qs = qs.filter(hotel_id=hotel_id)
-    
+    qs = Habitacion.objects.select_related('tipo', 'hotel').prefetch_related('servicios').filter(hotel_id=hotel_id)
+    qs.all()
     '''
-    habitacion = Habitacion.objects.raw(" SELECT hb.* FROM hotel_habitacion hb "
+    qs = Habitacion.objects.raw(" SELECT hb.* FROM hotel_habitacion hb "
                                         " JOIN hotel_hotel h ON h.id = hb.hotel_id "
                                         " WHERE hb.hotel_id = %s" % (hotel_id if hotel_id else 0))
     '''
     
     return render(request, 'hotel/habitacion_lista.html', {'habitacion_lista': qs})
 
-# 5) Huéspedes
-# ESTA VISTA SIRVE PARA MOSTRAR EL CONTENIDO DE HUESPED Y SU PERFIL RELACIONADO:
-# Muestra nombre, apellido, correo y telefono
-def huesped_lista(request):
-    huespedes = Huesped.objects.all().prefetch_related('perfil')
-
-    '''
-    huespedes = Huesped.objects.raw(" SELECT h.* FROM hotel_huesped h "
-                                    " LEFT JOIN hotel_perfilhuesped ph ON ph.huesped_id = h.id "
-                                    " WHERE ph.nacionalidad = 'España' ")
-    '''
-    return render(request, 'hotel/huesped_lista.html', {'huesped_lista': huespedes})
+# 5) Hotel - Detalle
+def detalle_hotel(request, id_hotel):
+    hotel = Hotel.objects.prefetch_related(
+        Prefetch('servicios')
+    ).get(id=id_hotel)
+    
+    return render(request, 'hotel/detalle_hotel.html', {'hotel': hotel})
 
 # 6) Perfil Huésped
 # ESTA VISTA SIRVE PARA MOSTRAR EL CONTENIDO DE PERFILHUESPED Y SU HUESPED RELACIONADO:
@@ -130,29 +126,56 @@ def servicio_lista(request):
 # 8) Reservas
 # ESTA VISTA SIRVE PARA MOSTRAR EL CONTENIDO DE RESERVA Y SU INFORMACION RELACIONADA CON HUESPED Y HABITACION:
 # Muestra id, huesped, habitacion, fecha_entrada, fecha_salida, estado y total_servicios
-def reserva_lista(request):
-    reservas = Reserva.objects.select_related('huesped', 'habitacion').annotate(total_servicios=Sum('servicios__precio'))
 
+def dame_hotel_fecha(request, anyo_hotel, mes_hotel):
+    
+    hoteles = Hotel.objects.prefetch_related('servicios').filter(fecha_fundacion__year=anyo_hotel, fecha_fundacion__month=mes_hotel)
+    
     '''
-    reservas = Reserva.objects.raw(" SELECT r.id, SUM(s.precio) AS total_servicios FROM hotel_reserva r "
-                                   " LEFT JOIN hotel_reservaservicio rs ON rs.reserva_id = r.id "
-                                   " LEFT JOIN hotel_servicio s ON s.id = rs.servicio_id "
-                                   " GROUP BY r.id ")
+    # Esta sentencia convierte el mes a cadena permitiendo que tenga 2 digitos por ejemplo: (Enero: 01)
+    mes_formato_sql = str(mes_hotel).zfill(2)
+    
+    hoteles = (Hotel.objects.raw(
+      "SELECT * FROM hotel_hotel h "
+    +" WHERE strftime('%%Y', h.fecha_fundacion) = %s "
+    +" AND strftime('%%m', h.fecha_fundacion) = %s "
+    ,[str(anyo_hotel),mes_formato_sql]))
     '''
-    return render(request, 'hotel/reserva_lista.html', {'reserva_lista': reservas})
+    
+    return render(request, 'hotel/hotel_lista.html', {'hotel_lista': hoteles})
 
-# 9) Facturas
-# ESTA VISTA SIRVE PARA MOSTRAR EL CONTENIDO DE FACTURA Y SU RESERVA RELACIONADA:
-# Muestra numero_factura, reserva, emitida_en, monto_total y pagada
-def factura_lista(request):
-    facturas = Factura.objects.select_related('reserva', 'reserva__huesped').all()
+# 9) Hotel - Calificacion
 
-    '''
-    facturas = Factura.objects.raw(" SELECT f.* FROM hotel_factura f "
-                                   " JOIN hotel_reserva r ON r.id = f.reserva_id "
-                                   " ORDER BY f.emitida_en DESC ")
-    '''
-    return render(request, 'hotel/factura_lista.html', {'factura_lista': facturas})
+def dame_hotel_calificacion(request, calificacion_hotel):
+    
+    hoteles = Hotel.objects.prefetch_related('servicios').filter(calificacion=calificacion_hotel)
+
+    """
+    hoteles = (Hotel.objects.raw(
+    "SELECT * FROM hotel_hotel h "
+    + " WHERE h.calificacion = %s "
+    ,[calificacion_hotel]))
+    """
+    return render(request, 'hotel/hotel_lista.html', {'hotel_lista': hoteles})
+
+# 10) Hotel - Calificacion - Agreggate
+
+def hoteles_estadisticas_calificacion(request):
+    """
+    estadisticas = (
+    Hotel.objects
+    .aggregate(
+            media_calificacion=Avg('calificacion'),
+            max_calificacion=Max('calificacion'),
+            min_calificacion=Min('calificacion')
+    )
+    )
+    """
+     
+    estadisticas = (Hotel.objects.raw(
+    "SELECT 1 AS id, AVG(calificacion) AS media_calificacion, MAX(calificacion) AS max_calificacion, MIN(calificacion) AS min_calificacion FROM hotel_hotel ")[0])
+     
+    return render(request, 'hotel/estadistica_hotel.html', {'estadistica': estadisticas})
 
 def mi_error_404(request, exception=None):
-    return render(request, 'errores/404.html', status=404)
+    return render(request, 'errores/404.html', None,None,404)

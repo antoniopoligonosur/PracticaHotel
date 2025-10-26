@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Reserva-Servicio</title>
+</head>
+<body>
+
+<h1>Lista de Reserva-Servicio</h1>
+
+<table border="1" cellpadding="6">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Reserva</th>
+            <th>Servicio</th>
+            <th>Cantidad</th>
+            <th>Precio en momento</th>
+            <th>Nota</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for rs in reservaservicio_lista %}
+        <tr>
+            <td>{{ rs.id }}</td>
+            <td>{{ rs.reserva.id }} - {{ rs.reserva.huesped.nombre }} {{ rs.reserva.huesped.apellido }}</td>
+            <td>{{ rs.servicio.nombre }}</td>
+            <td>{{ rs.cantidad }}</td>
+            <td>{{ rs.precio_en_momento }}</td>
+            <td>{{ rs.nota }}</td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="6">No hay relaciones de Reserva-Servicio registradas.</td></tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+</body>
+</html>

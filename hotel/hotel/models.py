@@ -98,11 +98,13 @@ class Reserva(models.Model):
     ]
     huesped = models.ForeignKey(Huesped, on_delete=models.CASCADE, related_name='reservas')
     habitacion = models.ForeignKey(Habitacion, on_delete=models.PROTECT, related_name='reservas')
+    servicios = models.ManyToManyField(Servicio, through='ReservaServicio', blank=True, related_name='reservas')
+    
     fecha_entrada = models.DateField()
     fecha_salida = models.DateField()
     estado = models.CharField(max_length=1, choices=ESTADOS, default='P')
     creada_en = models.DateTimeField(auto_now_add=True)
-    servicios = models.ManyToManyField(Servicio, through='ReservaServicio', blank=True, related_name='reservas')
+    
 
     def __str__(self):
         return f"Reserva {self.id} - {self.huesped.nombre}"
