@@ -15,5 +15,7 @@ urlpatterns = [
    path('huesped/lista', views.huesped_lista, name='huesped_lista'),
    # 6) Perfil Huesped
    path('perfil_huesped/lista', views.perfil_huesped_lista, name='perfil_huesped_lista'),
+   # 7) Servicio
+   path('servicio/lista', views.servicio_lista, name='servicio_lista'),
 
 ]

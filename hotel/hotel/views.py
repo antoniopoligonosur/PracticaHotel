@@ -113,6 +113,20 @@ def perfil_huesped_lista(request):
     ''' 
     return render(request, 'hotel/perfil_huesped_lista.html', {'perfil_lista': perfiles})
 
+# 7) Servicios
+# ESTA VISTA SIRVE PARA MOSTRAR EL CONTENIDO DE SERVICIO:
+# Muestra nombre, precio, es_opcional y duracion_minutos
+def servicio_lista(request):
+    
+    servicios = Servicio.objects.all()
+
+    '''
+    servicios = Servicio.objects.raw(" SELECT * FROM hotel_servicio s "
+                                     " WHERE s.es_opcional = true OR s.precio < 10.00 "
+                                     " ORDER BY s.nombre ")
+    '''
+    return render(request, 'hotel/servicio_lista.html', {'servicio_lista': servicios})
+
 
 def mi_error_404(request, exception=None):
     return render(request, 'errores/404.html', status=404)
