@@ -158,24 +158,27 @@ bothify: fake.bothify('??######') → generar pasaportes o códigos con letras y
 
 # URLs Y VISTAS IMPLEMENTADAS
 
-Este proyecto cuenta con 10 URLs principales, cada una asociada a una vista que realiza operaciones sobre los modelos y relaciones entre ellos.  
+Este proyecto cuenta con 10 URLs principales, cada una asociada a una vista que realiza operaciones sobre los modelos y relaciones entre ellos. 
 
-| # | URL | Vista | Parámetros | Funcionalidad / Requisitos cumplidos |
-|---|-----|-------|------------|--------------------------------------|
-| 1 | `/contacto/lista` | `contacto_lista` | Ninguno | Muestra todos los contactos de hoteles. **Relación ManyToOne:** `ContactoHotel → Hotel`. QuerySet con `select_related`. SQL comentada incluida. |
-| 2 | `/hotel/lista` | `hotel_lista` | Ninguno | Lista hoteles y sus servicios (ManyToMany: `Hotel ↔ Servicio`). Limita a 10 hoteles con mejor calificación. QuerySet optimizado con `prefetch_related`. |
-| 3 | `/tipohabitacion/lista?nombre=xxx` | `tipo_habitacion_lista` | GET `nombre` (str) | Lista tipos de habitación filtrando por nombre opcional. Uso de filtro `OR` comentado en SQL. |
-| 4 | `/habitacion/lista/<int:hotel_id>/` | `habitacion_lista` | `hotel_id` (int) | Muestra habitaciones de un hotel, incluyendo tipo, servicios y hotel (ManyToOne y ManyToMany). Uso de `select_related` y `prefetch_related`. |
-| 5 | `/detalles_hotel/<int:id_hotel>/` | `detalle_hotel` | `id_hotel` (int) | Detalle de un hotel específico con todos sus servicios (ManyToMany). Uso de `prefetch_related` para optimización. |
-| 6 | `/perfil_huesped/lista` | `perfil_huesped_lista` | Ninguno | Lista perfiles de huéspedes con información básica del huésped (OneToOne: `PerfilHuesped → Huesped`). Uso de `select_related`. |
-| 7 | `/servicio/lista` | `servicio_lista` | Ninguno | Lista todos los servicios. Ejemplo de filtro `OR` y ordenamiento. |
-| 8 | `/hotel/lista/<int:anyo_hotel>/<int:mes_hotel>` | `dame_hotel_fecha` | `anyo_hotel` y `mes_hotel` (int, int) | Filtra hoteles fundados en un año y mes concretos. Uso de `prefetch_related` y `filter` con AND. |
-| 9 | `re_path(r'^hotel/calificacion/(?P<calificacion_hotel>0\.\d{2})/$')` | `dame_hotel_calificacion` | `calificacion_hotel` (str) | Filtra hoteles por calificación exacta usando expresión regular. Ejemplo de parámetro str en URL. |
-| 10 | `/hoteles/estadisticas_calificacion/` | `hoteles_estadisticas_calificacion` | Ninguno | Calcula estadísticas (media, máximo y mínimo) de calificación usando `aggregate`. Ejemplo de uso de funciones de agregación. |
+La primera URL, `/contacto/lista`, está vinculada a la vista `contacto_lista`. Esta vista muestra todos los contactos de los hoteles, incluyendo la información relacionada del hotel al que pertenecen. Se utiliza una relación ManyToOne entre `ContactoHotel` y `Hotel` y el QuerySet está optimizado mediante `select_related`. Además, se incluye un ejemplo comentado de cómo sería la misma consulta en SQL crudo.
 
-**Notas sobre QuerySets y SQL comentado:**
-- Todas las vistas incluyen ejemplos comentados de cómo serían las mismas consultas en SQL crudo.
-- Se usan `select_related` y `prefetch_related` para optimizar consultas y evitar N+1 queries.
-- Se cubren relaciones: ManyToMany (`Hotel ↔ Servicio`, `Habitacion ↔ Servicio`), OneToOne (`PerfilHuesped → Huesped`, `ContactoHotel → Hotel`), ManyToOne (`Habitacion → Hotel`, `Reserva → Huesped`).
-- Filtros implementados incluyen AND, OR, `None` en tablas intermedias, `aggregate`, ordenamiento con `order_by` y limitación de resultados (`LIMIT 10`).
-- Se incluyen URLs con diferentes tipos de parámetros: entero (`<int:hotel_id>`), string (`calificacion_hotel`), múltiples parámetros (`anyo_hotel` y `mes_hotel`) y `r_path` para expresiones regulares.
+La segunda URL, `/hotel/lista`, corresponde a la vista `hotel_lista`. Esta vista lista los hoteles junto con sus servicios, estableciendo la relación ManyToMany entre `Hotel` y `Servicio`. Para optimizar la consulta y evitar el problema N+1, se utiliza `prefetch_related`. Además, se limita la lista a los 10 hoteles con mejor calificación.
+
+La tercera URL, `/tipohabitacion/lista`, acepta un parámetro GET opcional `nombre` y se maneja con la vista `tipo_habitacion_lista`. Esta vista permite filtrar los tipos de habitación que contengan un determinado texto en el nombre. En el QuerySet se puede observar un filtro OR comentado en SQL para mostrar cómo se podrían combinar varias condiciones.
+
+La cuarta URL, `/habitacion/lista/<int:hotel_id>/`, está asociada a la vista `habitacion_lista`. Esta vista muestra todas las habitaciones de un hotel específico, incluyendo su tipo, los servicios asociados y la información del hotel. Se utilizan relaciones ManyToOne (`Habitacion → Hotel`) y ManyToMany (`Habitacion ↔ Servicio`), y se optimiza la consulta usando `select_related` y `prefetch_related`.
+
+La quinta URL, `/detalles_hotel/<int:id_hotel>/`, conecta con la vista `detalle_hotel`. Permite obtener la información completa de un hotel específico junto con todos sus servicios. Se utiliza `prefetch_related` para optimizar la carga de las relaciones ManyToMany.
+
+La sexta URL, `/perfil_huesped/lista`, está ligada a la vista `perfil_huesped_lista`. Esta vista muestra los perfiles de los huéspedes junto con la información básica de cada huésped, utilizando la relación OneToOne entre `PerfilHuesped` y `Huesped`. La consulta está optimizada con `select_related`.
+
+La séptima URL, `/servicio/lista`, corresponde a la vista `servicio_lista`. Esta vista muestra todos los servicios disponibles en el hotel y ejemplifica el uso de filtros OR y ordenamientos, además de mostrar cómo se podrían aplicar condiciones SQL comentadas.
+
+La octava URL, `/hotel/lista/<int:anyo_hotel>/<int:mes_hotel>`, se gestiona mediante la vista `dame_hotel_fecha`. Permite filtrar los hoteles fundados en un año y mes concretos. La consulta utiliza `prefetch_related` y filtros combinados con AND para obtener los resultados correctos.
+
+La novena URL utiliza `re_path` con expresión regular: `r'^hotel/calificacion/(?P<calificacion_hotel>0\.\d{2})/$'` y está asociada a la vista `dame_hotel_calificacion`. Esta vista permite filtrar hoteles por calificación exacta usando un parámetro string y demuestra cómo se pueden usar expresiones regulares para la validación en URLs.
+
+Finalmente, la décima URL, `/hoteles/estadisticas_calificacion/`, conecta con la vista `hoteles_estadisticas_calificacion`. Esta vista calcula estadísticas sobre la calificación de los hoteles, incluyendo media, máximo y mínimo, usando funciones de agregación con `aggregate`.
+
+En todas las vistas se incluyen ejemplos comentados de cómo se realizarían las mismas consultas en SQL crudo. Además, se optimizan las consultas para evitar el problema N+1 mediante `select_related` y `prefetch_related`. Se cubren relaciones ManyToMany (`Hotel ↔ Servicio`, `Habitacion ↔ Servicio`), OneToOne (`PerfilHuesped → Huesped`, `ContactoHotel → Hotel`) y ManyToOne (`Habitacion → Hotel`, `Reserva → Huesped`). También se implementan filtros complejos, incluyendo AND, OR, `None` en tablas intermedias, agregaciones con `aggregate`, ordenamiento con `order_by` y limitación de resultados (`LIMIT 10`). Finalmente, las URLs incluyen parámetros enteros, strings, múltiples parámetros y `r_path` para expresiones regulares, cumpliendo todos los requisitos solicitados.
+
