@@ -19,5 +19,7 @@ urlpatterns = [
    path('servicio/lista', views.servicio_lista, name='servicio_lista'),
    # 8) Reserva
    path('reserva/lista', views.reserva_lista, name='reserva_lista'),
+   # 9) Factura
+   path('factura/lista', views.factura_lista, name='factura_lista')
 
 ]

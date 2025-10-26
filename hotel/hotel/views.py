@@ -141,5 +141,18 @@ def reserva_lista(request):
     '''
     return render(request, 'hotel/reserva_lista.html', {'reserva_lista': reservas})
 
+# 9) Facturas
+# ESTA VISTA SIRVE PARA MOSTRAR EL CONTENIDO DE FACTURA Y SU RESERVA RELACIONADA:
+# Muestra numero_factura, reserva, emitida_en, monto_total y pagada
+def factura_lista(request):
+    facturas = Factura.objects.select_related('reserva', 'reserva__huesped').all()
+
+    '''
+    facturas = Factura.objects.raw(" SELECT f.* FROM hotel_factura f "
+                                   " JOIN hotel_reserva r ON r.id = f.reserva_id "
+                                   " ORDER BY f.emitida_en DESC ")
+    '''
+    return render(request, 'hotel/factura_lista.html', {'factura_lista': facturas})
+
 def mi_error_404(request, exception=None):
     return render(request, 'errores/404.html', status=404)
