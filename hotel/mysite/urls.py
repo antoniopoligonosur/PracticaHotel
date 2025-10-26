@@ -24,3 +24,6 @@ urlpatterns = [
 ]
 
 handler404 = "hotel.views.mi_error_404"
+handler500 = "hotel.views.mi_error_500"
+handler403 = "hotel.views.mi_error_403"
+handler400 = "hotel.views.mi_error_400"
