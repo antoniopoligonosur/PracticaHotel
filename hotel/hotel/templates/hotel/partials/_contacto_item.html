@@ -1,0 +1,13 @@
+<tr>
+    <td>{{ c.nombre_contacto|default:"-" }}</td>
+    <td>
+        {% if c.telefono != "-" %}
+            {{ c.telefono }}
+        {% else %}
+            Sin teléfono
+        {% endif %}
+    </td>
+    <td>{{ c.correo|default:"-" }}</td>
+    <td>{{ c.sitio_web|default_if_none:"-" }}</td>
+    <td>{{ c.hotel.nombre|default:"-" }}</td>
+</tr>

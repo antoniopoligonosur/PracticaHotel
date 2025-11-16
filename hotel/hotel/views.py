@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.db.models import Sum, Avg, Min, Max, Prefetch
 from django.views.defaults import page_not_found
+from django.db.models import Q
 from .models import (
     Hotel, ContactoHotel, TipoHabitacion, Habitacion, Huesped,
     PerfilHuesped, Servicio, Reserva, Factura, ReservaServicio
@@ -13,7 +14,7 @@ def index(request):
 # Muestra los contactos de los hoteles junto con la información del hotel relacionado
 
 def contacto_lista(request):
-    contacto = ContactoHotel.objects.select_related("hotel")
+    contacto = ContactoHotel.objects.select_related("hotel").all()
     
     '''
     contacto = ContactoHotel.objects.raw(" SELECT * FROM hotel_contactohotel ch "
@@ -27,6 +28,7 @@ def contacto_lista(request):
 
 def hotel_lista(request):
     hoteles = Hotel.objects.prefetch_related('servicios').all()
+
 
     '''
     hoteles = Hotel.objects.raw(" SELECT * FROM hotel_hotel h "
@@ -45,11 +47,8 @@ def hotel_lista(request):
 # - Si no hay filtro, se mostrarán todos los tipos de habitación.
 
 def tipo_habitacion_lista(request):
-    nombre = request.GET.get('nombre')  # Obtiene el nombre desde la URL
-    if nombre:
-        tipos = TipoHabitacion.objects.filter(nombre__icontains=nombre)
-    else:
-        tipos = TipoHabitacion.objects.all()
+
+    tipos = TipoHabitacion.objects.filter(Q(capacidad=2) | Q(precio_base__lt=50.00)).all()
     
     '''
     tipos = TipoHabitacion.objects.raw(" SELECT * FROM hotel_tipohabitacion th "
@@ -63,11 +62,10 @@ def tipo_habitacion_lista(request):
 
 # Nota: Al filtrarse por id, por defecto en la web se mostrará el hotel con id "1"
 # (que solo tiene una habitación asociada). Si pruebas con el id "8", verás que devuelve dos.
-
+    
 def habitacion_lista(request, hotel_id):
     
-    qs = Habitacion.objects.select_related('tipo', 'hotel').prefetch_related('servicios').filter(hotel_id=hotel_id)
-    qs.all()
+    qs = Habitacion.objects.select_related('tipo', 'hotel').prefetch_related('servicios').filter(hotel_id=hotel_id).all()
     '''
     qs = Habitacion.objects.raw(" SELECT hb.* FROM hotel_habitacion hb "
                                         " JOIN hotel_hotel h ON h.id = hb.hotel_id "
@@ -79,10 +77,10 @@ def habitacion_lista(request, hotel_id):
 # 5) HOTEL - DETALLE
 # Muestra la información de un hotel específico junto con todos sus servicios.
 # Se usa "prefetch"
+
 def detalle_hotel(request, id_hotel):
-    hotel = Hotel.objects.prefetch_related(
-        Prefetch('servicios')
-    ).get(id=id_hotel)
+
+    hotel = Hotel.objects.prefetch_related('servicios').filter(id=id_hotel).all()[0]
     
     return render(request, 'hotel/detalle_hotel.html', {'hotel': hotel})
 
@@ -90,7 +88,7 @@ def detalle_hotel(request, id_hotel):
 # Muestra la lista de perfiles de huéspedes junto con la información básica del huésped relacionado.
 def perfil_huesped_lista(request):
     
-    perfiles = PerfilHuesped.objects.select_related('huesped').all()
+    perfiles = PerfilHuesped.objects.select_related('huesped').order_by('-puntos_fidelidad').all()
 
     '''
     perfiles = PerfilHuesped.objects.raw(" SELECT ph.* FROM hotel_perfilhuesped ph "
@@ -105,7 +103,7 @@ def perfil_huesped_lista(request):
 # o aquellos cuyo precio sea inferior a un valor determinado.
 def servicio_lista(request):
     
-    servicios = Servicio.objects.all()
+    servicios = Servicio.objects.filter(Q(es_opcional=True) | Q(precio__lt=10.00)).order_by('nombre').all()
 
     '''
     servicios = Servicio.objects.raw(" SELECT * FROM hotel_servicio s "
@@ -120,7 +118,10 @@ def servicio_lista(request):
 
 def dame_hotel_fecha(request, anyo_hotel, mes_hotel):
     
-    hoteles = Hotel.objects.prefetch_related('servicios').filter(fecha_fundacion__year=anyo_hotel, fecha_fundacion__month=mes_hotel)
+    hoteles = Hotel.objects.prefetch_related('servicios').filter(
+        fecha_fundacion__year=anyo_hotel,
+        fecha_fundacion__month=mes_hotel
+    ).all()
     
     '''
     # Esta sentencia convierte el mes a cadena permitiendo que tenga 2 digitos por ejemplo: (Enero: 01)
@@ -139,9 +140,11 @@ def dame_hotel_fecha(request, anyo_hotel, mes_hotel):
 # Muestra los hoteles con una calificación exacta recibida por parámetro.
 # Se emplea una expresión regular para comparar valores concretos.
 
+    
+
 def dame_hotel_calificacion(request, calificacion_hotel):
     
-    hoteles = Hotel.objects.prefetch_related('servicios').filter(calificacion=calificacion_hotel)
+    hoteles = Hotel.objects.prefetch_related('servicios').filter(calificacion=calificacion_hotel).all()
 
     """
     hoteles = (Hotel.objects.raw(
@@ -156,7 +159,7 @@ def dame_hotel_calificacion(request, calificacion_hotel):
 # usando funciones de agregación (aggregate).
 
 def hoteles_estadisticas_calificacion(request):
-    """
+    
     estadisticas = (
     Hotel.objects
     .aggregate(
@@ -169,7 +172,7 @@ def hoteles_estadisticas_calificacion(request):
      
     estadisticas = (Hotel.objects.raw(
     "SELECT 1 AS id, AVG(calificacion) AS media_calificacion, MAX(calificacion) AS max_calificacion, MIN(calificacion) AS min_calificacion FROM hotel_hotel ")[0])
-     
+    """ 
     return render(request, 'hotel/estadistica_hotel.html', {'estadistica': estadisticas})
 
 

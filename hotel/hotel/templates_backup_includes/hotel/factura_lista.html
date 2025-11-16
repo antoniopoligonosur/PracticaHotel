@@ -15,7 +15,7 @@
     </thead>
     <tbody>
         {% for f in factura_lista %}
-            {% include "hotel/partials/_factura_item.html" with f=f %}
+            {% include "partials/_factura_item.html" with f=f %}
         {% empty %}
             <tr><td colspan="5">No hay facturas.</td></tr>
         {% endfor %}

@@ -1,0 +1,8 @@
+<tr>
+    <td>{{ rs.id }}</td>
+    <td>{{ rs.reserva.id }} - {{ rs.reserva.huesped.nombre }} {{ rs.reserva.huesped.apellido }}</td>
+    <td>{{ rs.servicio.nombre }}</td>
+    <td>{{ rs.cantidad }}</td>
+    <td>{{ rs.precio_en_momento|floatformat:2 }}</td>
+    <td>{{ rs.nota|default:"-" }}</td>
+</tr>

@@ -1,0 +1,7 @@
+<tr>
+    <td>{{ hb.hotel.nombre|default:"-" }}</td>
+    <td>{{ hb.numero }}</td>
+    <td>{{ hb.piso }}</td>
+    <td>{{ hb.tipo.nombre|default:"-" }}</td>
+    <td>{% if hb.disponible %}Sí{% else %}No{% endif %}</td>
+</tr>

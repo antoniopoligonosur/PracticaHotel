@@ -14,7 +14,7 @@
     </thead>
     <tbody>
         {% for t in tipo_lista %}
-            {% include "hotel/partials/_tipo_item.html" with t=t %}
+            {% include "partials/_tipo_item.html" with t=t %}
         {% empty %}
             <tr><td colspan="4">No hay tipos de habitación.</td></tr>
         {% endfor %}

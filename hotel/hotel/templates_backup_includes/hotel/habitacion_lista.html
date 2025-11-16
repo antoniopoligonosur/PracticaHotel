@@ -15,7 +15,7 @@
     </thead>
     <tbody>
         {% for hb in habitacion_lista %}
-            {% include "hotel/partials/_habitacion_item.html" with hb=hb %}
+            {% include "partials/_habitacion_item.html" with hb=hb %}
         {% empty %}
             <tr><td colspan="5">No hay habitaciones.</td></tr>
         {% endfor %}

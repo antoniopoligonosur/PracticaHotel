@@ -10,14 +10,7 @@
 {% if hotel.servicios.all %}
     <ul>
         {% for servicio in hotel.servicios.all %}
-            <li>
-                {{ servicio.nombre|capfirst }}
-                {% if servicio.precio == 0 %}
-                    — Gratis
-                {% else %}
-                    — {{ servicio.precio|floatformat:2 }} €
-                {% endif %}
-            </li>
+            <li>{{ servicio.nombre|capfirst }}{% if servicio.precio %} — {{ servicio.precio|floatformat:2 }} €{% endif %}</li>
         {% empty %}
             <li>No hay servicios.</li>
         {% endfor %}
@@ -25,5 +18,4 @@
 {% else %}
     <p>Este hotel no tiene servicios registrados.</p>
 {% endif %}
-
 {% endblock %}

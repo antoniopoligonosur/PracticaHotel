@@ -19,7 +19,7 @@
     </thead>
     <tbody>
         {% for r in reserva_lista %}
-            {% include "hotel/partials/_reserva_item.html" with r=r %}
+            {% include "partials/_reserva_item.html" with r=r %}
         {% empty %}
             <tr><td colspan="7">No hay reservas.</td></tr>
         {% endfor %}

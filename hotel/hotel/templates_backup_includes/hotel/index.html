@@ -1,0 +1,10 @@
+{% extends "principal.html" %}
+{% block title %}Inicio - Gestión de Hoteles{% endblock %}
+{% block contenido %}
+<h1>Gestión de hoteles</h1>
+<ul>
+  <li><a href="{% url 'hotel_lista' %}">Hoteles</a></li>
+  <li><a href="{% url 'contacto_lista' %}">Contactos</a></li>
+  <!-- ... -->
+</ul>
+{% endblock %}

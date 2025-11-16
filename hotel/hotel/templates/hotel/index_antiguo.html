@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Menu Inicio</title>
+</head>
+
+<body>
+
+   <h1>Gestion de hoteles</h1>
+   <br>
+   <h3>Listado de enlaces</h3>
+   <ul>
+       <li><a href="{% url 'contacto_lista' %}">Contactos</a></li>
+       <li><a href="{% url 'hotel_lista' %}">Hoteles</a></li>
+       <li><a href="{% url 'tipo_habitacion' %}">Tipos de Habitación</a></li>
+       <li><a href="{% url 'habitacion_lista' 1 %}">Habitaciones</a></li>
+       <li><a href="{% url 'detalle_hotel' id_hotel=1 %}">Detalles de hotel</a></li>
+       <li><a href="{% url 'perfil_huesped_lista' %}">Perfiles de Huésped</a></li>
+       <li><a href="{% url 'servicio_lista' %}">Servicios</a></li>
+       <li><a href="{% url 'dame_hotel_fecha' anyo_hotel=2014 mes_hotel=1 %}">Hoteles Enero 2014</a></li>
+       <li><a href="{% url 'dame_hotel_calificacion' calificacion_hotel=0.86 %}">Hoteles con 0.86 de calificacion</a></li>
+       <li><a href="{% url 'hoteles_estadisticas_calificacion' %}">Estadisticas de calificacion de hoteles</a></li>
+   </ul>
+
+</body>
+
+</html>

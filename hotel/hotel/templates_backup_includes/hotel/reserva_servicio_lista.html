@@ -16,7 +16,7 @@
     </thead>
     <tbody>
         {% for rs in reservaservicio_lista %}
-            {% include "hotel/partials/_reserva_servicio_item.html" with rs=rs %}
+            {% include "partials/_reserva_servicio_item.html" with rs=rs %}
         {% empty %}
             <tr><td colspan="6">No hay relaciones de Reserva-Servicio registradas.</td></tr>
         {% endfor %}

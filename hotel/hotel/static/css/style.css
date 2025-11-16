@@ -1,0 +1,71 @@
+/* ======== MENÚ SUPERIOR ======== */
+
+.topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #232a34;
+    padding: 10px 25px;
+    color: #fff;
+    position: sticky;
+    top: 0;
+    z-index: 999;
+    border-bottom: 3px solid #00aaff;
+}
+
+.topbar-logo .logo {
+    height: 45px;
+}
+
+.topbar-nav ul {
+    display: flex;
+    list-style: none;
+    gap: 18px;
+    margin: 0;
+    padding: 0;
+}
+
+.topbar-nav li {
+    display: inline-block;
+}
+
+.topbar-nav a {
+    color: #fff;
+    text-decoration: none;
+    font-weight: 500;
+    padding: 8px 10px;
+    border-radius: 4px;
+    transition: background .25s ease;
+}
+
+.topbar-nav a:hover {
+    background: #00aaff;
+}
+
+/* Para que el contenido no quede oculto debajo del header */
+main.container {
+    margin-top: 25px;
+}
+
+/* ======== FOOTER ======== */
+
+.footer {
+    background: #1c222b;
+    color: #d6d6d6;
+    padding: 20px 25px;
+    text-align: center;
+    margin-top: 40px;
+    border-top: 3px solid #00aaff;
+}
+
+.footer-section {
+    font-size: 16px;
+    margin-bottom: 8px;
+    font-weight: 500;
+}
+
+.footer-copy {
+    margin-top: 12px;
+    font-size: 14px;
+    opacity: 0.8;
+}

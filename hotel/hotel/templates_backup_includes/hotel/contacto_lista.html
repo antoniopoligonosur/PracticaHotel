@@ -15,7 +15,7 @@
     </thead>
     <tbody>
         {% for c in contacto_lista %}
-            {% include "hotel/partials/_contacto_item.html" with c=c %}
+            {% include "partials/_contacto_item.html" with c=c %}
         {% empty %}
             <tr><td colspan="5">No hay contactos.</td></tr>
         {% endfor %}
