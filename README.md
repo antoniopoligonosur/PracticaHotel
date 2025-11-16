@@ -179,3 +179,44 @@ La octava URL, `/hotel/lista/<int:anyo_hotel>/<int:mes_hotel>`, se gestiona medi
 La novena URL utiliza `re_path` con expresión regular: `r'^hotel/calificacion/(?P<calificacion_hotel>0\.\d{2})/$'` y está asociada a la vista `dame_hotel_calificacion`. Esta vista permite filtrar hoteles por calificación exacta usando un parámetro string y demuestra cómo se pueden usar expresiones regulares para la validación en URLs.
 
 Finalmente, la décima URL, `/hoteles/estadisticas_calificacion/`, conecta con la vista `hoteles_estadisticas_calificacion`. Esta vista calcula estadísticas sobre la calificación de los hoteles, incluyendo media, máximo y mínimo, usando funciones de agregación con `aggregate`.
+
+# Uso de Template Tags en el Proyecto
+
+| Archivo HTML                  | Template Tags Usados            | Descripción                                                                                                               |
+|-------------------------------|--------------------------------|---------------------------------------------------------------------------------------------------------------------------|
+| `_contacto_item.html`          | `if`, `else`                   | Verifica si el teléfono existe usando `!= "-"`. Si no lo está, muestra “Sin teléfono”.                                     |
+| `contacto_lista.html`          | `for`, `empty`, `include`      | Itera sobre la lista de contactos e incluye la plantilla parcial `_contacto_item.html`. Usa `empty` si no hay contactos. |
+| `_factura_item.html`           | `if`, `else`                   | Evalúa si la factura está pagada y si el monto es mayor que 0.                                                            |
+| `_reserva_item.html`           | `if`, `else`                   | Indica si la reserva está activa usando `or` para distintos estados.                                                     |
+| `detalle_hotel.html`           | `if`, `for`, `empty`           | Recorre los servicios del hotel e indica si son gratis usando `==`.                                                      |
+
+---
+
+# Uso de operadores en los if
+
+| Operador | Archivo HTML                | Ejemplo                                                                                       | Descripción                                                                |
+|----------|----------------------------|------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------|
+| `==`     | `detalle_hotel.html`       | `{% if servicio.precio == 0 %}`                                                              | Evalúa si el precio del servicio es 0 para mostrar “Gratis”.               |
+| `!=`     | `_contacto_item.html`      | `{% if c.telefono != "-" %}`                                                                 | Verifica si el campo teléfono tiene valor distinto a “-”.                  |
+| `>`      | `_hotel_item.html`         | `{% if h.calificacion|floatformat:2 > 4.5 %}`                                               | Indica “Muy bien valorado” si la calificación es mayor a 4.5.             |
+| `and`    | `_factura_item.html`       | `{% if f.pagada and f.monto_total > 0 %}`                                                   | Muestra “Sí (importe válido)” solo si la factura está pagada y monto >0.  |
+| `or`     | `_reserva_item.html`       | `{% if r.estado == "confirmada" or r.estado == "en_proceso" %}`                             | Considera activa la reserva si su estado es “confirmada” o “en_proceso”.  |
+
+---
+
+# Template Filters
+
+| HTML                       | Template Filters Usados        | Descripción                                               |
+|-----------------------------|-------------------------------|-----------------------------------------------------------|
+| `_hotel_item.html`          | `title`                        | Coloca la primera letra de cada palabra del nombre en mayúscula. |
+| `_hotel_item.html`          | `truncatechars`               | Trunca la descripción del hotel a 80 caracteres.        |
+| `_hotel_item.html`          | `floatformat`                 | Muestra la calificación con 2 decimales.                |
+| `_hotel_item.html`          | `upper`                        | Convierte el nombre del hotel a mayúsculas.             |
+| `_contacto_item.html`       | `default`                      | Muestra "-" si no hay valor en los campos.              |
+| `_contacto_item.html`       | `default_if_none`              | Muestra "-" si `sitio_web` es None.                     |
+| `_factura_item.html`        | `floatformat`                  | Muestra el monto total con 2 decimales.                 |
+| `_reserva_item.html`        | `date`                         | Formatea las fechas de entrada y salida a "d-m-Y".      |
+| `detalle_hotel.html`        | `capfirst`                     | Coloca la primera letra del nombre del servicio en mayúscula. |
+| `_hotel_item.html`          | `default`                       | Muestra "Sin descripción" si el hotel no tiene descripción. |
+
+---
