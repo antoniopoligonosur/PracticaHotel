@@ -28,5 +28,5 @@ urlpatterns = [
    re_path(r'^hotel/calificacion/(?P<calificacion_hotel>0\.\d{2})/$', views.dame_hotel_calificacion, name='dame_hotel_calificacion'),
    # 10) ESTADÍSTICAS DE HOTELES - Agreggate
    path('hoteles/estadisticas_calificacion/', views.hoteles_estadisticas_calificacion, name='hoteles_estadisticas_calificacion'),
-
+   path('huesped/crear', views.huesped_create, name='huesped_create'),
 ]

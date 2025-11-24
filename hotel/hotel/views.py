@@ -6,6 +6,7 @@ from .models import (
     Hotel, ContactoHotel, TipoHabitacion, Habitacion, Huesped,
     PerfilHuesped, Servicio, Reserva, Factura, ReservaServicio
 )
+from .forms import *
 
 def index(request):
     return render(request, 'hotel/index.html')
@@ -169,12 +170,16 @@ def hoteles_estadisticas_calificacion(request):
     )
     )
     """
-     
+
     estadisticas = (Hotel.objects.raw(
     "SELECT 1 AS id, AVG(calificacion) AS media_calificacion, MAX(calificacion) AS max_calificacion, MIN(calificacion) AS min_calificacion FROM hotel_hotel ")[0])
     """ 
     return render(request, 'hotel/estadistica_hotel.html', {'estadistica': estadisticas})
 
+#-------- HUESPED (CREATE) --------
+def huesped_create(request):
+    formulario = HuespedForm()
+    return render(request, 'hotel/huespedes/crud/create_huesped.html', {'formulario':formulario})
 
 # ERRORES PERSONALIZADOS
 

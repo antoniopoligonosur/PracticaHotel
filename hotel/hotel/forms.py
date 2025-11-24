@@ -1,14 +1,14 @@
-import datetime
+from django import forms
 from django.forms import ModelForm
 from .models import *
 
 # Ahora vamos a definir nuestro formulario para el modelo Huespued (Model Forms)
 
-class Huesped(ModelForm):
+class HuespedForm(ModelForm):
     class Meta:
 
         model = Huesped
-        fields = ["nombre", "apellido", "correo", "telefono", "fecha_nacimiento"]
+        fields = "__all__"
         labels = {
             "nombre": ("Nombre Huesped"),
             "apellido": ("Apellido Huesped"),
@@ -17,6 +17,10 @@ class Huesped(ModelForm):
             "fecha_nacimiento": ("Fecha Nacimiento Huesped"),
         }
         help_texts = {
-            "nombre": ("30 caracteres como minimo")
+            "nombre": ("30 caracteres como maximo"),
+            "apellido": ("60 caracteres como maximo")
         }
-
+        widgets = {
+            "fecha_nacimiento":forms.SelectDateWidget()
+        }
+        localized_fields = ["fecha_nacimiento"]
