@@ -1,9 +1,0 @@
-{% extends "principal.html" %}
-{% block title %}Estadísticas de Hoteles{% endblock %}
-{% block contenido %}
-<h1>Estadísticas de calificación</h1>
-
-<p>Media de calificación: {{ estadistica.media_calificacion|floatformat:2 }}</p>
-<p>Peor calificación: {{ estadistica.min_calificacion|floatformat:2 }}</p>
-<p>Mejor calificación: {{ estadistica.max_calificacion|floatformat:2 }}</p>
-{% endblock %}

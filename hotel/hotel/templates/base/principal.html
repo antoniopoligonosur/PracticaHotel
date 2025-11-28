@@ -1,0 +1,32 @@
+{% load static %}
+{% load django_bootstrap5 %}
+{% load bootstrap_icons %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %} Gestion Hotel {% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- CSS -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    {% block head %}{% endblock %}
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
+</head>
+<body>
+    {% include "base/header.html" %}
+    <br>
+    {% block cabecera %}{% endblock %}
+
+    {% bootstrap_messages %}
+
+    <main class="container">
+        {% block contenido %}{% endblock %}
+    </main>
+
+    {% include "base/footer.html" %}
+
+    <!-- JS -->
+    <script src="{% static 'js/script.js' %}"></script>
+</body>
+</html>

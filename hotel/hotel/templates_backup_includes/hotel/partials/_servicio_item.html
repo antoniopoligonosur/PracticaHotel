@@ -1,7 +1,0 @@
-<tr>
-    <td>{{ s.nombre }}</td>
-    <td>{{ s.descripcion|truncatechars:60|default:"-" }}</td>
-    <td>{{ s.precio|floatformat:2 }}</td>
-    <td>{% if s.es_opcional %}Sí{% else %}No{% endif %}</td>
-    <td>{{ s.duracion_minutos }}</td>
-</tr>

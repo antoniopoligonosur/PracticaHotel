@@ -7,9 +7,11 @@ from .models import (
     PerfilHuesped, Servicio, Reserva, Factura, ReservaServicio
 )
 from .forms import *
+from django.contrib import messages
+from django.shortcuts import redirect
 
 def index(request):
-    return render(request, 'hotel/index.html')
+    return render(request, 'base/index.html')
 
 # 1) CONTACTO
 # Muestra los contactos de los hoteles junto con la información del hotel relacionado
@@ -21,7 +23,7 @@ def contacto_lista(request):
     contacto = ContactoHotel.objects.raw(" SELECT * FROM hotel_contactohotel ch "
                                          " JOIN hotel_hotel h ON h.id = ch.hotel_id ")
     '''
-    return render(request, 'hotel/contacto_lista.html', {'contacto_lista':contacto})
+    return render(request, 'contactos/contacto_lista.html', {'contacto_lista':contacto})
 
 # 2) HOTELES
 # Muestra los hoteles con sus servicios asociados (usando "LIMIT 10" para restringir la cantidad de resultados
@@ -36,7 +38,7 @@ def hotel_lista(request):
                                 " ORDER BY h.calificacion DESC "
                                 " LIMIT 10 ")
     '''
-    return render(request, 'hotel/hotel_lista.html', {'hotel_lista': hoteles})
+    return render(request, 'hoteles/hotel_lista.html', {'hotel_lista': hoteles})
 
 # 3) TIPOS DE HABITACIÓN
 # Muestra los tipos de habitación existentes, y si el usuario introduce un nombre en la URL (?nombre=suite),
@@ -55,7 +57,7 @@ def tipo_habitacion_lista(request):
     tipos = TipoHabitacion.objects.raw(" SELECT * FROM hotel_tipohabitacion th "
                                        " WHERE th.capacidad = 2 OR th.precio_base < 50.00 ")
     '''
-    return render(request, 'hotel/tipo_habitacion_lista.html', {'tipo_lista': tipos})
+    return render(request, 'tipos_habitaciones/tipo_habitacion_lista.html', {'tipo_lista': tipos})
 
 # 4) HABITACIONES
 # Muestra las habitaciones filtradas por el id del hotel recibido en la URL.
@@ -73,7 +75,7 @@ def habitacion_lista(request, hotel_id):
                                         " WHERE hb.hotel_id = %s" % (hotel_id if hotel_id else 0))
     '''
     
-    return render(request, 'hotel/habitacion_lista.html', {'habitacion_lista': qs})
+    return render(request, 'habitaciones/habitacion_lista.html', {'habitacion_lista': qs})
 
 # 5) HOTEL - DETALLE
 # Muestra la información de un hotel específico junto con todos sus servicios.
@@ -83,7 +85,7 @@ def detalle_hotel(request, id_hotel):
 
     hotel = Hotel.objects.prefetch_related('servicios').filter(id=id_hotel).all()[0]
     
-    return render(request, 'hotel/detalle_hotel.html', {'hotel': hotel})
+    return render(request, 'hoteles/detalle_hotel.html', {'hotel': hotel})
 
 # 6) PERFIL HUÉSPED
 # Muestra la lista de perfiles de huéspedes junto con la información básica del huésped relacionado.
@@ -96,7 +98,7 @@ def perfil_huesped_lista(request):
                                         " JOIN hotel_huesped h ON h.id = ph.huesped_id "
                                          " ORDER BY ph.puntos_fidelidad DESC ")
     ''' 
-    return render(request, 'hotel/perfil_huesped_lista.html', {'perfil_lista': perfiles})
+    return render(request, 'perfiles/perfil_huesped_lista.html', {'perfil_lista': perfiles})
 
 # 7) SERVICIOS
 # Muestra los servicios disponibles.
@@ -111,7 +113,7 @@ def servicio_lista(request):
                                      " WHERE s.es_opcional = true OR s.precio < 10.00 "
                                      " ORDER BY s.nombre ")
     '''
-    return render(request, 'hotel/servicio_lista.html', {'servicio_lista': servicios})
+    return render(request, 'servicios/servicio_lista.html', {'servicio_lista': servicios})
 
 # 8) HOTELES POR FECHA
 # Muestra los hoteles fundados en un año y mes concretos.
@@ -135,13 +137,11 @@ def dame_hotel_fecha(request, anyo_hotel, mes_hotel):
     ,[str(anyo_hotel),mes_formato_sql]))
     '''
     
-    return render(request, 'hotel/hotel_lista.html', {'hotel_lista': hoteles})
+    return render(request, 'hoteles/hotel_lista.html', {'hotel_lista': hoteles})
 
 # 9) HOTEL - CALIFICACIÓN
 # Muestra los hoteles con una calificación exacta recibida por parámetro.
 # Se emplea una expresión regular para comparar valores concretos.
-
-    
 
 def dame_hotel_calificacion(request, calificacion_hotel):
     
@@ -153,7 +153,7 @@ def dame_hotel_calificacion(request, calificacion_hotel):
     + " WHERE h.calificacion = %s "
     ,[calificacion_hotel]))
     """
-    return render(request, 'hotel/hotel_lista.html', {'hotel_lista': hoteles})
+    return render(request, 'hoteles/hotel_lista.html', {'hotel_lista': hoteles})
 
 # 10) ESTADÍSTICAS DE HOTELES
 # Calcula estadísticas de calificación de los hoteles (media, máxima y mínima)
@@ -174,12 +174,43 @@ def hoteles_estadisticas_calificacion(request):
     estadisticas = (Hotel.objects.raw(
     "SELECT 1 AS id, AVG(calificacion) AS media_calificacion, MAX(calificacion) AS max_calificacion, MIN(calificacion) AS min_calificacion FROM hotel_hotel ")[0])
     """ 
-    return render(request, 'hotel/estadistica_hotel.html', {'estadistica': estadisticas})
+    return render(request, 'hoteles/estadistica_hotel.html', {'estadistica': estadisticas})
 
 #-------- HUESPED (CREATE) --------
-def huesped_create(request):
-    formulario = HuespedForm()
-    return render(request, 'hotel/huespedes/crud/create_huesped.html', {'formulario':formulario})
+def huesped_create(request): # Metodo que controla el Tipo de formulario
+
+    # Si la petición es GET se creará el formulario Vacío
+    # Si la petición es POST se creará el formulario con Datos.
+    datosFormulario = None
+    if request.method == "POST":
+        datosFormulario = request.POST
+
+    formulario = HuespedForm(datosFormulario)
+
+    if (request.method == "POST"):
+        
+        huesped_creado = crear_huesped_modelo(formulario)
+        
+        if(huesped_creado):
+            messages.success(request, 'Se ha creado el Huesped: [ '+formulario.cleaned_data.get('nombre')+" ] correctamente.")
+            return redirect('index')
+
+    return render(request, 'huespedes/crud/create_huesped.html',{'formulario':formulario})
+
+def crear_huesped_modelo(formulario): # Metodo que crea en la base de datos
+
+        huesped_creado = False
+        # Comprueba si el formulario es válido
+        if formulario.is_valid():
+            try:
+                # Guarda el usuario en la base de datos
+                formulario.save()
+                huesped_creado = True
+            except Exception as error:
+                print(error)
+        return huesped_creado
+
+#--------------------------
 
 # ERRORES PERSONALIZADOS
 

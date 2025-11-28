@@ -1,0 +1,29 @@
+{% extends "base/principal.html" %}
+{% block title %}Habitaciones{% endblock %}
+
+{% block cabecera %}
+    <h1>Listado de Habitaciones</h1>
+{% endblock cabecera %}
+
+{% block contenido %}
+
+
+<table>
+    <thead>
+        <tr>
+            <th>hotel</th>
+            <th>numero</th>
+            <th>piso</th>
+            <th>tipo</th>
+            <th>disponible</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for hb in habitacion_lista %}
+            {% include "habitaciones/_habitacion_item.html" with hb=hb %}
+        {% empty %}
+            <tr><td colspan="5">No hay habitaciones.</td></tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

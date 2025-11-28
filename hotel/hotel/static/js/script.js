@@ -1,1 +1,1 @@
-alert("El archivo se ha cargado correctamente.")
+console.log("Archivo cargado con éxito.");

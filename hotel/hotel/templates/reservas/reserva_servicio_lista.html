@@ -1,0 +1,29 @@
+{% extends "base/principal.html" %}
+{% block title %}Reserva-Servicio{% endblock %}
+
+{% block cabecera %}
+    <h1>Lista de Reserva-Servicio</h1>
+{% endblock cabecera %}
+
+{% block contenido %}
+
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Reserva</th>
+            <th>Servicio</th>
+            <th>Cantidad</th>
+            <th>Precio en momento</th>
+            <th>Nota</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for rs in reservaservicio_lista %}
+            {% include "reservas/_reserva_servicio_item.html" with rs=rs %}
+        {% empty %}
+            <tr><td colspan="6">No hay relaciones de Reserva-Servicio registradas.</td></tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

@@ -1,7 +1,0 @@
-<tr>
-    <td>{{ f.numero_factura }}</td>
-    <td>{{ f.reserva.id }} - {{ f.reserva.huesped.nombre }}</td>
-    <td>{{ f.emitida_en|date:"d-m-Y" }}</td>
-    <td>{{ f.monto_total|floatformat:2 }}</td>
-    <td>{% if f.pagada %}Sí{% else %}No{% endif %}</td>
-</tr>

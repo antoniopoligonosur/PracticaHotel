@@ -1,0 +1,28 @@
+{% extends "base/principal.html" %}
+{% block title %}Reservas{% endblock %}
+{% block contenido %}
+<h1>Listado de Reservas</h1>
+
+<p>Total reservas encontradas: {{ reserva_lista|length }}</p>
+
+<table>
+    <thead>
+        <tr>
+            <th>id</th>
+            <th>huesped</th>
+            <th>habitacion</th>
+            <th>fecha_entrada</th>
+            <th>fecha_salida</th>
+            <th>estado</th>
+            <th>total_servicios</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for r in reserva_lista %}
+            {% include "reservas/_reserva_item.html" with r=r %}
+        {% empty %}
+            <tr><td colspan="7">No hay reservas.</td></tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

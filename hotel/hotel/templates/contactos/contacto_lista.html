@@ -1,0 +1,28 @@
+{% extends "base/principal.html" %}
+{% block title %}Contactos{% endblock %}
+
+{% block cabecera %}
+    <h1>Listado de Contactos</h1>
+{% endblock cabecera %}
+
+{% block contenido %}
+
+<table>
+    <thead>
+        <tr>
+            <th>nombre_contacto</th>
+            <th>telefono</th>
+            <th>correo</th>
+            <th>sitio_web</th>
+            <th>hotel</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for c in contacto_lista %}
+            {% include "contactos/_contacto_item.html" with c=c %}
+        {% empty %}
+            <tr><td colspan="5">No hay contactos.</td></tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

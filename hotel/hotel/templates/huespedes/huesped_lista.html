@@ -1,0 +1,26 @@
+{% extends "base/principal.html" %}
+{% block title %}Huéspedes{% endblock %}
+{% block cabecera %}
+    <h1>Huéspedes</h1>
+    <hr>
+    <br>
+{% endblock %}
+{% block contenido %}
+<table>
+    <thead>
+        <tr>
+            <th>nombre</th>
+            <th>apellido</th>
+            <th>correo</th>
+            <th>telefono</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for h in huesped_lista %}
+            {% include "huespedes/_huesped_item.html" with h=h %}
+        {% empty %}
+            <tr><td colspan="4">No hay huéspedes.</td></tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
