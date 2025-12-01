@@ -66,7 +66,6 @@ class Huesped(models.Model):
     def __str__(self):
         return f"{self.nombre} {self.apellido}"
 
-
 class PerfilHuesped(models.Model):
     huesped = models.OneToOneField(Huesped, on_delete=models.CASCADE, related_name='perfil')
     nacionalidad = models.CharField(max_length=50)

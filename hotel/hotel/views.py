@@ -1,4 +1,4 @@
-import datetime
+from datetime import datetime
 from django.shortcuts import render
 from django.db.models import Sum, Avg, Min, Max, Prefetch
 from django.views.defaults import page_not_found
@@ -13,6 +13,11 @@ from django.shortcuts import redirect
 
 def index(request):
     return render(request, 'base/index.html')
+
+def huesped_lista(request):
+    huesped = Huesped.objects.all()
+    
+    return render(request, 'huespedes/huesped_lista.html', {'huesped_lista':huesped})
 
 # 1) CONTACTO
 # Muestra los contactos de los hoteles junto con la información del hotel relacionado
@@ -177,6 +182,9 @@ def hoteles_estadisticas_calificacion(request):
     """ 
     return render(request, 'hoteles/estadistica_hotel.html', {'estadistica': estadisticas})
 
+def menu_enlaces(request):
+    return render(request, 'base/menu_enlaces.html')
+
 #-------- HUESPED (CREATE) --------
 def huesped_create(request): # Metodo que controla el Tipo de formulario
 
@@ -211,7 +219,7 @@ def crear_huesped_modelo(formulario): # Metodo que crea en la base de datos
                 print(error)
         return huesped_creado
 
-#-------- HUESPED (BUSCAR AVANZADO) --------
+#-------- HUESPED - BUSCAR AVANZADO (READ) --------
 
 def huesped_buscar_avanzado(request): 
 
@@ -243,15 +251,53 @@ def huesped_buscar_avanzado(request):
                 mensaje_busqueda += '· nacimiento desde: Cualquier fecha \n'
             
             if (not fecha_nacimiento_hasta is None):
-                QsUsuarios = QsUsuarios.filter(fecha_nacimiento__lte=fecha_nacimiento_hasta)
+                QsHuesped = QsHuesped.filter(fecha_nacimiento__lte=fecha_nacimiento_hasta)
                 mensaje_busqueda += '· nacimiento hasta '+datetime.strftime(fecha_nacimiento_hasta,'%d-%m-%Y')+'\n'
-        else:
-            mensaje_busqueda += '· nacimiento hasta: Cualquier fecha \n'
+            else:
+                mensaje_busqueda += '· nacimiento hasta: Cualquier fecha \n'
+
+            #Ejecutamos la querySet y enviamos los HQsHuesped
+            huespedes = QsHuesped.all()
+            
+            return render(request, 'huespedes/huesped_lista.html',
+                        {'huesped_lista':huespedes,
+                        'Mensaje_Busqueda':mensaje_busqueda}
+                        )
     else:
         formulario = HuespedBuscarAvanzada(None)
     return render(request, 'huespedes/crud/buscar_avanzada_huespedes.html',{'formulario':formulario})
 
-# ERRORES PERSONALIZADOS
+#--------- HUESPED EDITAR
+
+def huesped_editar(request, id_huesped): 
+
+    huesped = Huesped.objects.get(id=id_huesped)
+
+    datosFormulario = None
+    if request.method == "POST":
+        datosFormulario = request.POST
+
+    formulario = HuespedForm(datosFormulario, instance=huesped)
+
+    if (request.method == "POST"):
+        
+        huesped_creado = crear_huesped_modelo(formulario)
+        
+        if(huesped_creado):
+            messages.success(request, 'Se ha editado el Huesped: [ '+formulario.cleaned_data.get('nombre')+" ] correctamente.")
+            return redirect('index')
+
+    return render(request, 'huespedes/crud/actualizar_huesped.html',{'formulario':formulario, 'huesped':huesped})
+
+#-------- HUESPED ELIMINAR
+
+def huesped_eliminar(request, id_huesped):
+    huesped = Huesped.objects.get(id=id_huesped)
+    try:
+        huesped.delete()
+    except:
+        pass
+    return redirect('huesped_lista')
 
 # Error 404 - Página no encontrada
 def mi_error_404(request, exception=None):

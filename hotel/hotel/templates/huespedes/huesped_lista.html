@@ -6,6 +6,11 @@
     <br>
 {% endblock %}
 {% block contenido %}
+
+    {% if Mensaje_Busqueda %}
+        <pre>{{Mensaje_Busqueda}}</pre>
+    {% endif %}
+
 <table>
     <thead>
         <tr>
@@ -13,6 +18,7 @@
             <th>apellido</th>
             <th>correo</th>
             <th>telefono</th>
+            <th>fecha nacimiento</th>
         </tr>
     </thead>
     <tbody>

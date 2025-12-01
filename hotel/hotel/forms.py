@@ -21,7 +21,7 @@ class HuespedForm(ModelForm):
             "apellido": ("80 caracteres como maximo")
         }
         widgets = {
-            "fecha_nacimiento":forms.DateInput(attrs={'type':'date'})
+            "fecha_nacimiento":forms.DateInput(attrs={'type':'date'}, format='%Y-%m-%d')
         }
         localized_fields = ["fecha_nacimiento"]
         

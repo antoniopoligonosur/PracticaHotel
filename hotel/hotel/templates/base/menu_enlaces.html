@@ -1,0 +1,31 @@
+{% extends "base/principal.html" %}
+
+{% block title %}Menu - Enlaces{% endblock %}
+{% block head %}{% endblock %}
+{% block cabecera %}{% endblock %}
+{% block contenido %}
+
+    <h1>10 Enlaces Principales</h1>
+
+    <ul>
+        <li><a href="{% url 'contacto_lista' %}">Contactos</a></li>
+        <li><a href="{% url 'hotel_lista' %}">Hoteles</a></li>
+        <li><a href="{% url 'tipo_habitacion' %}">Tipos de Habitación</a></li>
+        <li><a href="{% url 'habitacion_lista' 1 %}">Habitaciones</a></li>
+        <li><a href="{% url 'detalle_hotel' id_hotel=1 %}">Detalles de hotel</a></li>
+        <li><a href="{% url 'perfil_huesped_lista' %}">Perfiles de Huésped</a></li>
+        <li><a href="{% url 'servicio_lista' %}">Servicios</a></li>
+        <li><a href="{% url 'dame_hotel_fecha' 2014 1 %}">Hoteles Enero 2014</a></li>
+        <li><a href="{% url 'dame_hotel_calificacion' '0.86' %}">Hoteles con 0.86</a></li>
+        <li><a href="{% url 'hoteles_estadisticas_calificacion' %}">Estadísticas</a></li>
+    </ul>
+
+    <h1>Huesped</h1>
+    <ul>
+        <li><a href="{% url 'huesped_lista' %}">Listar HUESPED</a></li>
+        <li><a href="{% url 'huesped_create' %}">Crear HUESPED</a></li>
+        <li><a href="{% url 'huesped_buscar_avanzado' %}">Busqueda de HUESPED</a></li>
+        <li><a href="{% url 'huesped_editar' id_huesped=2 %}">Editar HUESPED</a></li>
+    </ul>
+
+{% endblock %}

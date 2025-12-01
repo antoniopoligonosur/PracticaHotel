@@ -4,15 +4,15 @@
 {% load django_bootstrap5 %}
 {% load bootstrap_icons %}
 
-{% block title %}Crear Huesped{% endblock %}
+{% block title %}Editar Huesped{% endblock %}
 
 {% block cabecera %}
-    <h1>Crear Huesped</h1>
+    <h1>Editar Huesped</h1>
     <hr>
     <br>
 {% endblock %}
 {% block contenido %}
-    <form action="{% url 'huesped_create' %}" method="post">
+    <form action="{% url 'huesped_editar' huesped.id %}" method="post">
         {% csrf_token %}
         {% bootstrap_form formulario %}
         <button type="submit">Enviar</button>

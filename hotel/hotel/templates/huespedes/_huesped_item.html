@@ -3,4 +3,12 @@
     <td>{{ h.apellido }}</td>
     <td>{{ h.correo }}</td>
     <td>{{ h.telefono|default:"-" }}</td>
+    <td>{{ h.fecha_nacimiento|date:"d/m/Y" }}</td>
+    <td><button><a href="{% url 'huesped_editar' h.id %}">Editar</a></button></td>
+    <td>
+        <form action="{% url 'huesped_eliminar' h.id %}" method="post">
+            {% csrf_token %}
+            <button type="submit" onclick="return eliminar()">Eliminar</button>
+        </form>
+    </td>
 </tr>
