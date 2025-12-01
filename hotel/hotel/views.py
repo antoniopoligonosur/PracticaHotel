@@ -1,3 +1,4 @@
+import datetime
 from django.shortcuts import render
 from django.db.models import Sum, Avg, Min, Max, Prefetch
 from django.views.defaults import page_not_found
@@ -41,12 +42,12 @@ def hotel_lista(request):
     return render(request, 'hoteles/hotel_lista.html', {'hotel_lista': hoteles})
 
 # 3) TIPOS DE HABITACIÓN
-# Muestra los tipos de habitación existentes, y si el usuario introduce un nombre en la URL (?nombre=suite),
+# Muestra los tipos de habitación existentes, y si el huesped introduce un nombre en la URL (?nombre=suite),
 # se filtran solo los que contengan ese texto.
 
 # Explicación del uso del condicional:
 # Permite reutilizar la misma vista para dos comportamientos:
-# - Si el usuario busca por nombre, se aplicará un filtro
+# - Si el huesped busca por nombre, se aplicará un filtro
 # - Si no hay filtro, se mostrarán todos los tipos de habitación.
 
 def tipo_habitacion_lista(request):
@@ -203,14 +204,52 @@ def crear_huesped_modelo(formulario): # Metodo que crea en la base de datos
         # Comprueba si el formulario es válido
         if formulario.is_valid():
             try:
-                # Guarda el usuario en la base de datos
+                # Guarda el huesped en la base de datos
                 formulario.save()
                 huesped_creado = True
             except Exception as error:
                 print(error)
         return huesped_creado
 
-#--------------------------
+#-------- HUESPED (BUSCAR AVANZADO) --------
+
+def huesped_buscar_avanzado(request): 
+
+    if(len(request.GET) > 0):
+        formulario = HuespedBuscarAvanzada(request.GET)
+        if formulario.is_valid():
+        
+            mensaje_busqueda = 'Filtros Aplicados:\n'
+            QsHuesped = Huesped.objects
+            
+            #Obtenemos los campos del formulario
+            nombre_huesped_contiene = formulario.cleaned_data.get('nombre_huesped_contiene')
+            fecha_nacimiento_desde = formulario.cleaned_data.get('fecha_nacimiento_desde')
+            fecha_nacimiento_hasta = formulario.cleaned_data.get('fecha_nacimiento_hasta')
+            
+            #---Nombre---
+            if(nombre_huesped_contiene!=''):
+                nombre_huesped_contiene = nombre_huesped_contiene.strip()
+                QsHuesped = QsHuesped.filter(nombre__icontains=nombre_huesped_contiene)
+                mensaje_busqueda += '· Nombre contiene "'+nombre_huesped_contiene+'"\n'
+            else:
+                mensaje_busqueda += '· Cualquier nombre \n'
+            
+            #---Fecha---
+            if (not fecha_nacimiento_desde is None):
+                QsHuesped = QsHuesped.filter(fecha_nacimiento__gte=fecha_nacimiento_desde)
+                mensaje_busqueda += '· nacimiento desde '+datetime.strftime(fecha_nacimiento_desde,'%d-%m-%Y')+'\n'
+            else:
+                mensaje_busqueda += '· nacimiento desde: Cualquier fecha \n'
+            
+            if (not fecha_nacimiento_hasta is None):
+                QsUsuarios = QsUsuarios.filter(fecha_nacimiento__lte=fecha_nacimiento_hasta)
+                mensaje_busqueda += '· nacimiento hasta '+datetime.strftime(fecha_nacimiento_hasta,'%d-%m-%Y')+'\n'
+        else:
+            mensaje_busqueda += '· nacimiento hasta: Cualquier fecha \n'
+    else:
+        formulario = HuespedBuscarAvanzada(None)
+    return render(request, 'huespedes/crud/buscar_avanzada_huespedes.html',{'formulario':formulario})
 
 # ERRORES PERSONALIZADOS
 

@@ -43,3 +43,56 @@ class HuespedForm(ModelForm):
 
         #Siempre devolvemos el conjunto de datos.
         return self.cleaned_data
+
+class HuespedBuscarAvanzada(forms.Form):
+
+    nombre_huesped_contiene = forms.CharField(
+        label='Nombre de huesped contiene',
+        help_text="(Opcional)",
+        required=False
+    )
+
+    fecha_nacimiento_desde = forms.DateField(
+        label='nacimiento desde',
+        help_text="(Opcional)",
+        required=False,
+        widget=forms.DateInput(attrs={'type':'date'})
+    )
+
+    fecha_nacimiento_hasta = forms.DateField(
+        label='nacimiento hasta',
+        help_text="(Opcional)",
+        required=False,
+        widget=forms.DateInput(attrs={'type':'date'})
+    )
+
+    def clean(self):
+
+        #Validamos con el modelo actual
+        super().clean()
+
+        #Obtenemos los campos
+        nombre_huesped_contiene = self.cleaned_data.get('nombre_huesped_contiene')
+        fecha_nacimiento_desde = self.cleaned_data.get('fecha_nacimiento_desde')
+        fecha_nacimiento_hasta = self.cleaned_data.get('fecha_nacimiento_hasta')
+        
+        #Comprobamos
+        if(
+            nombre_huesped_contiene == "" and
+            fecha_nacimiento_desde is None and
+            fecha_nacimiento_hasta is None
+        ):
+            self.add_error('nombre_huesped_contiene','Debe de rellenar al menos un campo.')
+            self.add_error('fecha_nacimiento_desde','Debe de rellenar al menos un campo.')
+            self.add_error('fecha_nacimiento_hasta','Debe de rellenar al menos un campo.')
+        
+        if(
+            not fecha_nacimiento_desde is None and
+            not fecha_nacimiento_hasta is None and
+            fecha_nacimiento_hasta < fecha_nacimiento_desde
+            ):
+            self.add_error('fecha_nacimiento_desde','Rango de fecha no valido.')
+            self.add_error('fecha_nacimiento_hasta','Rango de fecha no valido.')
+        
+        #Siempre devolvemos el conjunto de datos.
+        return self.cleaned_data

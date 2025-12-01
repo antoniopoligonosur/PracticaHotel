@@ -21,12 +21,11 @@ urlpatterns = [
    # 8) HOTELES POR FECHA
    path('hotel/lista/<int:anyo_hotel>/<int:mes_hotel>', views.dame_hotel_fecha, name="dame_hotel_fecha"),
    # 9) Hotel - Calificacion - Expresion Regular
-   # ^ y $  → indican el inicio y fin de la cadena, para asegurar coincidencia exacta.
-   # 0\.    → el valor debe comenzar con el número 0 seguido de un punto decimal literal.
-   # \d{2}  → deben seguir exactamente dos dígitos del 0 al 9.
-   # (?P<calificacion_hotel>...) → nombra la parte capturada como calificacion_hotel.
    re_path(r'^hotel/calificacion/(?P<calificacion_hotel>0\.\d{2})/$', views.dame_hotel_calificacion, name='dame_hotel_calificacion'),
    # 10) ESTADÍSTICAS DE HOTELES - Agreggate
    path('hoteles/estadisticas_calificacion/', views.hoteles_estadisticas_calificacion, name='hoteles_estadisticas_calificacion'),
+   # 11) Huesped - Crear Huesped
    path('huesped/crear', views.huesped_create, name='huesped_create'),
+   # 12) Huesped - Buscar Huesped Avanzada
+   path('huesped/buscar/avanzado/',views.huesped_buscar_avanzado, name='huesped_buscar_avanzado'),
 ]
