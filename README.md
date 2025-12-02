@@ -245,9 +245,29 @@ Se han implementado validaciones personalizadas en el método `clean()` de los f
 
 # WIDGETS USADOS EN FORMULARIOS
 
-Se han utilizado diversos widgets de Django para mejorar la experiencia de usuario en los formularios:
+Se han utilizado 6 widgets diferentes de Django para mejorar la experiencia de usuario en los formularios:
 
-- **DateInput (`type='date'`)**: Utilizado en `ReservaForm` (fechas de entrada y salida) y `HotelForm` (fecha de fundación) para mostrar un selector de fecha nativo del navegador.
-- **TimeInput (`type='time'`)**: Utilizado en `HotelForm` (hora de apertura) para mostrar un selector de hora.
-- **Textarea (`rows=3`)**: Utilizado en `HotelForm` (descripción) y `PerfilHuespedForm` (preferencias) para mostrar un área de texto más pequeña y manejable.
-- **Select**: Utilizado en los formularios de búsqueda avanzada (`HotelBuscarAvanzada`, `ReservaBuscarAvanzada`) para campos booleanos o de elección múltiple (ej. "¿Tiene restaurante?", "Estado de reserva").
+1. **DateInput (`type='date'`)**: 
+   - **Formularios**: `HotelForm` (fecha de fundación), `ReservaForm` (fechas de entrada y salida), `HuespedBuscarAvanzada` (fechas de nacimiento desde/hasta)
+   - **Descripción**: Muestra un selector de fecha nativo del navegador con calendario desplegable.
+
+2. **TimeInput (`type='time'`)**: 
+   - **Formularios**: `HotelForm` (hora de apertura)
+   - **Descripción**: Muestra un selector de hora nativo del navegador con formato 24 horas.
+
+3. **Textarea (`rows=3`)**: 
+   - **Formularios**: `HotelForm` (descripción), `PerfilHuespedForm` (preferencias), `FacturaForm` (notas)
+   - **Descripción**: Área de texto multilínea con altura ajustable, ideal para contenido extenso.
+
+4. **Select**: 
+   - **Formularios**: `FacturaBuscarAvanzada` (campo pagada), `ReservaBuscarAvanzada` (estado)
+   - **Descripción**: Lista desplegable para seleccionar una opción entre múltiples valores predefinidos.
+
+5. **RadioSelect**: 
+   - **Formularios**: `HotelBuscarAvanzada` (tiene_restaurante)
+   - **Descripción**: Botones de radio que permiten seleccionar una única opción de forma visual y directa.
+
+6. **SelectDateWidget**: 
+   - **Formularios**: `HuespedForm` (fecha de nacimiento)
+   - **Descripción**: Widget que muestra tres listas desplegables separadas para día, mes y año, facilitando la selección de fechas.
+
