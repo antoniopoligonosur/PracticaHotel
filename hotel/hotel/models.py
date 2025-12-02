@@ -87,35 +87,3 @@ class Servicio(models.Model):
     def __str__(self):
         return self.nombre
 
-class Reserva(models.Model):
-    ESTADOS = [
-        ('P', 'Pendiente'),
-        ('C', 'Confirmada'),
-        ('F', 'Finalizada'),
-        ('X', 'Cancelada'),
-    ]
-    huesped = models.ForeignKey(Huesped, on_delete=models.CASCADE, related_name='reservas')
-    habitacion = models.ForeignKey(Habitacion, on_delete=models.PROTECT, related_name='reservas')
-    servicios = models.ManyToManyField(Servicio, through='ReservaServicio', blank=True, related_name='reservas')
-    
-    fecha_entrada = models.DateField()
-    fecha_salida = models.DateField()
-    estado = models.CharField(max_length=1, choices=ESTADOS, default='P')
-    creada_en = models.DateTimeField(auto_now_add=True)
-    
-
-    def __str__(self):
-        return f"Reserva {self.id} - {self.huesped.nombre}"
-
-
-
-
-class ReservaServicio(models.Model):
-    reserva = models.ForeignKey(Reserva, on_delete=models.CASCADE)
-    servicio = models.ForeignKey(Servicio, on_delete=models.CASCADE)
-    cantidad = models.IntegerField(default=1, validators=[MinValueValidator(1)])
-    precio_en_momento = models.DecimalField(max_digits=8, decimal_places=2)
-    nota = models.CharField(max_length=200, blank=True)
-
-    def __str__(self):
-        return f"{self.servicio.nombre} (Reserva {self.reserva.id})"

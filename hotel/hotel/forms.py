@@ -228,68 +228,6 @@ class PerfilHuespedBuscarAvanzada(forms.Form):
         return self.cleaned_data
 
 
-# -----------------------------------------------------------------------------
-# RESERVA
-# -----------------------------------------------------------------------------
-class ReservaForm(ModelForm):
-    class Meta:
-        model = Reserva
-        fields = "__all__"
-        # Excluimos 'creada_en' porque es auto_now_add y no editable
-        exclude = ['creada_en']
-        labels = {
-            "huesped": ("Huésped"),
-            "habitacion": ("Habitación"),
-            "fecha_entrada": ("Fecha de Entrada"),
-            "fecha_salida": ("Fecha de Salida"),
-            "estado": ("Estado"),
-        }
-        widgets = {
-            "fecha_entrada": forms.DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'),
-            "fecha_salida": forms.DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'),
-        }
-        localized_fields = ["fecha_entrada", "fecha_salida"]
-
-    def clean(self):
-        super().clean()
-        fecha_entrada = self.cleaned_data.get('fecha_entrada')
-        fecha_salida = self.cleaned_data.get('fecha_salida')
-
-        if fecha_entrada and fecha_salida and fecha_salida < fecha_entrada:
-            self.add_error('fecha_salida', 'La fecha de salida no puede ser anterior a la de entrada.')
-            
-        if fecha_entrada and fecha_entrada < datetime.date.today():
-             self.add_error('fecha_entrada', 'La fecha de entrada no puede ser en el pasado.')
-        return self.cleaned_data
-
-class ReservaBuscarAvanzada(forms.Form):
-    huesped_nombre = forms.CharField(
-        label='Nombre Huésped contiene',
-        required=False,
-        help_text="(Opcional)"
-    )
-    fecha_entrada_desde = forms.DateField(
-        label='Fecha entrada desde',
-        required=False,
-        widget=forms.DateInput(attrs={'type': 'date'}),
-        help_text="(Opcional)"
-    )
-    estado = forms.ChoiceField(
-        label='Estado',
-        choices=[('', 'Cualquiera')] + Reserva.ESTADOS,
-        required=False,
-        help_text="(Opcional)"
-    )
-
-    def clean(self):
-        super().clean()
-        huesped_nombre = self.cleaned_data.get('huesped_nombre')
-        fecha_entrada_desde = self.cleaned_data.get('fecha_entrada_desde')
-        estado = self.cleaned_data.get('estado')
-
-        if not any([huesped_nombre, fecha_entrada_desde, estado]):
-            self.add_error('huesped_nombre', 'Debe rellenar al menos un campo.')
-        return self.cleaned_data
 
 
 class HuespedBuscarAvanzada(forms.Form):

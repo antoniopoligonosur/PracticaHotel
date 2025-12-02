@@ -58,14 +58,6 @@ urlpatterns = [
    path('perfil_huesped/eliminar/<int:id_perfil>', views.perfil_huesped_eliminar, name='perfil_huesped_eliminar'),
    path('perfil_huesped/buscar/avanzado/', views.perfil_huesped_buscar_avanzado, name='perfil_huesped_buscar_avanzado'),
 
-   # -----------------------------------------------------------------------------
-   # RESERVA CRUD
-   # -----------------------------------------------------------------------------
-   path('reserva/lista', views.reserva_lista, name='reserva_lista'),
-   path('reserva/crear', views.reserva_create, name='reserva_create'),
-   path('reserva/editar/<int:id_reserva>', views.reserva_editar, name='reserva_editar'),
-   path('reserva/eliminar/<int:id_reserva>', views.reserva_eliminar, name='reserva_eliminar'),
-   path('reserva/buscar/avanzado/', views.reserva_buscar_avanzado, name='reserva_buscar_avanzado'),
 
     path('habitaciones/fotos/', views.fotos_habitaciones, name='fotos_habitaciones'),
 ]

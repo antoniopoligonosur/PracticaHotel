@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Hotel, ContactoHotel, TipoHabitacion, Habitacion, Huesped, PerfilHuesped, Servicio, Reserva, ReservaServicio
+from .models import Hotel, ContactoHotel, TipoHabitacion, Habitacion, Huesped, PerfilHuesped, Servicio
 
 # Register your models here.
 
@@ -10,5 +10,3 @@ admin.site.register(Habitacion)
 admin.site.register(Huesped)
 admin.site.register(PerfilHuesped)
 admin.site.register(Servicio)
-admin.site.register(Reserva)
-admin.site.register(ReservaServicio)

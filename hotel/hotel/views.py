@@ -5,7 +5,7 @@ from django.views.defaults import page_not_found
 from django.db.models import Q
 from .models import (
     Hotel, ContactoHotel, TipoHabitacion, Habitacion, Huesped,
-    PerfilHuesped, Servicio, Reserva, ReservaServicio
+    PerfilHuesped, Servicio
 )
 from .forms import *
 from django.contrib import messages
@@ -556,85 +556,6 @@ def perfil_huesped_buscar_avanzado(request):
     return render(request, 'perfiles/crud/buscar_avanzada_perfil_huesped.html', {'formulario': formulario})
 
 
-# ==============================================================================
-#  RESERVA CRUD
-# ==============================================================================
-
-def reserva_lista(request):
-    reservas = Reserva.objects.select_related('huesped', 'habitacion').all()
-    return render(request, 'reservas/reserva_lista.html', {'reserva_lista': reservas})
-
-def reserva_create(request):
-    datosFormulario = None
-    if request.method == "POST":
-        datosFormulario = request.POST
-    
-    formulario = ReservaForm(datosFormulario)
-    
-    if request.method == "POST":
-        if crear_modelo_generico(formulario):
-            messages.success(request, 'Se ha creado la Reserva correctamente.')
-            return redirect('reserva_lista')
-            
-    return render(request, 'reservas/crud/create_reserva.html', {'formulario': formulario})
-
-def reserva_editar(request, id_reserva):
-    reserva = Reserva.objects.get(id=id_reserva)
-    
-    datosFormulario = None
-    if request.method == "POST":
-        datosFormulario = request.POST
-        
-    formulario = ReservaForm(datosFormulario, instance=reserva)
-    
-    if request.method == "POST":
-        if crear_modelo_generico(formulario):
-            messages.success(request, 'Se ha editado la Reserva correctamente.')
-            return redirect('reserva_lista')
-
-    return render(request, 'reservas/crud/actualizar_reserva.html', {'formulario': formulario, 'reserva': reserva})
-
-def reserva_eliminar(request, id_reserva):
-    reserva = Reserva.objects.get(id=id_reserva)
-    try:
-        reserva.delete()
-        messages.success(request, "Reserva eliminada correctamente.")
-    except Exception as e:
-        messages.error(request, f"No se pudo eliminar la reserva: {e}")
-    return redirect('reserva_lista')
-
-def reserva_buscar_avanzado(request):
-    if len(request.GET) > 0:
-        formulario = ReservaBuscarAvanzada(request.GET)
-        if formulario.is_valid():
-            mensaje_busqueda = 'Filtros Aplicados:\n'
-            qs = Reserva.objects.select_related('huesped', 'habitacion')
-            
-            huesped_nombre = formulario.cleaned_data.get('huesped_nombre')
-            fecha_entrada_desde = formulario.cleaned_data.get('fecha_entrada_desde')
-            estado = formulario.cleaned_data.get('estado')
-            
-            if huesped_nombre:
-                qs = qs.filter(huesped__nombre__icontains=huesped_nombre)
-                mensaje_busqueda += f'· Huésped contiene "{huesped_nombre}"\n'
-            
-            if fecha_entrada_desde:
-                qs = qs.filter(fecha_entrada__gte=fecha_entrada_desde)
-                mensaje_busqueda += f'· Entrada desde {fecha_entrada_desde}\n'
-            
-            if estado:
-                qs = qs.filter(estado=estado)
-                mensaje_busqueda += f'· Estado: {estado}\n'
-            
-            reservas = qs.all()
-            return render(request, 'reservas/reserva_lista.html', {
-                'reserva_lista': reservas,
-                'Mensaje_Busqueda': mensaje_busqueda
-            })
-    else:
-        formulario = ReservaBuscarAvanzada(None)
-        
-    return render(request, 'reservas/crud/buscar_avanzada_reserva.html', {'formulario': formulario})
 
 
 
