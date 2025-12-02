@@ -1,0 +1,59 @@
+{% extends 'base/base.html' %}
+{% load django_bootstrap5 %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Fotos de Habitaciones</h2>
+    
+    <div class="row">
+        {% for habitacion in habitaciones %}
+        <div class="col-md-4 mb-4">
+            <div class="card h-100">
+                {% if habitacion.imagen %}
+                    <img src="{{ habitacion.imagen.url }}" class="card-img-top" alt="Foto habitación {{ habitacion.numero }}" style="height: 200px; object-fit: cover;">
+                {% else %}
+                    <div class="card-img-top d-flex align-items-center justify-content-center bg-light" style="height: 200px;">
+                        <span class="text-muted">Sin imagen</span>
+                    </div>
+                {% endif %}
+                
+                <div class="card-body">
+                    <h5 class="card-title">{{ habitacion.hotel.nombre }} - Habitación {{ habitacion.numero }}</h5>
+                    <p class="card-text">
+                        <strong>Tipo:</strong> {{ habitacion.tipo.nombre }}<br>
+                        <strong>Piso:</strong> {{ habitacion.piso }}
+                    </p>
+                    
+                    <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#uploadModal{{ habitacion.id }}">
+                        Subir/Cambiar Foto
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal -->
+        <div class="modal fade" id="uploadModal{{ habitacion.id }}" tabindex="-1" aria-labelledby="uploadModalLabel{{ habitacion.id }}" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="uploadModalLabel{{ habitacion.id }}">Subir Foto - Habitación {{ habitacion.numero }}</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form method="post" enctype="multipart/form-data">
+                        <div class="modal-body">
+                            {% csrf_token %}
+                            <input type="hidden" name="habitacion_id" value="{{ habitacion.id }}">
+                            {% bootstrap_form formulario %}
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                            <button type="submit" class="btn btn-primary">Guardar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

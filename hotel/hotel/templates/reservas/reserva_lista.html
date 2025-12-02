@@ -3,6 +3,10 @@
 {% block contenido %}
 <h1>Listado de Reservas</h1>
 
+    {% if Mensaje_Busqueda %}
+        <pre>{{Mensaje_Busqueda}}</pre>
+    {% endif %}
+
 <p>Total reservas encontradas: {{ reserva_lista|length }}</p>
 
 <table>

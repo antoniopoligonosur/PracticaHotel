@@ -314,3 +314,425 @@ def mi_error_403(request, exception=None):
 # Error 400 - Solicitud incorrecta
 def mi_error_400(request, exception=None):
     return render(request, 'errores/400.html', status=400)
+
+
+# ==============================================================================
+#  HELPER FUNCTIONS (GENERIC-LIKE)
+# ==============================================================================
+
+def crear_modelo_generico(formulario):
+    """
+    Helper genérico para guardar un formulario si es válido.
+    Retorna True si se guardó correctamente, False en caso contrario.
+    """
+    creado = False
+    if formulario.is_valid():
+        try:
+            formulario.save()
+            creado = True
+        except Exception as error:
+            print(f"Error guardando modelo: {error}")
+    return creado
+
+
+# ==============================================================================
+#  HOTEL CRUD
+# ==============================================================================
+
+def hotel_create(request):
+    datosFormulario = None
+    if request.method == "POST":
+        datosFormulario = request.POST
+    
+    formulario = HotelForm(datosFormulario)
+    
+    if request.method == "POST":
+        if crear_modelo_generico(formulario):
+            messages.success(request, f'Se ha creado el Hotel: [{formulario.cleaned_data.get("nombre")}] correctamente.')
+            return redirect('hotel_lista')
+            
+    return render(request, 'hoteles/crud/create_hotel.html', {'formulario': formulario})
+
+def hotel_editar(request, id_hotel):
+    hotel = Hotel.objects.get(id=id_hotel)
+    
+    datosFormulario = None
+    if request.method == "POST":
+        datosFormulario = request.POST
+        
+    formulario = HotelForm(datosFormulario, instance=hotel)
+    
+    if request.method == "POST":
+        if crear_modelo_generico(formulario):
+            messages.success(request, f'Se ha editado el Hotel: [{formulario.cleaned_data.get("nombre")}] correctamente.')
+            return redirect('hotel_lista')
+
+    return render(request, 'hoteles/crud/actualizar_hotel.html', {'formulario': formulario, 'hotel': hotel})
+
+def hotel_eliminar(request, id_hotel):
+    hotel = Hotel.objects.get(id=id_hotel)
+    try:
+        hotel.delete()
+        messages.success(request, "Hotel eliminado correctamente.")
+    except Exception as e:
+        messages.error(request, f"No se pudo eliminar el hotel: {e}")
+    return redirect('hotel_lista')
+
+def hotel_buscar_avanzado(request):
+    if len(request.GET) > 0:
+        formulario = HotelBuscarAvanzada(request.GET)
+        if formulario.is_valid():
+            mensaje_busqueda = 'Filtros Aplicados:\n'
+            qs = Hotel.objects.prefetch_related('servicios')
+            
+            nombre_contiene = formulario.cleaned_data.get('nombre_contiene')
+            calificacion_minima = formulario.cleaned_data.get('calificacion_minima')
+            tiene_restaurante = formulario.cleaned_data.get('tiene_restaurante')
+            
+            if nombre_contiene:
+                qs = qs.filter(nombre__icontains=nombre_contiene)
+                mensaje_busqueda += f'· Nombre contiene "{nombre_contiene}"\n'
+            
+            if calificacion_minima is not None:
+                qs = qs.filter(calificacion__gte=calificacion_minima)
+                mensaje_busqueda += f'· Calificación >= {calificacion_minima}\n'
+            
+            if tiene_restaurante is not None:
+                qs = qs.filter(tiene_restaurante=tiene_restaurante)
+                mensaje_busqueda += f'· Restaurante: {"Sí" if tiene_restaurante else "No"}\n'
+            
+            hoteles = qs.all()
+            return render(request, 'hoteles/hotel_lista.html', {
+                'hotel_lista': hoteles,
+                'Mensaje_Busqueda': mensaje_busqueda
+            })
+    else:
+        formulario = HotelBuscarAvanzada(None)
+        
+    return render(request, 'hoteles/crud/buscar_avanzada_hotel.html', {'formulario': formulario})
+
+
+# ==============================================================================
+#  CONTACTO HOTEL CRUD
+# ==============================================================================
+
+def contacto_create(request):
+    datosFormulario = None
+    if request.method == "POST":
+        datosFormulario = request.POST
+    
+    formulario = ContactoHotelForm(datosFormulario)
+    
+    if request.method == "POST":
+        if crear_modelo_generico(formulario):
+            messages.success(request, f'Se ha creado el Contacto: [{formulario.cleaned_data.get("nombre_contacto")}] correctamente.')
+            return redirect('contacto_lista')
+            
+    return render(request, 'contactos/crud/create_contacto.html', {'formulario': formulario})
+
+def contacto_editar(request, id_contacto):
+    contacto = ContactoHotel.objects.get(id=id_contacto)
+    
+    datosFormulario = None
+    if request.method == "POST":
+        datosFormulario = request.POST
+        
+    formulario = ContactoHotelForm(datosFormulario, instance=contacto)
+    
+    if request.method == "POST":
+        if crear_modelo_generico(formulario):
+            messages.success(request, f'Se ha editado el Contacto: [{formulario.cleaned_data.get("nombre_contacto")}] correctamente.')
+            return redirect('contacto_lista')
+
+    return render(request, 'contactos/crud/actualizar_contacto.html', {'formulario': formulario, 'contacto': contacto})
+
+def contacto_eliminar(request, id_contacto):
+    contacto = ContactoHotel.objects.get(id=id_contacto)
+    try:
+        contacto.delete()
+        messages.success(request, "Contacto eliminado correctamente.")
+    except Exception as e:
+        messages.error(request, f"No se pudo eliminar el contacto: {e}")
+    return redirect('contacto_lista')
+
+def contacto_buscar_avanzado(request):
+    if len(request.GET) > 0:
+        formulario = ContactoHotelBuscarAvanzada(request.GET)
+        if formulario.is_valid():
+            mensaje_busqueda = 'Filtros Aplicados:\n'
+            qs = ContactoHotel.objects.select_related("hotel")
+            
+            nombre_contacto_contiene = formulario.cleaned_data.get('nombre_contacto_contiene')
+            correo_contiene = formulario.cleaned_data.get('correo_contiene')
+            
+            if nombre_contacto_contiene:
+                qs = qs.filter(nombre_contacto__icontains=nombre_contacto_contiene)
+                mensaje_busqueda += f'· Nombre contiene "{nombre_contacto_contiene}"\n'
+            
+            if correo_contiene:
+                qs = qs.filter(correo__icontains=correo_contiene)
+                mensaje_busqueda += f'· Correo contiene "{correo_contiene}"\n'
+            
+            contactos = qs.all()
+            return render(request, 'contactos/contacto_lista.html', {
+                'contacto_lista': contactos,
+                'Mensaje_Busqueda': mensaje_busqueda
+            })
+    else:
+        formulario = ContactoHotelBuscarAvanzada(None)
+        
+    return render(request, 'contactos/crud/buscar_avanzada_contacto.html', {'formulario': formulario})
+
+
+# ==============================================================================
+#  PERFIL HUESPED CRUD
+# ==============================================================================
+
+def perfil_huesped_create(request):
+    datosFormulario = None
+    if request.method == "POST":
+        datosFormulario = request.POST
+    
+    formulario = PerfilHuespedForm(datosFormulario)
+    
+    if request.method == "POST":
+        if crear_modelo_generico(formulario):
+            messages.success(request, 'Se ha creado el Perfil de Huésped correctamente.')
+            return redirect('perfil_huesped_lista')
+            
+    return render(request, 'perfiles/crud/create_perfil_huesped.html', {'formulario': formulario})
+
+def perfil_huesped_editar(request, id_perfil):
+    perfil = PerfilHuesped.objects.get(id=id_perfil)
+    
+    datosFormulario = None
+    if request.method == "POST":
+        datosFormulario = request.POST
+        
+    formulario = PerfilHuespedForm(datosFormulario, instance=perfil)
+    
+    if request.method == "POST":
+        if crear_modelo_generico(formulario):
+            messages.success(request, 'Se ha editado el Perfil de Huésped correctamente.')
+            return redirect('perfil_huesped_lista')
+
+    return render(request, 'perfiles/crud/actualizar_perfil_huesped.html', {'formulario': formulario, 'perfil': perfil})
+
+def perfil_huesped_eliminar(request, id_perfil):
+    perfil = PerfilHuesped.objects.get(id=id_perfil)
+    try:
+        perfil.delete()
+        messages.success(request, "Perfil eliminado correctamente.")
+    except Exception as e:
+        messages.error(request, f"No se pudo eliminar el perfil: {e}")
+    return redirect('perfil_huesped_lista')
+
+def perfil_huesped_buscar_avanzado(request):
+    if len(request.GET) > 0:
+        formulario = PerfilHuespedBuscarAvanzada(request.GET)
+        if formulario.is_valid():
+            mensaje_busqueda = 'Filtros Aplicados:\n'
+            qs = PerfilHuesped.objects.select_related('huesped')
+            
+            nacionalidad_contiene = formulario.cleaned_data.get('nacionalidad_contiene')
+            puntos_minimos = formulario.cleaned_data.get('puntos_minimos')
+            
+            if nacionalidad_contiene:
+                qs = qs.filter(nacionalidad__icontains=nacionalidad_contiene)
+                mensaje_busqueda += f'· Nacionalidad contiene "{nacionalidad_contiene}"\n'
+            
+            if puntos_minimos is not None:
+                qs = qs.filter(puntos_fidelidad__gte=puntos_minimos)
+                mensaje_busqueda += f'· Puntos >= {puntos_minimos}\n'
+            
+            perfiles = qs.all()
+            return render(request, 'perfiles/perfil_huesped_lista.html', {
+                'perfil_lista': perfiles,
+                'Mensaje_Busqueda': mensaje_busqueda
+            })
+    else:
+        formulario = PerfilHuespedBuscarAvanzada(None)
+        
+    return render(request, 'perfiles/crud/buscar_avanzada_perfil_huesped.html', {'formulario': formulario})
+
+
+# ==============================================================================
+#  RESERVA CRUD
+# ==============================================================================
+
+def reserva_lista(request):
+    reservas = Reserva.objects.select_related('huesped', 'habitacion').all()
+    return render(request, 'reservas/reserva_lista.html', {'reserva_lista': reservas})
+
+def reserva_create(request):
+    datosFormulario = None
+    if request.method == "POST":
+        datosFormulario = request.POST
+    
+    formulario = ReservaForm(datosFormulario)
+    
+    if request.method == "POST":
+        if crear_modelo_generico(formulario):
+            messages.success(request, 'Se ha creado la Reserva correctamente.')
+            return redirect('reserva_lista')
+            
+    return render(request, 'reservas/crud/create_reserva.html', {'formulario': formulario})
+
+def reserva_editar(request, id_reserva):
+    reserva = Reserva.objects.get(id=id_reserva)
+    
+    datosFormulario = None
+    if request.method == "POST":
+        datosFormulario = request.POST
+        
+    formulario = ReservaForm(datosFormulario, instance=reserva)
+    
+    if request.method == "POST":
+        if crear_modelo_generico(formulario):
+            messages.success(request, 'Se ha editado la Reserva correctamente.')
+            return redirect('reserva_lista')
+
+    return render(request, 'reservas/crud/actualizar_reserva.html', {'formulario': formulario, 'reserva': reserva})
+
+def reserva_eliminar(request, id_reserva):
+    reserva = Reserva.objects.get(id=id_reserva)
+    try:
+        reserva.delete()
+        messages.success(request, "Reserva eliminada correctamente.")
+    except Exception as e:
+        messages.error(request, f"No se pudo eliminar la reserva: {e}")
+    return redirect('reserva_lista')
+
+def reserva_buscar_avanzado(request):
+    if len(request.GET) > 0:
+        formulario = ReservaBuscarAvanzada(request.GET)
+        if formulario.is_valid():
+            mensaje_busqueda = 'Filtros Aplicados:\n'
+            qs = Reserva.objects.select_related('huesped', 'habitacion')
+            
+            huesped_nombre = formulario.cleaned_data.get('huesped_nombre')
+            fecha_entrada_desde = formulario.cleaned_data.get('fecha_entrada_desde')
+            estado = formulario.cleaned_data.get('estado')
+            
+            if huesped_nombre:
+                qs = qs.filter(huesped__nombre__icontains=huesped_nombre)
+                mensaje_busqueda += f'· Huésped contiene "{huesped_nombre}"\n'
+            
+            if fecha_entrada_desde:
+                qs = qs.filter(fecha_entrada__gte=fecha_entrada_desde)
+                mensaje_busqueda += f'· Entrada desde {fecha_entrada_desde}\n'
+            
+            if estado:
+                qs = qs.filter(estado=estado)
+                mensaje_busqueda += f'· Estado: {estado}\n'
+            
+            reservas = qs.all()
+            return render(request, 'reservas/reserva_lista.html', {
+                'reserva_lista': reservas,
+                'Mensaje_Busqueda': mensaje_busqueda
+            })
+    else:
+        formulario = ReservaBuscarAvanzada(None)
+        
+    return render(request, 'reservas/crud/buscar_avanzada_reserva.html', {'formulario': formulario})
+
+
+# ==============================================================================
+#  FACTURA CRUD
+# ==============================================================================
+
+def factura_lista(request):
+    facturas = Factura.objects.select_related('reserva').all()
+    return render(request, 'facturas/factura_lista.html', {'factura_lista': facturas})
+
+def factura_create(request):
+    datosFormulario = None
+    if request.method == "POST":
+        datosFormulario = request.POST
+    
+    formulario = FacturaForm(datosFormulario)
+    
+    if request.method == "POST":
+        if crear_modelo_generico(formulario):
+            messages.success(request, f'Se ha creado la Factura: [{formulario.cleaned_data.get("numero_factura")}] correctamente.')
+            return redirect('factura_lista')
+            
+    return render(request, 'facturas/crud/create_factura.html', {'formulario': formulario})
+
+def factura_editar(request, id_factura):
+    factura = Factura.objects.get(id=id_factura)
+    
+    datosFormulario = None
+    if request.method == "POST":
+        datosFormulario = request.POST
+        
+    formulario = FacturaForm(datosFormulario, instance=factura)
+    
+    if request.method == "POST":
+        if crear_modelo_generico(formulario):
+            messages.success(request, f'Se ha editado la Factura: [{formulario.cleaned_data.get("numero_factura")}] correctamente.')
+            return redirect('factura_lista')
+
+    return render(request, 'facturas/crud/actualizar_factura.html', {'formulario': formulario, 'factura': factura})
+
+def factura_eliminar(request, id_factura):
+    factura = Factura.objects.get(id=id_factura)
+    try:
+        factura.delete()
+        messages.success(request, "Factura eliminada correctamente.")
+    except Exception as e:
+        messages.error(request, f"No se pudo eliminar la factura: {e}")
+    return redirect('factura_lista')
+
+def factura_buscar_avanzado(request):
+    if len(request.GET) > 0:
+        formulario = FacturaBuscarAvanzada(request.GET)
+        if formulario.is_valid():
+            mensaje_busqueda = 'Filtros Aplicados:\n'
+            qs = Factura.objects.select_related('reserva')
+            
+            numero_contiene = formulario.cleaned_data.get('numero_contiene')
+            monto_minimo = formulario.cleaned_data.get('monto_minimo')
+            pagada = formulario.cleaned_data.get('pagada')
+            
+            if numero_contiene:
+                qs = qs.filter(numero_factura__icontains=numero_contiene)
+                mensaje_busqueda += f'· Número contiene "{numero_contiene}"\n'
+            
+            if monto_minimo is not None:
+                qs = qs.filter(monto_total__gte=monto_minimo)
+                mensaje_busqueda += f'· Monto >= {monto_minimo}\n'
+            
+            if pagada is not None:
+                qs = qs.filter(pagada=pagada)
+                mensaje_busqueda += f'· Pagada: {"Sí" if pagada else "No"}\n'
+            
+            facturas = qs.all()
+            return render(request, 'facturas/factura_lista.html', {
+                'factura_lista': facturas,
+                'Mensaje_Busqueda': mensaje_busqueda
+            })
+    else:
+        formulario = FacturaBuscarAvanzada(None)
+        
+    return render(request, 'facturas/crud/buscar_avanzada_factura.html', {'formulario': formulario})
+
+def fotos_habitaciones(request):
+    habitaciones = Habitacion.objects.select_related('hotel', 'tipo').all()
+    
+    if request.method == "POST":
+        habitacion_id = request.POST.get('habitacion_id')
+        habitacion = Habitacion.objects.get(id=habitacion_id)
+        formulario = HabitacionImageForm(request.POST, request.FILES, instance=habitacion)
+        
+        if formulario.is_valid():
+            formulario.save()
+            messages.success(request, f'Imagen subida correctamente para la habitación {habitacion.numero}')
+            return redirect('fotos_habitaciones')
+    else:
+        formulario = HabitacionImageForm()
+        
+    return render(request, 'habitaciones/fotos_habitaciones.html', {
+        'habitaciones': habitaciones,
+        'formulario': formulario
+    })

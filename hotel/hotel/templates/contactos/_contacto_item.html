@@ -10,4 +10,11 @@
     <td>{{ c.correo|default:"-" }}</td>
     <td>{{ c.sitio_web|default_if_none:"-" }}</td>
     <td>{{ c.hotel.nombre|default:"-" }}</td>
+    <td><button><a href="{% url 'contacto_editar' c.id %}">Editar</a></button></td>
+    <td>
+        <form action="{% url 'contacto_eliminar' c.id %}" method="post">
+            {% csrf_token %}
+            <button type="submit" onclick="return confirm('¿Estás seguro de eliminar este contacto?')">Eliminar</button>
+        </form>
+    </td>
 </tr>

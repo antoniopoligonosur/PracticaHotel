@@ -7,6 +7,10 @@
 
 {% block contenido %}
 
+    {% if Mensaje_Busqueda %}
+        <pre>{{Mensaje_Busqueda}}</pre>
+    {% endif %}
+
 <table>
     <thead>
         <tr>
@@ -19,7 +23,7 @@
     </thead>
     <tbody>
         {% for f in factura_lista %}
-            {% include "factuas/_factura_item.html" with f=f %}
+            {% include "facturas/_factura_item.html" with f=f %}
         {% empty %}
             <tr><td colspan="5">No hay facturas.</td></tr>
         {% endfor %}

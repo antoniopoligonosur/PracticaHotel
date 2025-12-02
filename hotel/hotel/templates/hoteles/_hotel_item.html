@@ -9,4 +9,11 @@
         {% endif %}
     </td>
     <td>{{ h.num_habitaciones }}</td>
+    <td><button><a href="{% url 'hotel_editar' h.id %}">Editar</a></button></td>
+    <td>
+        <form action="{% url 'hotel_eliminar' h.id %}" method="post">
+            {% csrf_token %}
+            <button type="submit" onclick="return confirm('¿Estás seguro de eliminar este hotel?')">Eliminar</button>
+        </form>
+    </td>
 </tr>

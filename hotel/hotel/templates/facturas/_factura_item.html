@@ -10,4 +10,11 @@
             No
         {% endif %}
     </td>
+    <td><button><a href="{% url 'factura_editar' f.id %}">Editar</a></button></td>
+    <td>
+        <form action="{% url 'factura_eliminar' f.id %}" method="post">
+            {% csrf_token %}
+            <button type="submit" onclick="return confirm('¿Estás seguro de eliminar esta factura?')">Eliminar</button>
+        </form>
+    </td>
 </tr>

@@ -1,0 +1,20 @@
+{% extends "base/principal.html" %}
+
+{% load static %}
+{% load django_bootstrap5 %}
+{% load bootstrap_icons %}
+
+{% block title %}Buscar Facturas{% endblock %}
+{% block head %}{% endblock %}
+{% block cabecera %}{% endblock %}
+{% block contenido %}
+
+    <form action="{% url 'factura_buscar_avanzado' %}" method="get">
+
+        {% csrf_token %}
+        {% bootstrap_form formulario %}
+        <button type="submit">Enviar</button>
+
+    </form>
+
+{% endblock %}
