@@ -128,52 +128,6 @@ class HotelBuscarAvanzada(forms.Form):
         
         return self.cleaned_data
 
-# -----------------------------------------------------------------------------
-# CONTACTO HOTEL
-# -----------------------------------------------------------------------------
-class ContactoHotelForm(ModelForm):
-    class Meta:
-        model = ContactoHotel
-        fields = "__all__"
-        labels = {
-            "nombre_contacto": ("Nombre del Contacto"),
-            "telefono": ("Teléfono"),
-            "correo": ("Correo Electrónico"),
-            "sitio_web": ("Sitio Web"),
-            "hotel": ("Hotel Asociado"),
-        }
-    
-    def clean(self):
-        super().clean()
-        nombre_contacto = self.cleaned_data.get('nombre_contacto')
-        if nombre_contacto and len(nombre_contacto) < 3:
-            self.add_error('nombre_contacto', 'El nombre debe tener al menos 3 caracteres.')
-        
-        telefono = self.cleaned_data.get('telefono')
-        if telefono and len(telefono) < 9:
-            self.add_error('telefono', 'El teléfono debe tener al menos 9 dígitos.')
-        return self.cleaned_data
-
-class ContactoHotelBuscarAvanzada(forms.Form):
-    nombre_contacto_contiene = forms.CharField(
-        label='Nombre contacto contiene',
-        required=False,
-        help_text="(Opcional)"
-    )
-    correo_contiene = forms.CharField(
-        label='Correo contiene',
-        required=False,
-        help_text="(Opcional)"
-    )
-
-    def clean(self):
-        super().clean()
-        nombre_contacto_contiene = self.cleaned_data.get('nombre_contacto_contiene')
-        correo_contiene = self.cleaned_data.get('correo_contiene')
-
-        if not any([nombre_contacto_contiene, correo_contiene]):
-            self.add_error('nombre_contacto_contiene', 'Debe rellenar al menos un campo.')
-        return self.cleaned_data
 
 
 

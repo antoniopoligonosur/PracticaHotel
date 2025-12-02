@@ -21,16 +21,6 @@ class Hotel(models.Model):
         return self.nombre
 
 
-class ContactoHotel(models.Model):
-    nombre_contacto = models.CharField(max_length=100)
-    telefono = models.CharField(max_length=20, validators=[RegexValidator(r'^\+?\d{7,15}$')])
-    correo = models.EmailField(unique=True)
-    sitio_web = models.URLField(null=True, blank=True)
-    
-    hotel = models.OneToOneField(Hotel, on_delete=models.CASCADE, related_name='contacto')
-
-    def __str__(self):
-        return self.nombre_contacto
 
 
 class TipoHabitacion(models.Model):

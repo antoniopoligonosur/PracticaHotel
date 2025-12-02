@@ -4,7 +4,7 @@ from django.db.models import Sum, Avg, Min, Max, Prefetch
 from django.views.defaults import page_not_found
 from django.db.models import Q
 from .models import (
-    Hotel, ContactoHotel, TipoHabitacion, Habitacion, Huesped,
+    Hotel, TipoHabitacion, Habitacion, Huesped,
     Servicio
 )
 from .forms import *
@@ -19,17 +19,6 @@ def huesped_lista(request):
     
     return render(request, 'huespedes/huesped_lista.html', {'huesped_lista':huesped})
 
-# 1) CONTACTO
-# Muestra los contactos de los hoteles junto con la información del hotel relacionado
-
-def contacto_lista(request):
-    contacto = ContactoHotel.objects.select_related("hotel").all()
-    
-    '''
-    contacto = ContactoHotel.objects.raw(" SELECT * FROM hotel_contactohotel ch "
-                                         " JOIN hotel_hotel h ON h.id = ch.hotel_id ")
-    '''
-    return render(request, 'contactos/contacto_lista.html', {'contacto_lista':contacto})
 
 # 2) HOTELES
 # Muestra los hoteles con sus servicios asociados (usando "LIMIT 10" para restringir la cantidad de resultados
@@ -400,76 +389,6 @@ def hotel_buscar_avanzado(request):
     return render(request, 'hoteles/crud/buscar_avanzada_hotel.html', {'formulario': formulario})
 
 
-# ==============================================================================
-#  CONTACTO HOTEL CRUD
-# ==============================================================================
-
-def contacto_create(request):
-    datosFormulario = None
-    if request.method == "POST":
-        datosFormulario = request.POST
-    
-    formulario = ContactoHotelForm(datosFormulario)
-    
-    if request.method == "POST":
-        if crear_modelo_generico(formulario):
-            messages.success(request, f'Se ha creado el Contacto: [{formulario.cleaned_data.get("nombre_contacto")}] correctamente.')
-            return redirect('contacto_lista')
-            
-    return render(request, 'contactos/crud/create_contacto.html', {'formulario': formulario})
-
-def contacto_editar(request, id_contacto):
-    contacto = ContactoHotel.objects.get(id=id_contacto)
-    
-    datosFormulario = None
-    if request.method == "POST":
-        datosFormulario = request.POST
-        
-    formulario = ContactoHotelForm(datosFormulario, instance=contacto)
-    
-    if request.method == "POST":
-        if crear_modelo_generico(formulario):
-            messages.success(request, f'Se ha editado el Contacto: [{formulario.cleaned_data.get("nombre_contacto")}] correctamente.')
-            return redirect('contacto_lista')
-
-    return render(request, 'contactos/crud/actualizar_contacto.html', {'formulario': formulario, 'contacto': contacto})
-
-def contacto_eliminar(request, id_contacto):
-    contacto = ContactoHotel.objects.get(id=id_contacto)
-    try:
-        contacto.delete()
-        messages.success(request, "Contacto eliminado correctamente.")
-    except Exception as e:
-        messages.error(request, f"No se pudo eliminar el contacto: {e}")
-    return redirect('contacto_lista')
-
-def contacto_buscar_avanzado(request):
-    if len(request.GET) > 0:
-        formulario = ContactoHotelBuscarAvanzada(request.GET)
-        if formulario.is_valid():
-            mensaje_busqueda = 'Filtros Aplicados:\n'
-            qs = ContactoHotel.objects.select_related("hotel")
-            
-            nombre_contacto_contiene = formulario.cleaned_data.get('nombre_contacto_contiene')
-            correo_contiene = formulario.cleaned_data.get('correo_contiene')
-            
-            if nombre_contacto_contiene:
-                qs = qs.filter(nombre_contacto__icontains=nombre_contacto_contiene)
-                mensaje_busqueda += f'· Nombre contiene "{nombre_contacto_contiene}"\n'
-            
-            if correo_contiene:
-                qs = qs.filter(correo__icontains=correo_contiene)
-                mensaje_busqueda += f'· Correo contiene "{correo_contiene}"\n'
-            
-            contactos = qs.all()
-            return render(request, 'contactos/contacto_lista.html', {
-                'contacto_lista': contactos,
-                'Mensaje_Busqueda': mensaje_busqueda
-            })
-    else:
-        formulario = ContactoHotelBuscarAvanzada(None)
-        
-    return render(request, 'contactos/crud/buscar_avanzada_contacto.html', {'formulario': formulario})
 
 
 

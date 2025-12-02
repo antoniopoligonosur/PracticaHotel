@@ -4,8 +4,6 @@ from django.urls import re_path
 
 urlpatterns = [
    path('',views.index, name='index'),
-   # 1) Contacto
-   path('contacto/lista', views.contacto_lista, name='contacto_lista'),
    # 2) Hotel
    path('hotel/lista', views.hotel_lista, name='hotel_lista'),
    # 3) Tipo Habitacion
@@ -40,13 +38,6 @@ urlpatterns = [
    path('hotel/eliminar/<int:id_hotel>', views.hotel_eliminar, name='hotel_eliminar'),
    path('hotel/buscar/avanzado/', views.hotel_buscar_avanzado, name='hotel_buscar_avanzado'),
 
-   # -----------------------------------------------------------------------------
-   # CONTACTO CRUD
-   # -----------------------------------------------------------------------------
-   path('contacto/crear', views.contacto_create, name='contacto_create'),
-   path('contacto/editar/<int:id_contacto>', views.contacto_editar, name='contacto_editar'),
-   path('contacto/eliminar/<int:id_contacto>', views.contacto_eliminar, name='contacto_eliminar'),
-   path('contacto/buscar/avanzado/', views.contacto_buscar_avanzado, name='contacto_buscar_avanzado'),
 
 
 
