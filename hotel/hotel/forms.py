@@ -22,7 +22,7 @@ class HuespedForm(ModelForm):
             "apellido": ("80 caracteres como maximo")
         }
         widgets = {
-            "fecha_nacimiento":forms.DateInput(attrs={'type':'date'}, format='%Y-%m-%d')
+            "fecha_nacimiento":forms.SelectDateWidget(years=range(1920, 2025))
         }
         localized_fields = ["fecha_nacimiento"]
         
@@ -98,7 +98,7 @@ class HotelBuscarAvanzada(forms.Form):
     tiene_restaurante = forms.NullBooleanField(
         label='¿Tiene restaurante?',
         required=False,
-        widget=forms.Select(choices=[
+        widget=forms.RadioSelect(choices=[
             (None, 'Indiferente'),
             (True, 'Sí'),
             (False, 'No')
