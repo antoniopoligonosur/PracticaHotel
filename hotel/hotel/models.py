@@ -66,15 +66,6 @@ class Huesped(models.Model):
     def __str__(self):
         return f"{self.nombre} {self.apellido}"
 
-class PerfilHuesped(models.Model):
-    huesped = models.OneToOneField(Huesped, on_delete=models.CASCADE, related_name='perfil')
-    nacionalidad = models.CharField(max_length=50)
-    numero_pasaporte = models.CharField(max_length=30, null=True, blank=True, unique=True)
-    puntos_fidelidad = models.IntegerField(default=0)
-    preferencias = models.TextField(blank=True)
-
-    def __str__(self):
-        return self.huesped.nombre
 
 
 class Servicio(models.Model):

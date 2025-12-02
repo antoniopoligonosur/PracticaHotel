@@ -14,8 +14,6 @@ urlpatterns = [
    path('habitacion/lista/<int:hotel_id>/', views.habitacion_lista, name='habitacion_lista'),
    # 5) HOTEL - DETALLE
    path('detalles_hotel/<int:id_hotel>/', views.detalle_hotel, name='detalle_hotel'),
-   # 6) Perfil Huesped
-   path('perfil_huesped/lista', views.perfil_huesped_lista, name='perfil_huesped_lista'),
    # 7) Servicio
    path('servicio/lista', views.servicio_lista, name='servicio_lista'),
    # 8) HOTELES POR FECHA
@@ -50,13 +48,6 @@ urlpatterns = [
    path('contacto/eliminar/<int:id_contacto>', views.contacto_eliminar, name='contacto_eliminar'),
    path('contacto/buscar/avanzado/', views.contacto_buscar_avanzado, name='contacto_buscar_avanzado'),
 
-   # -----------------------------------------------------------------------------
-   # PERFIL HUESPED CRUD
-   # -----------------------------------------------------------------------------
-   path('perfil_huesped/crear', views.perfil_huesped_create, name='perfil_huesped_create'),
-   path('perfil_huesped/editar/<int:id_perfil>', views.perfil_huesped_editar, name='perfil_huesped_editar'),
-   path('perfil_huesped/eliminar/<int:id_perfil>', views.perfil_huesped_eliminar, name='perfil_huesped_eliminar'),
-   path('perfil_huesped/buscar/avanzado/', views.perfil_huesped_buscar_avanzado, name='perfil_huesped_buscar_avanzado'),
 
 
     path('habitaciones/fotos/', views.fotos_habitaciones, name='fotos_habitaciones'),

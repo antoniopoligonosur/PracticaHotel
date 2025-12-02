@@ -5,7 +5,7 @@ from django.views.defaults import page_not_found
 from django.db.models import Q
 from .models import (
     Hotel, ContactoHotel, TipoHabitacion, Habitacion, Huesped,
-    PerfilHuesped, Servicio
+    Servicio
 )
 from .forms import *
 from django.contrib import messages
@@ -93,18 +93,6 @@ def detalle_hotel(request, id_hotel):
     
     return render(request, 'hoteles/detalle_hotel.html', {'hotel': hotel})
 
-# 6) PERFIL HUÉSPED
-# Muestra la lista de perfiles de huéspedes junto con la información básica del huésped relacionado.
-def perfil_huesped_lista(request):
-    
-    perfiles = PerfilHuesped.objects.select_related('huesped').order_by('-puntos_fidelidad').all()
-
-    '''
-    perfiles = PerfilHuesped.objects.raw(" SELECT ph.* FROM hotel_perfilhuesped ph "
-                                        " JOIN hotel_huesped h ON h.id = ph.huesped_id "
-                                         " ORDER BY ph.puntos_fidelidad DESC ")
-    ''' 
-    return render(request, 'perfiles/perfil_huesped_lista.html', {'perfil_lista': perfiles})
 
 # 7) SERVICIOS
 # Muestra los servicios disponibles.
@@ -484,76 +472,6 @@ def contacto_buscar_avanzado(request):
     return render(request, 'contactos/crud/buscar_avanzada_contacto.html', {'formulario': formulario})
 
 
-# ==============================================================================
-#  PERFIL HUESPED CRUD
-# ==============================================================================
-
-def perfil_huesped_create(request):
-    datosFormulario = None
-    if request.method == "POST":
-        datosFormulario = request.POST
-    
-    formulario = PerfilHuespedForm(datosFormulario)
-    
-    if request.method == "POST":
-        if crear_modelo_generico(formulario):
-            messages.success(request, 'Se ha creado el Perfil de Huésped correctamente.')
-            return redirect('perfil_huesped_lista')
-            
-    return render(request, 'perfiles/crud/create_perfil_huesped.html', {'formulario': formulario})
-
-def perfil_huesped_editar(request, id_perfil):
-    perfil = PerfilHuesped.objects.get(id=id_perfil)
-    
-    datosFormulario = None
-    if request.method == "POST":
-        datosFormulario = request.POST
-        
-    formulario = PerfilHuespedForm(datosFormulario, instance=perfil)
-    
-    if request.method == "POST":
-        if crear_modelo_generico(formulario):
-            messages.success(request, 'Se ha editado el Perfil de Huésped correctamente.')
-            return redirect('perfil_huesped_lista')
-
-    return render(request, 'perfiles/crud/actualizar_perfil_huesped.html', {'formulario': formulario, 'perfil': perfil})
-
-def perfil_huesped_eliminar(request, id_perfil):
-    perfil = PerfilHuesped.objects.get(id=id_perfil)
-    try:
-        perfil.delete()
-        messages.success(request, "Perfil eliminado correctamente.")
-    except Exception as e:
-        messages.error(request, f"No se pudo eliminar el perfil: {e}")
-    return redirect('perfil_huesped_lista')
-
-def perfil_huesped_buscar_avanzado(request):
-    if len(request.GET) > 0:
-        formulario = PerfilHuespedBuscarAvanzada(request.GET)
-        if formulario.is_valid():
-            mensaje_busqueda = 'Filtros Aplicados:\n'
-            qs = PerfilHuesped.objects.select_related('huesped')
-            
-            nacionalidad_contiene = formulario.cleaned_data.get('nacionalidad_contiene')
-            puntos_minimos = formulario.cleaned_data.get('puntos_minimos')
-            
-            if nacionalidad_contiene:
-                qs = qs.filter(nacionalidad__icontains=nacionalidad_contiene)
-                mensaje_busqueda += f'· Nacionalidad contiene "{nacionalidad_contiene}"\n'
-            
-            if puntos_minimos is not None:
-                qs = qs.filter(puntos_fidelidad__gte=puntos_minimos)
-                mensaje_busqueda += f'· Puntos >= {puntos_minimos}\n'
-            
-            perfiles = qs.all()
-            return render(request, 'perfiles/perfil_huesped_lista.html', {
-                'perfil_lista': perfiles,
-                'Mensaje_Busqueda': mensaje_busqueda
-            })
-    else:
-        formulario = PerfilHuespedBuscarAvanzada(None)
-        
-    return render(request, 'perfiles/crud/buscar_avanzada_perfil_huesped.html', {'formulario': formulario})
 
 
 

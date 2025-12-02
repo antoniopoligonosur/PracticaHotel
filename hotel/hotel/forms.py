@@ -176,56 +176,6 @@ class ContactoHotelBuscarAvanzada(forms.Form):
         return self.cleaned_data
 
 
-# -----------------------------------------------------------------------------
-# PERFIL HUESPED
-# -----------------------------------------------------------------------------
-class PerfilHuespedForm(ModelForm):
-    class Meta:
-        model = PerfilHuesped
-        fields = "__all__"
-        labels = {
-            "huesped": ("Huésped"),
-            "nacionalidad": ("Nacionalidad"),
-            "numero_pasaporte": ("Número de Pasaporte"),
-            "puntos_fidelidad": ("Puntos de Fidelidad"),
-            "preferencias": ("Preferencias"),
-        }
-        widgets = {
-            "preferencias": forms.Textarea(attrs={'rows': 3}),
-        }
-
-    def clean(self):
-        super().clean()
-        nacionalidad = self.cleaned_data.get('nacionalidad')
-        if nacionalidad and len(nacionalidad) < 3:
-            self.add_error('nacionalidad', 'La nacionalidad debe tener al menos 3 caracteres.')
-            
-        puntos = self.cleaned_data.get('puntos_fidelidad')
-        if puntos is not None and puntos < 0:
-            self.add_error('puntos_fidelidad', 'Los puntos no pueden ser negativos.')
-        return self.cleaned_data
-
-class PerfilHuespedBuscarAvanzada(forms.Form):
-    nacionalidad_contiene = forms.CharField(
-        label='Nacionalidad contiene',
-        required=False,
-        help_text="(Opcional)"
-    )
-    puntos_minimos = forms.IntegerField(
-        label='Puntos mínimos',
-        required=False,
-        min_value=0,
-        help_text="(Opcional)"
-    )
-
-    def clean(self):
-        super().clean()
-        nacionalidad_contiene = self.cleaned_data.get('nacionalidad_contiene')
-        puntos_minimos = self.cleaned_data.get('puntos_minimos')
-
-        if not any([nacionalidad_contiene, puntos_minimos is not None]):
-            self.add_error('nacionalidad_contiene', 'Debe rellenar al menos un campo.')
-        return self.cleaned_data
 
 
 
