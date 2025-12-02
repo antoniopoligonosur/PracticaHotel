@@ -1,0 +1,20 @@
+{% extends "base/principal.html" %}
+
+{% load static %}
+{% load django_bootstrap5 %}
+{% load bootstrap_icons %}
+
+{% block title %}Crear Reserva{% endblock %}
+
+{% block cabecera %}
+    <h1>Crear Reserva</h1>
+    <hr>
+    <br>
+{% endblock %}
+{% block contenido %}
+    <form action="{% url 'reserva_create' %}" method="post">
+        {% csrf_token %}
+        {% bootstrap_form formulario %}
+        <button type="submit">Enviar</button>
+    </form>
+{% endblock %}

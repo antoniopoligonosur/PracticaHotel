@@ -1,0 +1,20 @@
+{% extends "base/principal.html" %}
+
+{% load static %}
+{% load django_bootstrap5 %}
+{% load bootstrap_icons %}
+
+{% block title %}Editar Factura{% endblock %}
+
+{% block cabecera %}
+    <h1>Editar Factura</h1>
+    <hr>
+    <br>
+{% endblock %}
+{% block contenido %}
+    <form action="{% url 'factura_editar' factura.id %}" method="post">
+        {% csrf_token %}
+        {% bootstrap_form formulario %}
+        <button type="submit">Enviar</button>
+    </form>
+{% endblock %}

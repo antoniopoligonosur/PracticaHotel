@@ -28,4 +28,44 @@
         <li><a href="{% url 'huesped_editar' id_huesped=2 %}">Editar HUESPED</a></li>
     </ul>
 
+    <h1>Hotel</h1>
+    <ul>
+        <li><a href="{% url 'hotel_lista' %}">Listar HOTEL</a></li>
+        <li><a href="{% url 'hotel_create' %}">Crear HOTEL</a></li>
+        <li><a href="{% url 'hotel_buscar_avanzado' %}">Busqueda de HOTEL</a></li>
+        <li><a href="{% url 'hotel_editar' id_hotel=1 %}">Editar HOTEL</a></li>
+    </ul>
+
+    <h1>Contacto</h1>
+    <ul>
+        <li><a href="{% url 'contacto_lista' %}">Listar CONTACTO</a></li>
+        <li><a href="{% url 'contacto_create' %}">Crear CONTACTO</a></li>
+        <li><a href="{% url 'contacto_buscar_avanzado' %}">Busqueda de CONTACTO</a></li>
+        <li><a href="{% url 'contacto_editar' id_contacto=1 %}">Editar CONTACTO</a></li>
+    </ul>
+
+    <h1>Perfil Huésped</h1>
+    <ul>
+        <li><a href="{% url 'perfil_huesped_lista' %}">Listar PERFIL HUÉSPED</a></li>
+        <li><a href="{% url 'perfil_huesped_create' %}">Crear PERFIL HUÉSPED</a></li>
+        <li><a href="{% url 'perfil_huesped_buscar_avanzado' %}">Busqueda de PERFIL HUÉSPED</a></li>
+        <li><a href="{% url 'perfil_huesped_editar' id_perfil=1 %}">Editar PERFIL HUÉSPED</a></li>
+    </ul>
+
+    <h1>Reserva</h1>
+    <ul>
+        <li><a href="{% url 'reserva_lista' %}">Listar RESERVA</a></li>
+        <li><a href="{% url 'reserva_create' %}">Crear RESERVA</a></li>
+        <li><a href="{% url 'reserva_buscar_avanzado' %}">Busqueda de RESERVA</a></li>
+        <li><a href="{% url 'reserva_editar' id_reserva=1 %}">Editar RESERVA</a></li>
+    </ul>
+
+    <h1>Factura</h1>
+    <ul>
+        <li><a href="{% url 'factura_lista' %}">Listar FACTURA</a></li>
+        <li><a href="{% url 'factura_create' %}">Crear FACTURA</a></li>
+        <li><a href="{% url 'factura_buscar_avanzado' %}">Busqueda de FACTURA</a></li>
+        <li><a href="{% url 'factura_editar' id_factura=1 %}">Editar FACTURA</a></li>
+    </ul>
+
 {% endblock %}

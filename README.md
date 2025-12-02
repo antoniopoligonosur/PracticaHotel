@@ -220,3 +220,34 @@ Finalmente, la décima URL, `/hoteles/estadisticas_calificacion/`, conecta con l
 | `_hotel_item.html`          | `default`                       | Muestra "Sin descripción" si el hotel no tiene descripción. |
 
 ---
+
+# VALIDACIONES IMPLEMENTADAS EN FORMULARIOS
+
+Se han implementado validaciones personalizadas en el método `clean()` de los formularios para asegurar la integridad de los datos, cumpliendo con el requisito de tener al menos dos validaciones por formulario (además de las propias del modelo):
+
+1. **ContactoHotelForm**:
+    - **Teléfono**: Se valida que el número de teléfono tenga al menos 9 dígitos.
+    - **Nombre**: (Existente) Se valida que el nombre tenga al menos 3 caracteres.
+
+2. **PerfilHuespedForm**:
+    - **Puntos de Fidelidad**: Se valida que los puntos no sean negativos.
+    - **Nacionalidad**: (Existente) Se valida que la nacionalidad tenga al menos 3 caracteres.
+
+3. **ReservaForm**:
+    - **Fecha de Entrada**: Se valida que la fecha de entrada no sea anterior al día actual (no se permiten reservas en el pasado).
+    - **Fecha de Salida**: (Existente) Se valida que la fecha de salida sea posterior a la de entrada.
+
+4. **FacturaForm**:
+    - **Número de Factura**: Se valida que el número de factura tenga al menos 5 caracteres.
+    - **Monto Total**: (Existente) Se valida que el monto total sea mayor que 0.
+
+---
+
+# WIDGETS USADOS EN FORMULARIOS
+
+Se han utilizado diversos widgets de Django para mejorar la experiencia de usuario en los formularios:
+
+- **DateInput (`type='date'`)**: Utilizado en `ReservaForm` (fechas de entrada y salida) y `HotelForm` (fecha de fundación) para mostrar un selector de fecha nativo del navegador.
+- **TimeInput (`type='time'`)**: Utilizado en `HotelForm` (hora de apertura) para mostrar un selector de hora.
+- **Textarea (`rows=3`)**: Utilizado en `HotelForm` (descripción) y `PerfilHuespedForm` (preferencias) para mostrar un área de texto más pequeña y manejable.
+- **Select**: Utilizado en los formularios de búsqueda avanzada (`HotelBuscarAvanzada`, `ReservaBuscarAvanzada`) para campos booleanos o de elección múltiple (ej. "¿Tiene restaurante?", "Estado de reserva").
