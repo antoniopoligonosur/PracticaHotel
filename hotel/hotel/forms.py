@@ -45,13 +45,6 @@ class HuespedForm(ModelForm):
         #Siempre devolvemos el conjunto de datos.
         return self.cleaned_data
 
-class HabitacionImageForm(ModelForm):
-    class Meta:
-        model = Habitacion
-        fields = ['imagen']
-        labels = {
-            "imagen": ("Imagen de la Habitación"),
-        }
 
 # -----------------------------------------------------------------------------
 # HOTEL

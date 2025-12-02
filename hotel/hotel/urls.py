@@ -70,13 +70,12 @@ urlpatterns = [
    # -----------------------------------------------------------------------------
    # FACTURA CRUD
    # -----------------------------------------------------------------------------
-   path('factura/lista', views.factura_lista, name='factura_lista'),
-   path('factura/crear', views.factura_create, name='factura_create'),
-   path('factura/editar/<int:id_factura>', views.factura_editar, name='factura_editar'),
-   path('factura/eliminar/<int:id_factura>', views.factura_eliminar, name='factura_eliminar'),
-   path('factura/buscar/avanzado/', views.factura_buscar_avanzado, name='factura_buscar_avanzado'),
+    path('factura/lista', views.factura_lista, name='factura_lista'),
+    path('factura/crear', views.factura_create, name='factura_create'),
+    path('factura/editar/<int:id_factura>', views.factura_editar, name='factura_editar'),
+    path('factura/eliminar/<int:id_factura>', views.factura_eliminar, name='factura_eliminar'),
     path('factura/buscar/avanzado/', views.factura_buscar_avanzado, name='factura_buscar_avanzado'),
-    path('habitaciones/fotos/', views.fotos_habitaciones, name='fotos_habitaciones'),
+    path('factura/buscar/avanzado/', views.factura_buscar_avanzado, name='factura_buscar_avanzado'),
 ]
 
 from django.conf import settings

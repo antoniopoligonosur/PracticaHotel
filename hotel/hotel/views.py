@@ -334,7 +334,6 @@ def crear_modelo_generico(formulario):
             print(f"Error guardando modelo: {error}")
     return creado
 
-
 # ==============================================================================
 #  HOTEL CRUD
 # ==============================================================================
@@ -645,6 +644,78 @@ def factura_lista(request):
     facturas = Factura.objects.select_related('reserva').all()
     return render(request, 'facturas/factura_lista.html', {'factura_lista': facturas})
 
+def hotel_create(request):
+    datosFormulario = None
+    if request.method == "POST":
+        datosFormulario = request.POST
+    
+    formulario = HotelForm(datosFormulario)
+    
+    if request.method == "POST":
+        if crear_modelo_generico(formulario):
+            messages.success(request, f'Se ha creado el Hotel: [{formulario.cleaned_data.get("nombre")}] correctamente.')
+            return redirect('hotel_lista')
+            
+    return render(request, 'hoteles/crud/create_hotel.html', {'formulario': formulario})
+
+def hotel_editar(request, id_hotel):
+    hotel = Hotel.objects.get(id=id_hotel)
+    
+    datosFormulario = None
+    if request.method == "POST":
+        datosFormulario = request.POST
+        
+    formulario = HotelForm(datosFormulario, instance=hotel)
+    
+    if request.method == "POST":
+        if crear_modelo_generico(formulario):
+            messages.success(request, f'Se ha editado el Hotel: [{formulario.cleaned_data.get("nombre")}] correctamente.')
+            return redirect('hotel_lista')
+
+    return render(request, 'hoteles/crud/actualizar_hotel.html', {'formulario': formulario, 'hotel': hotel})
+
+def hotel_eliminar(request, id_hotel):
+    hotel = Hotel.objects.get(id=id_hotel)
+    try:
+        hotel.delete()
+        messages.success(request, "Hotel eliminado correctamente.")
+    except Exception as e:
+        messages.error(request, f"No se pudo eliminar el hotel: {e}")
+    return redirect('hotel_lista')
+
+def hotel_buscar_avanzado(request):
+    if len(request.GET) > 0:
+        formulario = HotelBuscarAvanzada(request.GET)
+        if formulario.is_valid():
+            mensaje_busqueda = 'Filtros Aplicados:\n'
+            qs = Hotel.objects.prefetch_related('servicios')
+            
+            nombre_contiene = formulario.cleaned_data.get('nombre_contiene')
+            calificacion_minima = formulario.cleaned_data.get('calificacion_minima')
+            tiene_restaurante = formulario.cleaned_data.get('tiene_restaurante')
+            
+            if nombre_contiene:
+                qs = qs.filter(nombre__icontains=nombre_contiene)
+                mensaje_busqueda += f'· Nombre contiene "{nombre_contiene}"\n'
+            
+            if calificacion_minima is not None:
+                qs = qs.filter(calificacion__gte=calificacion_minima)
+                mensaje_busqueda += f'· Calificación >= {calificacion_minima}\n'
+            
+            if tiene_restaurante is not None:
+                qs = qs.filter(tiene_restaurante=tiene_restaurante)
+                mensaje_busqueda += f'· Restaurante: {"Sí" if tiene_restaurante else "No"}\n'
+            
+            hoteles = qs.all()
+            return render(request, 'hoteles/hotel_lista.html', {
+                'hotel_lista': hoteles,
+                'Mensaje_Busqueda': mensaje_busqueda
+            })
+    else:
+        formulario = HotelBuscarAvanzada(None)
+        
+    return render(request, 'hoteles/crud/buscar_avanzada_hotel.html', {'formulario': formulario})
+
 def factura_create(request):
     datosFormulario = None
     if request.method == "POST":
@@ -717,22 +788,3 @@ def factura_buscar_avanzado(request):
         
     return render(request, 'facturas/crud/buscar_avanzada_factura.html', {'formulario': formulario})
 
-def fotos_habitaciones(request):
-    habitaciones = Habitacion.objects.select_related('hotel', 'tipo').all()
-    
-    if request.method == "POST":
-        habitacion_id = request.POST.get('habitacion_id')
-        habitacion = Habitacion.objects.get(id=habitacion_id)
-        formulario = HabitacionImageForm(request.POST, request.FILES, instance=habitacion)
-        
-        if formulario.is_valid():
-            formulario.save()
-            messages.success(request, f'Imagen subida correctamente para la habitación {habitacion.numero}')
-            return redirect('fotos_habitaciones')
-    else:
-        formulario = HabitacionImageForm()
-        
-    return render(request, 'habitaciones/fotos_habitaciones.html', {
-        'habitaciones': habitaciones,
-        'formulario': formulario
-    })

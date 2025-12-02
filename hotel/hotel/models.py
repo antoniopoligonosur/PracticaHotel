@@ -49,7 +49,6 @@ class Habitacion(models.Model):
     tipo = models.ForeignKey(TipoHabitacion, on_delete=models.PROTECT, related_name='habitaciones')
     hotel = models.ForeignKey(Hotel, on_delete=models.CASCADE, related_name='habitaciones')
     disponible = models.BooleanField(default=True)
-    imagen = models.ImageField(upload_to='habitaciones/', null=True, blank=True)
     servicios = models.ManyToManyField('Servicio', blank=True, related_name='habitaciones')
 
     def __str__(self):
