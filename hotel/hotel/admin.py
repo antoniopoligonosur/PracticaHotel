@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Hotel, ContactoHotel, TipoHabitacion, Habitacion, Huesped, PerfilHuesped, Servicio, Reserva, Factura, ReservaServicio
+from .models import Hotel, ContactoHotel, TipoHabitacion, Habitacion, Huesped, PerfilHuesped, Servicio, Reserva, ReservaServicio
 
 # Register your models here.
 

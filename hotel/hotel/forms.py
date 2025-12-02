@@ -291,69 +291,6 @@ class ReservaBuscarAvanzada(forms.Form):
             self.add_error('huesped_nombre', 'Debe rellenar al menos un campo.')
         return self.cleaned_data
 
-# -----------------------------------------------------------------------------
-# FACTURA
-# -----------------------------------------------------------------------------
-class FacturaForm(ModelForm):
-    class Meta:
-        model = Factura
-        fields = "__all__"
-        # 'emitida_en' es auto_now_add
-        exclude = ['emitida_en'] 
-        labels = {
-            "reserva": ("Reserva"),
-            "numero_factura": ("Número de Factura"),
-            "monto_total": ("Monto Total"),
-            "pagada": ("¿Pagada?"),
-            "notas": ("Notas"),
-        }
-        widgets = {
-            "notas": forms.Textarea(attrs={'rows': 3}),
-        }
-
-    def clean(self):
-        super().clean()
-        monto_total = self.cleaned_data.get('monto_total')
-        if monto_total and monto_total < 0:
-            self.add_error('monto_total', 'El monto no puede ser negativo.')
-            
-        numero = self.cleaned_data.get('numero_factura')
-        if numero and len(numero) < 5:
-            self.add_error('numero_factura', 'El número de factura debe tener al menos 5 caracteres.')
-        return self.cleaned_data
-
-class FacturaBuscarAvanzada(forms.Form):
-    numero_contiene = forms.CharField(
-        label='Número factura contiene',
-        required=False,
-        help_text="(Opcional)"
-    )
-    monto_minimo = forms.DecimalField(
-        label='Monto mínimo',
-        required=False,
-        decimal_places=2,
-        help_text="(Opcional)"
-    )
-    pagada = forms.NullBooleanField(
-        label='¿Pagada?',
-        required=False,
-        widget=forms.Select(choices=[
-            (None, 'Indiferente'),
-            (True, 'Sí'),
-            (False, 'No')
-        ]),
-        help_text="(Opcional)"
-    )
-
-    def clean(self):
-        super().clean()
-        numero_contiene = self.cleaned_data.get('numero_contiene')
-        monto_minimo = self.cleaned_data.get('monto_minimo')
-        pagada = self.cleaned_data.get('pagada')
-
-        if not any([numero_contiene, monto_minimo is not None, pagada is not None]):
-            self.add_error('numero_contiene', 'Debe rellenar al menos un campo.')
-        return self.cleaned_data
 
 class HuespedBuscarAvanzada(forms.Form):
 
