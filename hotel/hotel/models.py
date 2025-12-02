@@ -108,16 +108,6 @@ class Reserva(models.Model):
         return f"Reserva {self.id} - {self.huesped.nombre}"
 
 
-class Factura(models.Model):
-    reserva = models.OneToOneField(Reserva, on_delete=models.CASCADE, related_name='factura')
-    emitida_en = models.DateTimeField(auto_now_add=True)
-    numero_factura = models.CharField(max_length=30, unique=True, default=uuid.uuid4)
-    monto_total = models.DecimalField(max_digits=10, decimal_places=2)
-    pagada = models.BooleanField(default=False)
-    notas = models.TextField(blank=True)
-
-    def __str__(self):
-        return f"Factura {self.numero_factura}"
 
 
 class ReservaServicio(models.Model):
