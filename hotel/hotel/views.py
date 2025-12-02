@@ -411,7 +411,6 @@ def hotel_buscar_avanzado(request):
         
     return render(request, 'hoteles/crud/buscar_avanzada_hotel.html', {'formulario': formulario})
 
-
 # ==============================================================================
 #  CONTACTO HOTEL CRUD
 # ==============================================================================
@@ -483,7 +482,6 @@ def contacto_buscar_avanzado(request):
         
     return render(request, 'contactos/crud/buscar_avanzada_contacto.html', {'formulario': formulario})
 
-
 # ==============================================================================
 #  PERFIL HUESPED CRUD
 # ==============================================================================
@@ -554,7 +552,6 @@ def perfil_huesped_buscar_avanzado(request):
         formulario = PerfilHuespedBuscarAvanzada(None)
         
     return render(request, 'perfiles/crud/buscar_avanzada_perfil_huesped.html', {'formulario': formulario})
-
 
 # ==============================================================================
 #  RESERVA CRUD
@@ -635,25 +632,3 @@ def reserva_buscar_avanzado(request):
         formulario = ReservaBuscarAvanzada(None)
         
     return render(request, 'reservas/crud/buscar_avanzada_reserva.html', {'formulario': formulario})
-
-
-
-def fotos_habitaciones(request):
-    habitaciones = Habitacion.objects.select_related('hotel', 'tipo').all()
-    
-    if request.method == "POST":
-        habitacion_id = request.POST.get('habitacion_id')
-        habitacion = Habitacion.objects.get(id=habitacion_id)
-        formulario = HabitacionImageForm(request.POST, request.FILES, instance=habitacion)
-        
-        if formulario.is_valid():
-            formulario.save()
-            messages.success(request, f'Imagen subida correctamente para la habitación {habitacion.numero}')
-            return redirect('fotos_habitaciones')
-    else:
-        formulario = HabitacionImageForm()
-        
-    return render(request, 'habitaciones/fotos_habitaciones.html', {
-        'habitaciones': habitaciones,
-        'formulario': formulario
-    })
