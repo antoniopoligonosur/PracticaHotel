@@ -166,8 +166,11 @@ class ContactoHotelBuscarAvanzada(forms.Form):
 
         if not any([nombre_contacto_contiene, correo_contiene]):
             self.add_error('nombre_contacto_contiene', 'Debe rellenar al menos un campo.')
+        if(
+            correo_contiene and len(correo_contiene) < 0
+            ):
+            self.add_error('correo_contiene','El numero de caracteres del correo debe ser mayor que cero.')
         return self.cleaned_data
-
 
 # -----------------------------------------------------------------------------
 # PERFIL HUESPED
@@ -218,8 +221,11 @@ class PerfilHuespedBuscarAvanzada(forms.Form):
 
         if not any([nacionalidad_contiene, puntos_minimos is not None]):
             self.add_error('nacionalidad_contiene', 'Debe rellenar al menos un campo.')
+        if(
+            puntos_minimos and puntos_minimos < 0
+            ):
+            self.add_error('puntos_minimos','El numero de puntos debe ser mayor que cero.')
         return self.cleaned_data
-
 
 # -----------------------------------------------------------------------------
 # RESERVA
@@ -282,6 +288,10 @@ class ReservaBuscarAvanzada(forms.Form):
 
         if not any([huesped_nombre, fecha_entrada_desde, estado]):
             self.add_error('huesped_nombre', 'Debe rellenar al menos un campo.')
+        if(
+            huesped_nombre and len(huesped_nombre) < 0
+            ):
+            self.add_error('huesped_nombre','El numero de caracteres del nombre debe ser mayor que cero.')
         return self.cleaned_data
 
 # -----------------------------------------------------------------------------
@@ -346,6 +356,10 @@ class FacturaBuscarAvanzada(forms.Form):
 
         if not any([numero_contiene, monto_minimo is not None, pagada is not None]):
             self.add_error('numero_contiene', 'Debe rellenar al menos un campo.')
+        if(
+            monto_minimo and monto_minimo < 0
+            ):
+            self.add_error('monto_minimo','El monto minimo debe ser mayor que cero.')
         return self.cleaned_data
 
 class HuespedBuscarAvanzada(forms.Form):

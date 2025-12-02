@@ -315,7 +315,6 @@ def mi_error_403(request, exception=None):
 def mi_error_400(request, exception=None):
     return render(request, 'errores/400.html', status=400)
 
-
 # ==============================================================================
 #  HELPER FUNCTIONS (GENERIC-LIKE)
 # ==============================================================================
@@ -410,7 +409,6 @@ def hotel_buscar_avanzado(request):
         
     return render(request, 'hoteles/crud/buscar_avanzada_hotel.html', {'formulario': formulario})
 
-
 # ==============================================================================
 #  CONTACTO HOTEL CRUD
 # ==============================================================================
@@ -481,7 +479,6 @@ def contacto_buscar_avanzado(request):
         formulario = ContactoHotelBuscarAvanzada(None)
         
     return render(request, 'contactos/crud/buscar_avanzada_contacto.html', {'formulario': formulario})
-
 
 # ==============================================================================
 #  PERFIL HUESPED CRUD
