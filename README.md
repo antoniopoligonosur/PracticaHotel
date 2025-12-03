@@ -225,21 +225,36 @@ Finalmente, la décima URL, `/hoteles/estadisticas_calificacion/`, conecta con l
 
 Se han implementado validaciones personalizadas en el método `clean()` de los formularios para asegurar la integridad de los datos, cumpliendo con el requisito de tener al menos dos validaciones por formulario (además de las propias del modelo):
 
-1. **ContactoHotelForm**:
+1. **HotelForm**:
+    - **Nombre**: Se valida que el nombre tenga al menos 3 caracteres.
+    - **Número de Habitaciones**: Se valida que no supere las 100 habitaciones.
+
+2. **HuespedForm**:
+    - **Nombre**: Se valida que el nombre tenga al menos 3 caracteres.
+    - **Teléfono**: Se valida que el teléfono tenga 9 números.
+
+3. **ContactoHotelForm**:
     - **Teléfono**: Se valida que el número de teléfono tenga al menos 9 dígitos.
     - **Nombre**: (Existente) Se valida que el nombre tenga al menos 3 caracteres.
 
-2. **PerfilHuespedForm**:
+4. **PerfilHuespedForm**:
     - **Puntos de Fidelidad**: Se valida que los puntos no sean negativos.
     - **Nacionalidad**: (Existente) Se valida que la nacionalidad tenga al menos 3 caracteres.
 
-3. **ReservaForm**:
+5. **ReservaForm**:
     - **Fecha de Entrada**: Se valida que la fecha de entrada no sea anterior al día actual (no se permiten reservas en el pasado).
     - **Fecha de Salida**: (Existente) Se valida que la fecha de salida sea posterior a la de entrada.
 
-4. **FacturaForm**:
+6. **FacturaForm**:
     - **Número de Factura**: Se valida que el número de factura tenga al menos 5 caracteres.
     - **Monto Total**: (Existente) Se valida que el monto total sea mayor que 0.
+
+7. **Formularios de Búsqueda Avanzada**:
+    - **Validación General**: En todos los formularios de búsqueda avanzada (`HotelBuscarAvanzada`, `ContactoHotelBuscarAvanzada`, `PerfilHuespedBuscarAvanzada`, `ReservaBuscarAvanzada`, `FacturaBuscarAvanzada`, `HuespedBuscarAvanzada`) se valida que se rellene al menos un campo.
+    - **Validaciones Específicas**:
+        - **Calificación/Monto/Puntos**: Se valida que sean valores positivos.
+        - **Rangos de Fecha**: Se valida que la fecha 'hasta' no sea anterior a la fecha 'desde'.
+        - **Longitud de Texto**: Se valida que los campos de texto no estén vacíos si se usan.
 
 ---
 
