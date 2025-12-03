@@ -128,3 +128,15 @@ class ReservaServicio(models.Model):
 
     def __str__(self):
         return f"{self.servicio.nombre} (Reserva {self.reserva.id})"
+
+
+class HotelImage(models.Model):
+    hotel = models.ForeignKey(Hotel, on_delete=models.CASCADE, related_name='imagenes')
+    imagen = models.ImageField(upload_to='hoteles/')
+    uploaded_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Imagen de {self.hotel.nombre} - {self.uploaded_at.strftime('%Y-%m-%d %H:%M')}"
+
+    class Meta:
+        ordering = ['-uploaded_at']

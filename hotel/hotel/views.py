@@ -785,3 +785,38 @@ def factura_buscar_avanzado(request):
         
     return render(request, 'facturas/crud/buscar_avanzada_factura.html', {'formulario': formulario})
 
+
+# ==============================================================================
+#  GESTIÓN DE IMÁGENES DE HOTELES
+# ==============================================================================
+
+def gestion_imagenes(request):
+    """
+    Vista para gestionar imágenes de hoteles.
+    Permite subir nuevas imágenes y visualizar las existentes.
+    """
+    datosFormulario = None
+    if request.method == "POST":
+        datosFormulario = request.POST
+        formulario = HotelImageForm(datosFormulario, request.FILES)
+        
+        if formulario.is_valid():
+            try:
+                formulario.save()
+                messages.success(request, 'Imagen subida correctamente.')
+                return redirect('gestion_imagenes')
+            except Exception as e:
+                messages.error(request, f'Error al subir la imagen: {e}')
+        else:
+            messages.error(request, 'Por favor, corrija los errores en el formulario.')
+    else:
+        formulario = HotelImageForm()
+    
+    # Obtener todas las imágenes con información del hotel
+    imagenes = HotelImage.objects.select_related('hotel').all()
+    
+    return render(request, 'hoteles/gestion_imagenes.html', {
+        'formulario': formulario,
+        'imagenes': imagenes
+    })
+

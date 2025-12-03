@@ -47,6 +47,33 @@ class HuespedForm(ModelForm):
 
 
 # -----------------------------------------------------------------------------
+# HOTEL IMAGE
+# -----------------------------------------------------------------------------
+class HotelImageForm(ModelForm):
+    class Meta:
+        model = HotelImage
+        fields = ['hotel', 'imagen']
+        labels = {
+            "hotel": "Hotel",
+            "imagen": "Imagen del Hotel",
+        }
+        widgets = {
+            'imagen': forms.FileInput(attrs={'accept': 'image/*'}),
+        }
+    
+    def clean_imagen(self):
+        imagen = self.cleaned_data.get('imagen')
+        if imagen:
+            # Validar que sea una imagen
+            if not imagen.content_type.startswith('image/'):
+                raise forms.ValidationError('El archivo debe ser una imagen.')
+            # Validar tamaño (máximo 5MB)
+            if imagen.size > 5 * 1024 * 1024:
+                raise forms.ValidationError('La imagen no puede superar los 5MB.')
+        return imagen
+
+
+# -----------------------------------------------------------------------------
 # HOTEL
 # -----------------------------------------------------------------------------
 class HotelForm(ModelForm):

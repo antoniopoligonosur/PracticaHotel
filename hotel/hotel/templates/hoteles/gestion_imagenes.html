@@ -1,0 +1,61 @@
+{% extends "base/principal.html" %}
+
+{% load static %}
+{% load django_bootstrap5 %}
+{% load bootstrap_icons %}
+
+{% block title %}Gestión de Imágenes de Hoteles{% endblock %}
+
+{% block cabecera %}
+    <h1>Gestión de Imágenes de Hoteles</h1>
+    <hr>
+    <br>
+{% endblock %}
+
+{% block contenido %}
+    <!-- Formulario de subida de imágenes -->
+    <div class="card mb-4">
+        <div class="card-header">
+            <h3>Subir Nueva Imagen</h3>
+        </div>
+        <div class="card-body">
+            <form action="{% url 'gestion_imagenes' %}" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {% bootstrap_form formulario %}
+                <button type="submit" class="btn btn-primary">
+                    {% bs_icon 'upload' %} Subir Imagen
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Galería de imágenes -->
+    <div class="card">
+        <div class="card-header">
+            <h3>Imágenes Subidas</h3>
+        </div>
+        <div class="card-body">
+            {% if imagenes %}
+                <div class="row">
+                    {% for imagen in imagenes %}
+                        <div class="col-md-4 mb-4">
+                            <div class="card">
+                                <img src="{{ imagen.imagen.url }}" class="card-img-top" alt="Imagen de {{ imagen.hotel.nombre }}" style="height: 250px; object-fit: cover;">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ imagen.hotel.nombre }}</h5>
+                                    <p class="card-text text-muted">
+                                        <small>Subida el {{ imagen.uploaded_at|date:"d/m/Y H:i" }}</small>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="alert alert-info">
+                    {% bs_icon 'info-circle' %} No hay imágenes subidas aún.
+                </div>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}
