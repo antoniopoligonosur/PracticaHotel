@@ -165,13 +165,19 @@ class ContactoHotelBuscarAvanzada(forms.Form):
         required=False,
         help_text="(Opcional)"
     )
+    telefono_contiene = forms.CharField(
+        label='Teléfono contiene',
+        required=False,
+        help_text="(Opcional)"
+    )
 
     def clean(self):
         super().clean()
         nombre_contacto_contiene = self.cleaned_data.get('nombre_contacto_contiene')
         correo_contiene = self.cleaned_data.get('correo_contiene')
+        telefono_contiene = self.cleaned_data.get('telefono_contiene')
 
-        if not any([nombre_contacto_contiene, correo_contiene]):
+        if not any([nombre_contacto_contiene, correo_contiene, telefono_contiene]):
             self.add_error('nombre_contacto_contiene', 'Debe rellenar al menos un campo.')
         return self.cleaned_data
 
