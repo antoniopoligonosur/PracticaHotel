@@ -158,13 +158,19 @@ class ContactoHotelBuscarAvanzada(forms.Form):
         required=False,
         help_text="(Opcional)"
     )
+    telefono_contiene = forms.CharField(
+        label='Teléfono contiene',
+        required=False,
+        help_text="(Opcional)"
+    )
 
     def clean(self):
         super().clean()
         nombre_contacto_contiene = self.cleaned_data.get('nombre_contacto_contiene')
         correo_contiene = self.cleaned_data.get('correo_contiene')
+        telefono_contiene = self.cleaned_data.get('telefono_contiene')
 
-        if not any([nombre_contacto_contiene, correo_contiene]):
+        if not any([nombre_contacto_contiene, correo_contiene, telefono_contiene]):
             self.add_error('nombre_contacto_contiene', 'Debe rellenar al menos un campo.')
         if(
             correo_contiene and len(correo_contiene) < 0
@@ -213,13 +219,19 @@ class PerfilHuespedBuscarAvanzada(forms.Form):
         min_value=0,
         help_text="(Opcional)"
     )
+    numero_pasaporte_contiene = forms.CharField(
+        label='Número pasaporte contiene',
+        required=False,
+        help_text="(Opcional)"
+    )
 
     def clean(self):
         super().clean()
         nacionalidad_contiene = self.cleaned_data.get('nacionalidad_contiene')
         puntos_minimos = self.cleaned_data.get('puntos_minimos')
+        numero_pasaporte_contiene = self.cleaned_data.get('numero_pasaporte_contiene')
 
-        if not any([nacionalidad_contiene, puntos_minimos is not None]):
+        if not any([nacionalidad_contiene, puntos_minimos is not None, numero_pasaporte_contiene]):
             self.add_error('nacionalidad_contiene', 'Debe rellenar al menos un campo.')
         if(
             puntos_minimos and puntos_minimos < 0
