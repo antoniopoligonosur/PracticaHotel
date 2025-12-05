@@ -83,15 +83,6 @@ urlpatterns = [
     path('hotel/imagenes/', views.gestion_imagenes, name='gestion_imagenes'),
 ]
 
-from django.conf import settings
-from django.conf.urls.static import static
 
-"""
-Se usa urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) para que Django pueda servir archivos multimedia 
-(como imágenes) durante el desarrollo sin necesidad de un servidor externo. MEDIA_URL define la URL desde la que se accederán los 
-archivos, y MEDIA_ROOT la carpeta donde se guardan físicamente. Cuando DEBUG = True, Django añade automáticamente rutas para que los 
-archivos subidos se puedan ver en el navegador, por ejemplo usando {{ hotel.imagen.url }} en un template, pero esto solo funciona en 
-desarrollo.
-"""
-if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+

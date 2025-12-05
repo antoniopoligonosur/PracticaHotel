@@ -72,7 +72,6 @@ class HotelImageForm(ModelForm):
                 raise forms.ValidationError('La imagen no puede superar los 5MB.')
         return imagen
 
-
 # -----------------------------------------------------------------------------
 # HOTEL
 # -----------------------------------------------------------------------------
