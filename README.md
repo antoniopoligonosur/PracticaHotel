@@ -255,7 +255,6 @@ Se han implementado validaciones personalizadas en el método `clean()` de los f
         - **Calificación/Monto/Puntos**: Se valida que sean valores positivos.
         - **Rangos de Fecha**: Se valida que la fecha 'hasta' no sea anterior a la fecha 'desde'.
         - **Longitud de Texto**: Se valida que los campos de texto no estén vacíos si se usan.
-
 ---
 
 # WIDGETS USADOS EN FORMULARIOS
