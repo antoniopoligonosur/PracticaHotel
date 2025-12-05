@@ -6,6 +6,12 @@
 {% endblock cabecera %}
 
 {% block contenido %}
+
+    <p>
+        Fecha Inicio: 
+        <br>
+        {{ request.session.fecha_inicio }}
+    </p>
     <div class="mt-6 p-4 bg-gray-100 rounded-xl shadow">
         <p class="text-lg">Utilice el menú de navegación para acceder a las diferentes secciones del sistema.</p>
         <ul class="list-disc ml-6 mt-3">

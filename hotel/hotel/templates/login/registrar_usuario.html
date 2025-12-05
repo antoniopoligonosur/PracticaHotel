@@ -1,0 +1,14 @@
+{% extends "base/principal.html" %}
+
+{% block contenido %}
+    <form action="{% url 'registrar_usuario' %}" method="post" class="max-w-md mx-auto mt-8 p-6 bg-white rounded-lg shadow-md">
+        {% csrf_token %}
+        <h2 class="text-2xl font-bold mb-6 text-center">Registrar Nuevo Usuario</h2>
+        
+        {{ form.as_p }}
+        
+        <div class="flex justify-center mt-6">
+            <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Registrar</button>
+        </div>
+    </form>
+{% endblock contenido %}

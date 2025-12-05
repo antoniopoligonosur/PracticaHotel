@@ -1,6 +1,7 @@
 from django.urls import path
 from . import views
 from django.urls import re_path
+from django.urls import include
 
 urlpatterns = [
    path('',views.index, name='index'),
@@ -28,4 +29,6 @@ urlpatterns = [
    path('huesped/crear', views.huesped_create, name='huesped_create'),
    # 12) Huesped - Buscar Huesped Avanzada
    path('huesped/buscar/avanzado/',views.huesped_buscar_avanzado, name='huesped_buscar_avanzado'),
+   path('registrar/', views.registrar_usuario, name='registrar_usuario'),
+   path('accounts/', include('django.contrib.auth.urls')),  # Agrega las URL de autenticación de Django
 ]

@@ -1,4 +1,4 @@
-import datetime
+from datetime import datetime
 from django.shortcuts import render
 from django.db.models import Sum, Avg, Min, Max, Prefetch
 from django.views.defaults import page_not_found
@@ -12,7 +12,27 @@ from django.contrib import messages
 from django.shortcuts import redirect
 
 def index(request):
+    
+    if(not "fecha_inicio" in request.session):
+        request.session["fecha_inicio"] = datetime.now().strftime('%d/%m/%Y %H:%M')
+    
     return render(request, 'base/index.html')
+
+def registrar_usuario(request):
+    if request.method == 'POST':
+        formulario = RegistroForm(request.POST)
+        if formulario.is_valid():
+            user = formulario.save()
+            rol = int(formulario.cleaned_data.get('rol'))
+            if rol == Usuario.HUESPED:
+                huesped = Huesped.objects.create( usuario = user, correo=user.email)
+                huesped.save()
+            elif (rol == Usuario.GESTOR):
+                gestor = Gestor.objects.create( usuario = user, correo=user.email)
+                gestor.save()
+    else:
+        formulario = RegistroForm()
+    return render(request, 'login/registrar_usuario.html', {'form': formulario})
 
 # 1) CONTACTO
 # Muestra los contactos de los hoteles junto con la información del hotel relacionado

@@ -27,6 +27,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
 
+AUTH_USER_MODEL = 'hotel.Usuario'
 
 # Application definition
 
@@ -41,8 +42,7 @@ INSTALLED_APPS = [
     'django_seed',
     'debug_toolbar',
     'django_bootstrap5',
-    'django_bootstrap_icons'
-
+    'django_bootstrap_icons',
 ]
 
 MIDDLEWARE = [
@@ -107,6 +107,8 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+LOGIN_REDIRECT_URL = 'index'
+LOGOUT_REDIRECT_URL = 'index'
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.1/topics/i18n/
