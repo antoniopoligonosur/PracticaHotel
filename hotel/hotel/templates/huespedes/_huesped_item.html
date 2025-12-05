@@ -8,7 +8,12 @@
     <td>
         <form action="{% url 'huesped_eliminar' h.id %}" method="post">
             {% csrf_token %}
-            <button type="submit" onclick="return eliminar()">Eliminar</button>
+            <button type="button" class="eliminar"
+                data-bs-toggle="modal"
+                data-bs-target="#modalEliminar"
+                data-url="{% url 'huesped_eliminar' id_huesped=h.id %}">
+                Eliminar
+            </button>
         </form>
     </td>
 </tr>
