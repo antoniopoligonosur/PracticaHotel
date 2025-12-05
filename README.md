@@ -123,6 +123,7 @@ OneToOneField → relación de uno a uno entre dos modelos.
 
 -----------------------------------
 
+
 # EXPLICACION DE PARAMETROS USADOS EN "generar_datos"
 
 from django.db import transaction → Sirve para agrupar varias operaciones en una sola "transacción".  
