@@ -4,9 +4,9 @@ import uuid
 from django.contrib.auth.models import AbstractUser
 
 class Usuario(AbstractUser):
-    ADMINISTRADOR = '1'
-    HUESPED = '2'
-    GESTOR = '3'
+    ADMINISTRADOR = 1
+    HUESPED = 2
+    GESTOR = 3
     ROLES = (
         (ADMINISTRADOR, 'administrador'),
         (HUESPED, 'huesped'),

@@ -23,6 +23,7 @@ urlpatterns = [
    path('admin/', admin.site.urls),
    path('',include('hotel.urls')),
    path("__debug__/", include("debug_toolbar.urls")),
+   path('accounts/', include('django.contrib.auth.urls')),
 ]
 
 handler404 = "hotel.views.mi_error_404"

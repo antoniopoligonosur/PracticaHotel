@@ -2,6 +2,7 @@ from django import forms
 from django.forms import ModelForm
 from .models import *
 import datetime
+from django.contrib.auth.forms import UserCreationForm
 
 # Ahora vamos a definir nuestro formulario para el modelo Huespued (Model Forms)
 
@@ -454,3 +455,16 @@ class HuespedBuscarAvanzada(forms.Form):
         
         #Siempre devolvemos el conjunto de datos.
         return self.cleaned_data
+    
+class RegistroForm(UserCreationForm):
+    
+    roles = (
+        (Usuario.HUESPED, 'huésped'),
+        (Usuario.GESTOR, 'gestor'),
+    )
+    
+    rol = forms.ChoiceField(choices=roles)
+
+    class Meta:
+        model = Usuario
+        fields = ['username', 'email', 'password1', 'password2', 'rol']

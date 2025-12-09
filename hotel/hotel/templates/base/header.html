@@ -8,8 +8,39 @@
     </div>
 
     <nav class="topbar-nav">
-        <ul>
-            <li><a href="{% url 'menu_enlaces' %}">Menu Enlaces</a></li>
+        <ul class="d-flex align-items-center list-unstyled gap-3 m-0 p-0">
+            
+            <li>
+                <a href="{% url 'menu_enlaces' %}" class="text-decoration-none text-dark">
+                    Menu Enlaces
+                </a>
+            </li>
+
+            {% if not request.user.is_authenticated %}
+            <li>
+                <a href="{% url 'registrar_usuario' %}" class="btn btn-outline-primary">
+                    Registrarse
+                </a>
+            </li>
+            {% endif %}
+
+            {% if not request.user.is_authenticated %}
+            <li>
+                <a href="{% url 'login' %}" class="btn btn-outline-success">
+                    Login
+                </a>
+            </li>
+            {% endif %}
+
+            {% if request.user.is_authenticated %}
+            <li>
+                <form action="{% url 'logout' %}" method="POST" class="m-0">
+                    {% csrf_token %}
+                    <button class="btn btn-outline-danger" type="submit">Logout</button>
+                </form>
+            </li>
+            {% endif %}
+
         </ul>
     </nav>
 </header>

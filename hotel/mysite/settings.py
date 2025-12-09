@@ -29,6 +29,9 @@ ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
 
 AUTH_USER_MODEL = 'hotel.Usuario'
 
+LOGIN_REDIRECT_URL = 'index'
+LOGOUT_REDIRECT_URL = 'index'
+
 # Application definition
 
 INSTALLED_APPS = [

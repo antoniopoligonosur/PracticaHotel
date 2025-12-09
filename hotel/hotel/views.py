@@ -10,11 +10,10 @@ from .models import (
 from .forms import *
 from django.contrib import messages
 from django.shortcuts import redirect
+from django.utils import timezone
+from django.contrib.auth import login
 
 def index(request):
-    
-    if(not "fecha_inicio" in request.session):
-        request.session["fecha_inicio"] = datetime.now().strftime('%d/%m/%Y %H:%M')
     
     return render(request, 'base/index.html')
 
@@ -823,4 +822,25 @@ def gestion_imagenes(request):
         'formulario': formulario,
         'imagenes': imagenes
     })
+    
+def registrar_usuario(request):
+    if request.method == 'POST':
+        formulario = RegistroForm(request.POST)
+        if formulario.is_valid():
+            user = formulario.save()
+            rol = int(formulario.cleaned_data.get('rol'))
+            if(rol == Usuario.HUESPED):
+                cliente = Huesped.objects.create( usuario = user)
+                cliente.save()
+            elif(rol == Usuario.GESTOR):
+                bibliotecario = Gestor.objects.create(usuario = user)
+                bibliotecario.save()
+            
+            login(request, user)
+            messages.success(request, 'Usuario registrado correctamente.')
+            return redirect('index')
+
+    else:
+        formulario = RegistroForm()
+    return render(request, 'registration/signup.html', {'formulario': formulario})
 
