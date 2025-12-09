@@ -394,6 +394,8 @@ class FacturaBuscarAvanzada(forms.Form):
 
         if not any([numero_contiene, monto_minimo is not None, pagada is not None]):
             self.add_error('numero_contiene', 'Debe rellenar al menos un campo.')
+            self.add_error('monto_minimo', 'Debe rellenar al menos un campo.')
+            self.add_error('pagada', 'Debe rellenar al menos un campo.')
         if(
             monto_minimo and monto_minimo < 0
             ):
