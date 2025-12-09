@@ -12,6 +12,10 @@ from django.contrib import messages
 from django.shortcuts import redirect
 
 def index(request):
+    
+    if(not "fecha_inicio" in request.session):
+        request.session["fecha_inicio"] = datetime.now().strftime('%d/%m/%Y %H:%M')
+    
     return render(request, 'base/index.html')
 
 def huesped_lista(request):

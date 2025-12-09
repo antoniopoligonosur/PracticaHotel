@@ -1,7 +1,26 @@
 from django.db import models
 from django.core.validators import MinValueValidator, RegexValidator
 import uuid
+from django.contrib.auth.models import AbstractUser
 
+class Usuario(AbstractUser):
+    ADMINISTRADOR = '1'
+    HUESPED = '2'
+    GESTOR = '3'
+    ROLES = (
+        (ADMINISTRADOR, 'administrador'),
+        (HUESPED, 'huesped'),
+        (GESTOR, 'gestor'),
+    )
+
+    rol = models.PositiveSmallIntegerField(choices=ROLES, default=1)
+
+class Gestor(models.Model):
+    
+    fecha_contratacion = models.DateField(null=True, blank=True)
+    especialidad = models.CharField(max_length=100, null=True, blank=True)
+    
+    usuario = models.OneToOneField(Usuario, on_delete=models.CASCADE, related_name='gestor_perfil')
 
 class Hotel(models.Model):
     nombre = models.CharField(max_length=150, unique=True)
@@ -56,11 +75,13 @@ class Habitacion(models.Model):
 
 
 class Huesped(models.Model):
-    nombre = models.CharField(max_length=80)
-    apellido = models.CharField(max_length=80)
-    correo = models.EmailField(unique=True)
-    telefono = models.CharField(max_length=20, blank=True)
+    nombre = models.CharField(max_length=80, null=True, blank=True)
+    apellido = models.CharField(max_length=80, null=True, blank=True)
+    correo = models.EmailField(null=True, blank=True)
+    telefono = models.CharField(max_length=20, null=True, blank=True)
     fecha_nacimiento = models.DateField(null=True, blank=True)
+    
+    usuario = models.OneToOneField(Usuario, on_delete=models.CASCADE, related_name='huesped_perfil', null=True, blank=True)
 
     def __str__(self):
         return f"{self.nombre} {self.apellido}"
