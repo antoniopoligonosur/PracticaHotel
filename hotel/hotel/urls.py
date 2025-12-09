@@ -31,4 +31,6 @@ urlpatterns = [
    path('huesped/buscar/avanzado/',views.huesped_buscar_avanzado, name='huesped_buscar_avanzado'),
    path('registrar/', views.registrar_usuario, name='registrar_usuario'),
    path('accounts/', include('django.contrib.auth.urls')),  # Agrega las URL de autenticación de Django
+   
+   path('registrar',views.registrar_usuario,name='registrar_usuario'),
 ]

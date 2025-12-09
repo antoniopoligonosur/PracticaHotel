@@ -73,19 +73,19 @@ class Habitacion(models.Model):
 class Gestor (models.Model):
     usuario = models.OneToOneField(Usuario, on_delete=models.CASCADE, related_name='gestor')
     
-    nombre = models.CharField(max_length=80)
-    apellido = models.CharField(max_length=80)
-    correo = models.EmailField(unique=True)
-    telefono = models.CharField(max_length=20, blank=True)
+    nombre = models.CharField(max_length=80, null=True, blank=True)
+    apellido = models.CharField(max_length=80, null=True, blank=True)
+    correo = models.EmailField(null=True, blank=True)
+    telefono = models.CharField(max_length=20, null=True, blank=True)
 
     def __str__(self):
         return f"{self.nombre} {self.apellido}"
 
 class Huesped(models.Model):
-    nombre = models.CharField(max_length=80)
-    apellido = models.CharField(max_length=80)
-    correo = models.EmailField(unique=True)
-    telefono = models.CharField(max_length=20, blank=True)
+    nombre = models.CharField(max_length=80, null=True, blank=True)
+    apellido = models.CharField(max_length=80, null=True, blank=True)
+    correo = models.EmailField(null=True, blank=True)
+    telefono = models.CharField(max_length=20, blank=True, null=True)
     fecha_nacimiento = models.DateField(null=True, blank=True)
     
     usuario = models.OneToOneField(Usuario, on_delete=models.CASCADE, related_name='huesped', null=True, blank=True)

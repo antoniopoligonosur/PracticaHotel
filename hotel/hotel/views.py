@@ -271,6 +271,22 @@ def huesped_buscar_avanzado(request):
         formulario = HuespedBuscarAvanzada(None)
     return render(request, 'huespedes/crud/buscar_avanzada_huespedes.html',{'formulario':formulario})
 
+def registrar_usuario(request):
+    if request.method == 'POST':
+        formulario = RegistroForm(request.POST)
+        if formulario.is_valid():
+            user = formulario.save()
+            rol = int(formulario.cleaned_data.get('rol'))
+            if(rol == Usuario.HUESPED):
+                huesped = Huesped.objects.create( usuario = user)
+                huesped.save()
+            elif(rol == Usuario.GESTOR):
+                gestor = Gestor.objects.create(usuario = user)
+                gestor.save()
+    else:
+        formulario = RegistroForm()
+    return render(request, 'registration/signup.html', {'formulario': formulario})
+
 # ERRORES PERSONALIZADOS
 
 # Error 404 - Página no encontrada
