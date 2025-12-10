@@ -5,10 +5,17 @@ import random
 import uuid
 from datetime import timedelta, datetime
 from decimal import Decimal
-
-from biblioteca.models import (
-    Hotel, ContactoHotel, TipoHabitacion, Habitacion,
-    Huesped, PerfilHuesped, Servicio, Reserva, Factura, ReservaServicio
+from hotel.models import (
+    Servicio,
+    Hotel,
+    ContactoHotel,
+    TipoHabitacion,
+    Habitacion,
+    Huesped,
+    PerfilHuesped,
+    Reserva,
+    ReservaServicio,
+    Factura
 )
 
 class Command(BaseCommand):
@@ -21,6 +28,7 @@ class Command(BaseCommand):
 
         with transaction.atomic():
             # 1. Servicios
+            self.stdout.write("Generando usuarios...")
             servicios = []
             for _ in range(10):
                 s = Servicio.objects.create(
@@ -33,6 +41,7 @@ class Command(BaseCommand):
                 servicios.append(s)
 
             # 2. Hoteles
+            self.stdout.write("Generando usuarios...")
             hoteles = []
             for _ in range(10):
                 h = Hotel.objects.create(
@@ -48,6 +57,7 @@ class Command(BaseCommand):
                 hoteles.append(h)
 
             # 3. ContactoHotel (OneToOne con Hotel) - crear solo para algunos hoteles (hasta 10)
+            self.stdout.write("Generando usuarios...")
             contactos = []
             for hotel in hoteles:
                 c = ContactoHotel.objects.create(
@@ -60,6 +70,7 @@ class Command(BaseCommand):
                 contactos.append(c)
 
             # 4. TipoHabitacion
+            self.stdout.write("Generando usuarios...")
             tipos = []
             for _ in range(6):
                 t = TipoHabitacion.objects.create(
@@ -69,8 +80,10 @@ class Command(BaseCommand):
                     precio_base=Decimal(f"{random.uniform(30, 400):.2f}")
                 )
                 tipos.append(t)
+# ... (código anterior igual) ...
 
             # 5. Habitaciones (FK a TipoHabitacion y Hotel) + ManyToMany servicios
+            self.stdout.write("Generando habitaciones...") # Corregido mensaje también
             habitaciones = []
             for _ in range(30):
                 hotel = random.choice(hoteles)
@@ -81,15 +94,18 @@ class Command(BaseCommand):
                     piso=random.randint(0, 10),
                     tipo=tipo,
                     hotel=hotel,
-                    disponible=fake.boolean(chance_of_getting_true=80),
-                    imagen_url=fake.image_url()
+                    disponible=fake.boolean(chance_of_getting_true=80)
+                    # SE ELIMINÓ LA LÍNEA: imagen_url="/imagen"
                 )
                 # servicios de la habitación
                 servicios_hab = random.sample(servicios, random.randint(0, 3))
                 h_obj.servicios.set(servicios_hab)
                 habitaciones.append(h_obj)
 
+            # ... (resto del código igual) ...
+
             # 6. Huespedes
+            self.stdout.write("Generando usuarios...")
             huespedes = []
             for _ in range(15):
                 email = fake.unique.email()
@@ -103,6 +119,7 @@ class Command(BaseCommand):
                 huespedes.append(hu)
 
             # 7. PerfilHuesped (OneToOne con Huesped)
+            self.stdout.write("Generando usuarios...")
             perfiles = []
             for huesped in huespedes:
                 # algunos huéspedes pueden no tener pasaporte (null=True)
@@ -117,6 +134,7 @@ class Command(BaseCommand):
                 perfiles.append(p)
 
             # 8. Reservas (cada una necesita huesped y habitacion)
+            self.stdout.write("Generando usuarios...")
             reservas = []
             for _ in range(20):
                 huesped = random.choice(huespedes)
@@ -137,6 +155,7 @@ class Command(BaseCommand):
                 reservas.append(r)
 
             # 9. ReservaServicio (tabla intermedia con atributos extra)
+            self.stdout.write("Generando usuarios...")
             reservaservicios = []
             for reserva in reservas:
                 # asignar entre 0 y 4 servicios distintos a la reserva
@@ -155,6 +174,7 @@ class Command(BaseCommand):
                     reservaservicios.append(rs)
 
             # 10. Facturas (OneToOne con Reserva) - crear factura para algunas reservas
+            self.stdout.write("Generando usuarios...")
             facturas = []
             for reserva in reservas:
                 # decidir si esta reserva tiene factura (no todas tienen)
