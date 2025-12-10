@@ -4,8 +4,13 @@
     <td>{{ h.correo }}</td>
     <td>{{ h.telefono|default:"-" }}</td>
     <td>{{ h.fecha_nacimiento|date:"d/m/Y" }}</td>
-    <td><button><a href="{% url 'huesped_editar' h.id %}">Editar</a></button></td>
     <td>
+        {% if perms.hotel.change_huesped %}
+        <button><a href="{% url 'huesped_editar' h.id %}">Editar</a></button>
+        {% endif %}
+    </td>
+    <td>
+        {% if perms.hotel.delete_huesped %}
         <form action="{% url 'huesped_eliminar' h.id %}" method="post">
             {% csrf_token %}
             <button type="button" class="eliminar"
@@ -15,5 +20,6 @@
                 Eliminar
             </button>
         </form>
+        {% endif %}
     </td>
 </tr>

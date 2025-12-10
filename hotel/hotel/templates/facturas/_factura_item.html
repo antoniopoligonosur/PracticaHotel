@@ -10,11 +10,22 @@
             No
         {% endif %}
     </td>
-    <td><button><a href="{% url 'factura_editar' f.id %}">Editar</a></button></td>
     <td>
+        {% if perms.hotel.change_factura %}
+        <button><a href="{% url 'factura_editar' f.id %}">Editar</a></button>
+        {% endif %}
+    </td>
+    <td>
+        {% if perms.hotel.delete_factura %}
         <form action="{% url 'factura_eliminar' f.id %}" method="post">
             {% csrf_token %}
-            <button type="submit" onclick="return confirm('¿Estás seguro de eliminar esta factura?')">Eliminar</button>
+            <button type="button" class="eliminar"
+                data-bs-toggle="modal"
+                data-bs-target="#modalEliminar"
+                data-url="{% url 'factura_eliminar' id_factura=f.id %}">
+                Eliminar
+            </button>
         </form>
+        {% endif %}
     </td>
 </tr>

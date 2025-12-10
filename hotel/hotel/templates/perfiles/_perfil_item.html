@@ -3,11 +3,22 @@
     <td>{{ ph.nacionalidad|default:"-" }}</td>
     <td>{{ ph.numero_pasaporte|default:"-" }}</td>
     <td>{{ ph.puntos_fidelidad|default:0 }}</td>
-    <td><button><a href="{% url 'perfil_huesped_editar' ph.id %}">Editar</a></button></td>
     <td>
-        <form action="{% url 'perfil_huesped_eliminar' ph.id %}" method="post">
+        {% if perms.hotel.change_perfilhuesped %}
+        <button><a href="{% url 'perfil_huesped_editar' p.id %}">Editar</a></button>
+        {% endif %}
+    </td>
+    <td>
+        {% if perms.hotel.delete_perfilhuesped %}
+        <form action="{% url 'perfil_huesped_eliminar' p.id %}" method="post">
             {% csrf_token %}
-            <button type="submit" onclick="return confirm('¿Estás seguro de eliminar este perfil?')">Eliminar</button>
+            <button type="button" class="eliminar"
+                data-bs-toggle="modal"
+                data-bs-target="#modalEliminar"
+                data-url="{% url 'perfil_huesped_eliminar' id_perfil=p.id %}">
+                Eliminar
+            </button>
         </form>
+        {% endif %}
     </td>
 </tr>

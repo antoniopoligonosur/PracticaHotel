@@ -3,6 +3,9 @@
 
 {% block cabecera %}
     <h1>Listado de Hoteles</h1>
+    {% if perms.hotel.add_hotel %}
+    <a href="{% url 'hotel_create' %}" class="btn btn-primary">Crear Hotel</a>
+    {% endif %}
 {% endblock cabecera %}
 
 {% block contenido %}

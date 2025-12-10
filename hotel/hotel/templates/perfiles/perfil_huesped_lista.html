@@ -2,7 +2,10 @@
 {% block title %}Perfiles de Huéspedes{% endblock %}
 
 {% block cabecera %}
-    <h1>Listado de Perfiles de Huéspedes</h1>
+    <h1>Listado de Perfiles de Huésped</h1>
+    {% if perms.hotel.add_perfilhuesped %}
+    <a href="{% url 'perfil_huesped_create' %}" class="btn btn-primary">Crear Perfil</a>
+    {% endif %}
 {% endblock cabecera %}
 
 {% block contenido %}

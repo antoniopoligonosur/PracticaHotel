@@ -12,11 +12,22 @@
         {% endif %}
     </td>
     <td>{{ r.total_servicios|default:0|floatformat:2 }}</td>
-    <td><button><a href="{% url 'reserva_editar' r.id %}">Editar</a></button></td>
     <td>
+        {% if perms.hotel.change_reserva %}
+        <button><a href="{% url 'reserva_editar' r.id %}">Editar</a></button>
+        {% endif %}
+    </td>
+    <td>
+        {% if perms.hotel.delete_reserva %}
         <form action="{% url 'reserva_eliminar' r.id %}" method="post">
             {% csrf_token %}
-            <button type="submit" onclick="return confirm('¿Estás seguro de eliminar esta reserva?')">Eliminar</button>
+            <button type="button" class="eliminar"
+                data-bs-toggle="modal"
+                data-bs-target="#modalEliminar"
+                data-url="{% url 'reserva_eliminar' id_reserva=r.id %}">
+                Eliminar
+            </button>
         </form>
+        {% endif %}
     </td>
 </tr>

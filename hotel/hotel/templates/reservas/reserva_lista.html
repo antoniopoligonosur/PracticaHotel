@@ -1,7 +1,12 @@
 {% extends "base/principal.html" %}
 {% block title %}Reservas{% endblock %}
+{% block cabecera %}
+    <h1>Listado de Reservas</h1>
+    {% if perms.hotel.add_reserva %}
+    <a href="{% url 'reserva_create' %}" class="btn btn-primary">Crear Reserva</a>
+    {% endif %}
+{% endblock cabecera %}
 {% block contenido %}
-<h1>Listado de Reservas</h1>
 
     {% if Mensaje_Busqueda %}
         <pre>{{Mensaje_Busqueda}}</pre>

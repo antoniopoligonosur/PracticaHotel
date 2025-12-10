@@ -10,11 +10,22 @@
     <td>{{ c.correo|default:"-" }}</td>
     <td>{{ c.sitio_web|default_if_none:"-" }}</td>
     <td>{{ c.hotel.nombre|default:"-" }}</td>
-    <td><button><a href="{% url 'contacto_editar' c.id %}">Editar</a></button></td>
     <td>
+        {% if perms.hotel.change_contactohotel %}
+        <button><a href="{% url 'contacto_editar' c.id %}">Editar</a></button>
+        {% endif %}
+    </td>
+    <td>
+        {% if perms.hotel.delete_contactohotel %}
         <form action="{% url 'contacto_eliminar' c.id %}" method="post">
             {% csrf_token %}
-            <button type="submit" onclick="return confirm('¿Estás seguro de eliminar este contacto?')">Eliminar</button>
+            <button type="button" class="eliminar"
+                data-bs-toggle="modal"
+                data-bs-target="#modalEliminar"
+                data-url="{% url 'contacto_eliminar' id_contacto=c.id %}">
+                Eliminar
+            </button>
         </form>
+        {% endif %}
     </td>
 </tr>

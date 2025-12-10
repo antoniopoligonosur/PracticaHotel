@@ -3,6 +3,9 @@
 
 {% block cabecera %}
     <h1>Listado de Contactos</h1>
+    {% if perms.hotel.add_contactohotel %}
+    <a href="{% url 'contacto_create' %}" class="btn btn-primary">Crear Contacto</a>
+    {% endif %}
 {% endblock cabecera %}
 
 {% block contenido %}

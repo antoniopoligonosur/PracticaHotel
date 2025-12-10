@@ -1,10 +1,11 @@
 {% extends "base/principal.html" %}
 {% block title %}Huéspedes{% endblock %}
 {% block cabecera %}
-    <h1>Huéspedes</h1>
-    <hr>
-    <br>
-{% endblock %}
+    <h1>Listado de Huéspedes</h1>
+    {% if perms.hotel.add_huesped %}
+    <a href="{% url 'huesped_create' %}" class="btn btn-primary">Crear Huésped</a>
+    {% endif %}
+{% endblock cabecera %}
 {% block contenido %}
 
 {% include "base/modal/_modal_eliminar.html" %}

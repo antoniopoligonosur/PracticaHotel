@@ -15,6 +15,57 @@
     <form action="{% url 'reserva_create' %}" method="post">
         {% csrf_token %}
         {% bootstrap_form formulario %}
-        <button type="submit">Enviar</button>
+        <button type="submit" class="btn btn-primary">Enviar</button>
     </form>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const hotelSelect = document.getElementById('id_hotel_filter');
+            const habitacionSelect = document.getElementById('id_habitacion');
+            
+            if (!hotelSelect || !habitacionSelect) return;
+
+            // Map habitacion ID to hotel ID
+            const habitacionHotelMap = {
+                {% for h in habitaciones %}
+                "{{ h.id }}": "{{ h.hotel.id }}",
+                {% endfor %}
+            };
+            
+            // Save original options
+            const allOptions = Array.from(habitacionSelect.options);
+            
+            function filterHabitaciones() {
+                const selectedHotelId = hotelSelect.value;
+                const currentHabitacion = habitacionSelect.value;
+                
+                // Clear current options
+                habitacionSelect.innerHTML = '';
+                
+                allOptions.forEach(option => {
+                    if (option.value === "") {
+                        habitacionSelect.appendChild(option); // Keep placeholder
+                        return;
+                    }
+                    
+                    const hotelId = habitacionHotelMap[option.value];
+                    
+                    if (!selectedHotelId || hotelId === selectedHotelId) {
+                        habitacionSelect.appendChild(option);
+                    }
+                });
+                
+                // Restore selection if valid
+                if (Array.from(habitacionSelect.options).some(opt => opt.value === currentHabitacion)) {
+                    habitacionSelect.value = currentHabitacion;
+                } else {
+                    habitacionSelect.value = "";
+                }
+            }
+            
+            hotelSelect.addEventListener('change', filterHabitaciones);
+            // Initial filter
+            filterHabitaciones();
+        });
+    </script>
 {% endblock %}

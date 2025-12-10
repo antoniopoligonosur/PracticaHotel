@@ -270,6 +270,22 @@ class PerfilHuespedBuscarAvanzada(forms.Form):
 # RESERVA
 # -----------------------------------------------------------------------------
 class ReservaForm(ModelForm):
+    hotel_filter = forms.ModelChoiceField(
+        queryset=Hotel.objects.all(), 
+        label="Filtrar por Hotel", 
+        required=False
+    )
+
+    def __init__(self, *args, **kwargs):
+        self.user = kwargs.pop('user', None)
+        super().__init__(*args, **kwargs)
+        if self.user and hasattr(self.user, 'huesped_perfil'):
+            self.fields['huesped'].initial = self.user.huesped_perfil
+            self.fields['huesped'].widget = forms.HiddenInput()
+            # Disable to prevent tampering, but we must handle saving in view or clean
+            # self.fields['huesped'].disabled = True 
+            # Better: keep it hidden and initial set. View logic handles the rest.
+
     class Meta:
         model = Reserva
         fields = "__all__"
@@ -463,8 +479,8 @@ class RegistroForm(UserCreationForm):
         (Usuario.GESTOR, 'gestor'),
     )
     
-    rol = forms.ChoiceField(choices=roles)
+    rol = forms.ChoiceField(choices=roles, label="Rol de Usuario")
 
     class Meta:
         model = Usuario
-        fields = ['username', 'email', 'password1', 'password2', 'rol']
+        fields = ['username', 'email', 'rol']

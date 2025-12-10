@@ -5,15 +5,45 @@ from django.views.defaults import page_not_found
 from django.db.models import Q
 from .models import (
     Hotel, ContactoHotel, TipoHabitacion, Habitacion, Huesped,
-    PerfilHuesped, Servicio, Reserva, Factura, ReservaServicio
+    PerfilHuesped, Servicio, Reserva, Factura, ReservaServicio, Usuario, Gestor, HotelImage
 )
 from .forms import *
 from django.contrib import messages
 from django.shortcuts import redirect
 from django.utils import timezone
 from django.contrib.auth import login
+from django.contrib.auth.decorators import permission_required
+from django.contrib.auth.models import Group
+from django.utils import timezone
 
 def index(request):
+    # eliminar si usuario no autenticado
+    if not request.user.is_authenticated:
+        if "fecha_inicio" in request.session:
+            del request.session["fecha_inicio"]
+        if "contador_visitas" in request.session:
+            del request.session["contador_visitas"]
+        if "rol_usuario" in request.session:
+            del request.session["rol_usuario"]
+        if "usuario_actual" in request.session:
+            del request.session["usuario_actual"]
+        if "ultimo_hotel_visto" in request.session:
+            del request.session["ultimo_hotel_visto"]
+    else:
+        if "fecha_inicio" not in request.session:
+            request.session["fecha_inicio"] = timezone.now().strftime("%Y-%m-%d %H:%M:%S")
+        # 2. Contador de visitas
+        if "contador_visitas" not in request.session:
+            request.session["contador_visitas"] = 1
+        else:
+            request.session["contador_visitas"] += 1
+        # 3. Rol del usuario
+        if request.user.is_authenticated: 
+            request.session["rol_usuario"] = request.user.get_rol_display()
+        else:
+            request.session["rol_usuario"] = "Sin grupo"
+        # 4. Nombre del usuario que ha renderizado la página
+        request.session["usuario_actual"] = request.user.username
     
     return render(request, 'base/index.html')
 
@@ -93,6 +123,10 @@ def habitacion_lista(request, hotel_id):
 def detalle_hotel(request, id_hotel):
 
     hotel = Hotel.objects.prefetch_related('servicios').filter(id=id_hotel).all()[0]
+    
+    # Guardar en sesión el último hotel visto
+    if request.user.is_authenticated:
+        request.session["ultimo_hotel_visto"] = hotel.nombre
     
     return render(request, 'hoteles/detalle_hotel.html', {'hotel': hotel})
 
@@ -189,6 +223,7 @@ def menu_enlaces(request):
     return render(request, 'base/menu_enlaces.html')
 
 #-------- HUESPED (CREATE) --------
+@permission_required('hotel.add_huesped')
 def huesped_create(request): # Metodo que controla el Tipo de formulario
 
     # Si la petición es GET se creará el formulario Vacío
@@ -272,6 +307,7 @@ def huesped_buscar_avanzado(request):
 
 #--------- HUESPED EDITAR
 
+@permission_required('hotel.change_huesped')
 def huesped_editar(request, id_huesped): 
 
     huesped = Huesped.objects.get(id=id_huesped)
@@ -294,6 +330,7 @@ def huesped_editar(request, id_huesped):
 
 #-------- HUESPED ELIMINAR
 
+@permission_required('hotel.delete_huesped')
 def huesped_eliminar(request, id_huesped):
     huesped = Huesped.objects.get(id=id_huesped)
     try:
@@ -340,6 +377,7 @@ def crear_modelo_generico(formulario):
 #  HOTEL CRUD
 # ==============================================================================
 
+@permission_required('hotel.add_hotel')
 def hotel_create(request):
     datosFormulario = None
     if request.method == "POST":
@@ -416,6 +454,7 @@ def hotel_buscar_avanzado(request):
 #  CONTACTO HOTEL CRUD
 # ==============================================================================
 
+@permission_required('hotel.add_contactohotel')
 def contacto_create(request):
     datosFormulario = None
     if request.method == "POST":
@@ -430,6 +469,7 @@ def contacto_create(request):
             
     return render(request, 'contactos/crud/create_contacto.html', {'formulario': formulario})
 
+@permission_required('hotel.change_contactohotel')
 def contacto_editar(request, id_contacto):
     contacto = ContactoHotel.objects.get(id=id_contacto)
     
@@ -446,6 +486,7 @@ def contacto_editar(request, id_contacto):
 
     return render(request, 'contactos/crud/actualizar_contacto.html', {'formulario': formulario, 'contacto': contacto})
 
+@permission_required('hotel.delete_contactohotel')
 def contacto_eliminar(request, id_contacto):
     contacto = ContactoHotel.objects.get(id=id_contacto)
     try:
@@ -487,6 +528,7 @@ def contacto_buscar_avanzado(request):
 #  PERFIL HUESPED CRUD
 # ==============================================================================
 
+@permission_required('hotel.add_perfilhuesped')
 def perfil_huesped_create(request):
     datosFormulario = None
     if request.method == "POST":
@@ -501,6 +543,7 @@ def perfil_huesped_create(request):
             
     return render(request, 'perfiles/crud/create_perfil_huesped.html', {'formulario': formulario})
 
+@permission_required('hotel.change_perfilhuesped')
 def perfil_huesped_editar(request, id_perfil):
     perfil = PerfilHuesped.objects.get(id=id_perfil)
     
@@ -517,6 +560,7 @@ def perfil_huesped_editar(request, id_perfil):
 
     return render(request, 'perfiles/crud/actualizar_perfil_huesped.html', {'formulario': formulario, 'perfil': perfil})
 
+@permission_required('hotel.delete_perfilhuesped')
 def perfil_huesped_eliminar(request, id_perfil):
     perfil = PerfilHuesped.objects.get(id=id_perfil)
     try:
@@ -560,23 +604,39 @@ def perfil_huesped_buscar_avanzado(request):
 # ==============================================================================
 
 def reserva_lista(request):
-    reservas = Reserva.objects.select_related('huesped', 'habitacion').all()
+    reservas = Reserva.objects.select_related('huesped', 'habitacion')
+    
+    if request.user.is_authenticated and hasattr(request.user, 'huesped_perfil'):
+        reservas = reservas.filter(huesped=request.user.huesped_perfil)
+        
+    reservas = reservas.all()
     return render(request, 'reservas/reserva_lista.html', {'reserva_lista': reservas})
 
+@permission_required('hotel.add_reserva')
 def reserva_create(request):
     datosFormulario = None
     if request.method == "POST":
         datosFormulario = request.POST
     
-    formulario = ReservaForm(datosFormulario)
+    formulario = ReservaForm(datosFormulario, user=request.user)
     
     if request.method == "POST":
-        if crear_modelo_generico(formulario):
-            messages.success(request, 'Se ha creado la Reserva correctamente.')
-            return redirect('reserva_lista')
+        if formulario.is_valid():
+            reserva = formulario.save(commit=False)
+            # Enforce assignment for security
+            if request.user.is_authenticated and hasattr(request.user, 'huesped_perfil'):
+                reserva.huesped = request.user.huesped_perfil
+            try:
+                reserva.save()
+                messages.success(request, 'Se ha creado la Reserva correctamente.')
+                return redirect('reserva_lista')
+            except Exception as e:
+                print(e)
             
-    return render(request, 'reservas/crud/create_reserva.html', {'formulario': formulario})
+    habitaciones = Habitacion.objects.select_related('hotel').all()
+    return render(request, 'reservas/crud/create_reserva.html', {'formulario': formulario, 'habitaciones': habitaciones})
 
+@permission_required('hotel.change_reserva')
 def reserva_editar(request, id_reserva):
     reserva = Reserva.objects.get(id=id_reserva)
     
@@ -593,6 +653,7 @@ def reserva_editar(request, id_reserva):
 
     return render(request, 'reservas/crud/actualizar_reserva.html', {'formulario': formulario, 'reserva': reserva})
 
+@permission_required('hotel.delete_reserva')
 def reserva_eliminar(request, id_reserva):
     reserva = Reserva.objects.get(id=id_reserva)
     try:
@@ -644,78 +705,9 @@ def factura_lista(request):
     facturas = Factura.objects.select_related('reserva').all()
     return render(request, 'facturas/factura_lista.html', {'factura_lista': facturas})
 
-def hotel_create(request):
-    datosFormulario = None
-    if request.method == "POST":
-        datosFormulario = request.POST
-    
-    formulario = HotelForm(datosFormulario)
-    
-    if request.method == "POST":
-        if crear_modelo_generico(formulario):
-            messages.success(request, f'Se ha creado el Hotel: [{formulario.cleaned_data.get("nombre")}] correctamente.')
-            return redirect('hotel_lista')
-            
-    return render(request, 'hoteles/crud/create_hotel.html', {'formulario': formulario})
 
-def hotel_editar(request, id_hotel):
-    hotel = Hotel.objects.get(id=id_hotel)
-    
-    datosFormulario = None
-    if request.method == "POST":
-        datosFormulario = request.POST
-        
-    formulario = HotelForm(datosFormulario, instance=hotel)
-    
-    if request.method == "POST":
-        if crear_modelo_generico(formulario):
-            messages.success(request, f'Se ha editado el Hotel: [{formulario.cleaned_data.get("nombre")}] correctamente.')
-            return redirect('hotel_lista')
 
-    return render(request, 'hoteles/crud/actualizar_hotel.html', {'formulario': formulario, 'hotel': hotel})
-
-def hotel_eliminar(request, id_hotel):
-    hotel = Hotel.objects.get(id=id_hotel)
-    try:
-        hotel.delete()
-        messages.success(request, "Hotel eliminado correctamente.")
-    except Exception as e:
-        messages.error(request, f"No se pudo eliminar el hotel: {e}")
-    return redirect('hotel_lista')
-
-def hotel_buscar_avanzado(request):
-    if len(request.GET) > 0:
-        formulario = HotelBuscarAvanzada(request.GET)
-        if formulario.is_valid():
-            mensaje_busqueda = 'Filtros Aplicados:\n'
-            qs = Hotel.objects.prefetch_related('servicios')
-            
-            nombre_contiene = formulario.cleaned_data.get('nombre_contiene')
-            calificacion_minima = formulario.cleaned_data.get('calificacion_minima')
-            tiene_restaurante = formulario.cleaned_data.get('tiene_restaurante')
-            
-            if nombre_contiene:
-                qs = qs.filter(nombre__icontains=nombre_contiene)
-                mensaje_busqueda += f'· Nombre contiene "{nombre_contiene}"\n'
-            
-            if calificacion_minima is not None:
-                qs = qs.filter(calificacion__gte=calificacion_minima)
-                mensaje_busqueda += f'· Calificación >= {calificacion_minima}\n'
-            
-            if tiene_restaurante is not None:
-                qs = qs.filter(tiene_restaurante=tiene_restaurante)
-                mensaje_busqueda += f'· Restaurante: {"Sí" if tiene_restaurante else "No"}\n'
-            
-            hoteles = qs.all()
-            return render(request, 'hoteles/hotel_lista.html', {
-                'hotel_lista': hoteles,
-                'Mensaje_Busqueda': mensaje_busqueda
-            })
-    else:
-        formulario = HotelBuscarAvanzada(None)
-        
-    return render(request, 'hoteles/crud/buscar_avanzada_hotel.html', {'formulario': formulario})
-
+@permission_required('hotel.add_factura')
 def factura_create(request):
     datosFormulario = None
     if request.method == "POST":
@@ -730,6 +722,7 @@ def factura_create(request):
             
     return render(request, 'facturas/crud/create_factura.html', {'formulario': formulario})
 
+@permission_required('hotel.change_factura')
 def factura_editar(request, id_factura):
     factura = Factura.objects.get(id=id_factura)
     
@@ -746,6 +739,7 @@ def factura_editar(request, id_factura):
 
     return render(request, 'facturas/crud/actualizar_factura.html', {'formulario': formulario, 'factura': factura})
 
+@permission_required('hotel.delete_factura')
 def factura_eliminar(request, id_factura):
     factura = Factura.objects.get(id=id_factura)
     try:
@@ -844,3 +838,29 @@ def registrar_usuario(request):
         formulario = RegistroForm()
     return render(request, 'registration/signup.html', {'formulario': formulario})
 
+
+# ==============================================================================
+#  AUTH
+# ==============================================================================
+
+def register(request):
+    if request.method == 'POST':
+        form = RegistroForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            rol = form.cleaned_data.get('rol')
+            
+            if int(rol) == Usuario.HUESPED:
+                group = Group.objects.get(name='Huesped')
+                user.groups.add(group)
+                Huesped.objects.create(usuario=user, nombre=user.username, correo=user.email)
+            elif int(rol) == Usuario.GESTOR:
+                group = Group.objects.get(name='Gestor')
+                user.groups.add(group)
+                Gestor.objects.create(usuario=user)
+            
+            login(request, user)
+            return redirect('index')
+    else:
+        form = RegistroForm()
+    return render(request, 'registration/signup.html', {'form': form})

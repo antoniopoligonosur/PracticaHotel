@@ -3,6 +3,9 @@
 
 {% block cabecera %}
     <h1>Listado de Facturas</h1>
+    {% if perms.hotel.add_factura %}
+    <a href="{% url 'factura_create' %}" class="btn btn-primary">Crear Factura</a>
+    {% endif %}
 {% endblock cabecera %}
 
 {% block contenido %}

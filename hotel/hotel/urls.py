@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import path, include
 from . import views
 from django.urls import re_path
 
@@ -82,7 +82,8 @@ urlpatterns = [
    # -----------------------------------------------------------------------------
    path('hotel/imagenes/', views.gestion_imagenes, name='gestion_imagenes'),
    # Sesiones
-   path('registrar', views.registrar_usuario, name='registrar_usuario'),
+   path('accounts/', include('django.contrib.auth.urls')),
+   path('registrar', views.register, name='registrar_usuario'),
 ]
 
 

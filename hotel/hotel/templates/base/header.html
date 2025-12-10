@@ -45,6 +45,18 @@
     </nav>
 </header>
 
-<p>
-    Fecha de inicio de la sesión: {{ request.session.fecha_inicio }}
-</p>
+{% if request.user.is_authenticated %}
+<div class="container mt-2">
+    <div class="alert alert-info py-1">
+        <small>
+            <strong>Usuario:</strong> {{ request.session.usuario_actual }} |
+            <strong>Rol:</strong> {{ request.session.rol_usuario }} |
+            <strong>Inicio:</strong> {{ request.session.fecha_inicio }} |
+            <strong>Visitas:</strong> {{ request.session.contador_visitas }}
+            {% if request.session.ultimo_hotel_visto %}
+            | <strong>Último Hotel:</strong> {{ request.session.ultimo_hotel_visto }}
+            {% endif %}
+        </small>
+    </div>
+</div>
+{% endif %}
