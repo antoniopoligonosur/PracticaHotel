@@ -1,894 +1,465 @@
 [
 {
-    "model": "auth.permission",
+    "model": "auth.group",
     "pk": 1,
     "fields": {
-        "name": "Can add log entry",
-        "content_type": 1,
-        "codename": "add_logentry"
+        "name": "Administrador",
+        "permissions": [
+            45,
+            46,
+            47,
+            48,
+            65,
+            66,
+            67,
+            68,
+            37,
+            38,
+            39,
+            40,
+            41,
+            42,
+            43,
+            44,
+            21,
+            22,
+            23,
+            24,
+            53,
+            54,
+            55,
+            56,
+            57,
+            58,
+            59,
+            60,
+            61,
+            62,
+            63,
+            64
+        ]
     }
 },
 {
-    "model": "auth.permission",
+    "model": "auth.group",
     "pk": 2,
     "fields": {
-        "name": "Can change log entry",
-        "content_type": 1,
-        "codename": "change_logentry"
+        "name": "Gestor",
+        "permissions": [
+            45,
+            46,
+            47,
+            48,
+            41,
+            42,
+            43,
+            44,
+            21,
+            22,
+            23,
+            24
+        ]
     }
 },
 {
-    "model": "auth.permission",
+    "model": "auth.group",
     "pk": 3,
     "fields": {
-        "name": "Can delete log entry",
-        "content_type": 1,
-        "codename": "delete_logentry"
+        "name": "Huesped",
+        "permissions": [
+            65,
+            68,
+            61,
+            64
+        ]
     }
 },
 {
-    "model": "auth.permission",
+    "model": "hotel.usuario",
+    "pk": 1,
+    "fields": {
+        "password": "pbkdf2_sha256$870000$43Mqpebxdt1X5pVofpToYV$XcR1zHd5gy1VL/yO8MvAp9bs5i4VzUHyEdTu1wZvXe0=",
+        "last_login": null,
+        "is_superuser": true,
+        "username": "admin",
+        "first_name": "",
+        "last_name": "",
+        "email": "admin@hotel.com",
+        "is_staff": true,
+        "is_active": true,
+        "date_joined": "2025-12-10T19:10:37.576",
+        "rol": 1,
+        "groups": [
+            1
+        ],
+        "user_permissions": []
+    }
+},
+{
+    "model": "hotel.usuario",
+    "pk": 2,
+    "fields": {
+        "password": "pbkdf2_sha256$870000$F44UdzCbYU5oYCKew2ztgX$DxQ+W8iZNuUTeqWUBBKMEP4y5Jm/d/CZPyLf5bwczog=",
+        "last_login": null,
+        "is_superuser": false,
+        "username": "gestor1",
+        "first_name": "",
+        "last_name": "",
+        "email": "gestor1@hotel.com",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2025-12-10T19:10:37.850",
+        "rol": 3,
+        "groups": [
+            2
+        ],
+        "user_permissions": []
+    }
+},
+{
+    "model": "hotel.usuario",
+    "pk": 3,
+    "fields": {
+        "password": "pbkdf2_sha256$870000$ZR8f2U8EfqQRTaJvukfMZw$CX9zaEODLQvijphqeLMijopCBVuiDI82b1QoqCnq6ao=",
+        "last_login": null,
+        "is_superuser": false,
+        "username": "huesped1",
+        "first_name": "",
+        "last_name": "",
+        "email": "huesped1@hotel.com",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2025-12-10T19:10:38.096",
+        "rol": 2,
+        "groups": [
+            3
+        ],
+        "user_permissions": []
+    }
+},
+{
+    "model": "hotel.usuario",
     "pk": 4,
     "fields": {
-        "name": "Can view log entry",
-        "content_type": 1,
-        "codename": "view_logentry"
+        "password": "pbkdf2_sha256$870000$rgf0VuLWwWiVAsl7PSOmg6$FAX68V2578jbRlUOKk+oqbQA53+ryvy32/+IdCo7Lzs=",
+        "last_login": null,
+        "is_superuser": false,
+        "username": "nuriabautista",
+        "first_name": "",
+        "last_name": "",
+        "email": "juliandelgado@example.com",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2025-12-10T19:10:38.347",
+        "rol": 2,
+        "groups": [
+            3
+        ],
+        "user_permissions": []
     }
 },
 {
-    "model": "auth.permission",
+    "model": "hotel.usuario",
     "pk": 5,
     "fields": {
-        "name": "Can add permission",
-        "content_type": 2,
-        "codename": "add_permission"
+        "password": "pbkdf2_sha256$870000$I91wlWIPKPHzcu4uVN5Bnl$wXxdYr0IZ4BowTlFPtGdPmFqd9KOZIi1kc5qtCH0LsQ=",
+        "last_login": null,
+        "is_superuser": false,
+        "username": "vinicio45",
+        "first_name": "",
+        "last_name": "",
+        "email": "rufinobarcelo@example.org",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2025-12-10T19:10:38.580",
+        "rol": 2,
+        "groups": [
+            3
+        ],
+        "user_permissions": []
     }
 },
 {
-    "model": "auth.permission",
+    "model": "hotel.usuario",
     "pk": 6,
     "fields": {
-        "name": "Can change permission",
-        "content_type": 2,
-        "codename": "change_permission"
+        "password": "pbkdf2_sha256$870000$FOV3iQgGPjfXsrUVMgPcyZ$CHad9szEHIYdv5BVbDRH18oGFVYvKHX9JpSVMYpOYdI=",
+        "last_login": null,
+        "is_superuser": false,
+        "username": "susanitaalegre",
+        "first_name": "",
+        "last_name": "",
+        "email": "rolandoboada@example.net",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2025-12-10T19:10:38.806",
+        "rol": 2,
+        "groups": [
+            3
+        ],
+        "user_permissions": []
     }
 },
 {
-    "model": "auth.permission",
+    "model": "hotel.usuario",
     "pk": 7,
     "fields": {
-        "name": "Can delete permission",
-        "content_type": 2,
-        "codename": "delete_permission"
+        "password": "pbkdf2_sha256$870000$Ol3GHdf4vUWRXHA9pyYSdz$uGsd61cRdXZ93Kp4usbzHzA+MEoXL+a1cdOod9njDP0=",
+        "last_login": null,
+        "is_superuser": false,
+        "username": "lunasonia",
+        "first_name": "",
+        "last_name": "",
+        "email": "qsalcedo@example.org",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2025-12-10T19:10:39.043",
+        "rol": 2,
+        "groups": [
+            3
+        ],
+        "user_permissions": []
     }
 },
 {
-    "model": "auth.permission",
+    "model": "hotel.usuario",
     "pk": 8,
     "fields": {
-        "name": "Can view permission",
-        "content_type": 2,
-        "codename": "view_permission"
+        "password": "pbkdf2_sha256$870000$jKWpkTeMFcrc6cTvPJMTaD$zbnCBD9DVqbO5igGQdBxK4yQf6Ap68VZRcXaId1NePA=",
+        "last_login": null,
+        "is_superuser": false,
+        "username": "marcela98",
+        "first_name": "",
+        "last_name": "",
+        "email": "barrancoloreto@example.net",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2025-12-10T19:10:39.271",
+        "rol": 2,
+        "groups": [
+            3
+        ],
+        "user_permissions": []
     }
 },
 {
-    "model": "auth.permission",
+    "model": "hotel.usuario",
     "pk": 9,
     "fields": {
-        "name": "Can add group",
-        "content_type": 3,
-        "codename": "add_group"
+        "password": "pbkdf2_sha256$870000$9AGXLXu2azw6Cogml4WZX2$dJpzwnhs712E5wENRcBhuHNOWMJ45uIIfnej3AKcqHw=",
+        "last_login": null,
+        "is_superuser": false,
+        "username": "avallejo",
+        "first_name": "",
+        "last_name": "",
+        "email": "sergio65@example.net",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2025-12-10T19:10:39.500",
+        "rol": 2,
+        "groups": [
+            3
+        ],
+        "user_permissions": []
     }
 },
 {
-    "model": "auth.permission",
+    "model": "hotel.usuario",
     "pk": 10,
     "fields": {
-        "name": "Can change group",
-        "content_type": 3,
-        "codename": "change_group"
+        "password": "pbkdf2_sha256$870000$YmLUr66q7X4MGQMtmCc0RL$h3JQ0OcojhiRcZhYwlCottwEyBbK5JCDcXPAo1/xbJc=",
+        "last_login": null,
+        "is_superuser": false,
+        "username": "alepuig",
+        "first_name": "",
+        "last_name": "",
+        "email": "casemiropuente@example.com",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2025-12-10T19:10:39.724",
+        "rol": 2,
+        "groups": [
+            3
+        ],
+        "user_permissions": []
     }
 },
 {
-    "model": "auth.permission",
+    "model": "hotel.usuario",
     "pk": 11,
     "fields": {
-        "name": "Can delete group",
-        "content_type": 3,
-        "codename": "delete_group"
+        "password": "pbkdf2_sha256$870000$VaFdfxUUIg9uXBlsh378cJ$7KJn7JBBi6B7bEpaX+ysoqDKw4gPlvP/OfSioM/Cfnw=",
+        "last_login": null,
+        "is_superuser": false,
+        "username": "gmilla",
+        "first_name": "",
+        "last_name": "",
+        "email": "maricela78@example.org",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2025-12-10T19:10:39.950",
+        "rol": 2,
+        "groups": [
+            3
+        ],
+        "user_permissions": []
     }
 },
 {
-    "model": "auth.permission",
+    "model": "hotel.usuario",
     "pk": 12,
     "fields": {
-        "name": "Can view group",
-        "content_type": 3,
-        "codename": "view_group"
+        "password": "pbkdf2_sha256$870000$kTmbVNg2j4MpNdiKkLosen$T4vCT4iiey1Mq4jAVg+j40kTu8UDBMNYBn0gKvYm89s=",
+        "last_login": null,
+        "is_superuser": false,
+        "username": "sbatalla",
+        "first_name": "",
+        "last_name": "",
+        "email": "montesbuenaventura@example.org",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2025-12-10T19:10:40.194",
+        "rol": 2,
+        "groups": [
+            3
+        ],
+        "user_permissions": []
     }
 },
 {
-    "model": "auth.permission",
+    "model": "hotel.usuario",
     "pk": 13,
     "fields": {
-        "name": "Can add user",
-        "content_type": 4,
-        "codename": "add_user"
+        "password": "pbkdf2_sha256$870000$g1uYOk09ogBpLW9DvynViW$s0hN/BAdU5dRUmPhyIgcUrzQq9GZ/zHdV9TXUhREPn0=",
+        "last_login": null,
+        "is_superuser": false,
+        "username": "yagollamas",
+        "first_name": "",
+        "last_name": "",
+        "email": "bortega@example.org",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2025-12-10T19:10:40.418",
+        "rol": 2,
+        "groups": [
+            3
+        ],
+        "user_permissions": []
     }
 },
 {
-    "model": "auth.permission",
-    "pk": 14,
-    "fields": {
-        "name": "Can change user",
-        "content_type": 4,
-        "codename": "change_user"
-    }
-},
-{
-    "model": "auth.permission",
-    "pk": 15,
-    "fields": {
-        "name": "Can delete user",
-        "content_type": 4,
-        "codename": "delete_user"
-    }
-},
-{
-    "model": "auth.permission",
-    "pk": 16,
-    "fields": {
-        "name": "Can view user",
-        "content_type": 4,
-        "codename": "view_user"
-    }
-},
-{
-    "model": "auth.permission",
-    "pk": 17,
-    "fields": {
-        "name": "Can add content type",
-        "content_type": 5,
-        "codename": "add_contenttype"
-    }
-},
-{
-    "model": "auth.permission",
-    "pk": 18,
-    "fields": {
-        "name": "Can change content type",
-        "content_type": 5,
-        "codename": "change_contenttype"
-    }
-},
-{
-    "model": "auth.permission",
-    "pk": 19,
-    "fields": {
-        "name": "Can delete content type",
-        "content_type": 5,
-        "codename": "delete_contenttype"
-    }
-},
-{
-    "model": "auth.permission",
-    "pk": 20,
-    "fields": {
-        "name": "Can view content type",
-        "content_type": 5,
-        "codename": "view_contenttype"
-    }
-},
-{
-    "model": "auth.permission",
-    "pk": 21,
-    "fields": {
-        "name": "Can add session",
-        "content_type": 6,
-        "codename": "add_session"
-    }
-},
-{
-    "model": "auth.permission",
-    "pk": 22,
-    "fields": {
-        "name": "Can change session",
-        "content_type": 6,
-        "codename": "change_session"
-    }
-},
-{
-    "model": "auth.permission",
-    "pk": 23,
-    "fields": {
-        "name": "Can delete session",
-        "content_type": 6,
-        "codename": "delete_session"
-    }
-},
-{
-    "model": "auth.permission",
-    "pk": 24,
-    "fields": {
-        "name": "Can view session",
-        "content_type": 6,
-        "codename": "view_session"
-    }
-},
-{
-    "model": "auth.permission",
-    "pk": 25,
-    "fields": {
-        "name": "Can add hotel",
-        "content_type": 7,
-        "codename": "add_hotel"
-    }
-},
-{
-    "model": "auth.permission",
-    "pk": 26,
-    "fields": {
-        "name": "Can change hotel",
-        "content_type": 7,
-        "codename": "change_hotel"
-    }
-},
-{
-    "model": "auth.permission",
-    "pk": 27,
-    "fields": {
-        "name": "Can delete hotel",
-        "content_type": 7,
-        "codename": "delete_hotel"
-    }
-},
-{
-    "model": "auth.permission",
-    "pk": 28,
-    "fields": {
-        "name": "Can view hotel",
-        "content_type": 7,
-        "codename": "view_hotel"
-    }
-},
-{
-    "model": "auth.permission",
-    "pk": 29,
-    "fields": {
-        "name": "Can add huesped",
-        "content_type": 8,
-        "codename": "add_huesped"
-    }
-},
-{
-    "model": "auth.permission",
-    "pk": 30,
-    "fields": {
-        "name": "Can change huesped",
-        "content_type": 8,
-        "codename": "change_huesped"
-    }
-},
-{
-    "model": "auth.permission",
-    "pk": 31,
-    "fields": {
-        "name": "Can delete huesped",
-        "content_type": 8,
-        "codename": "delete_huesped"
-    }
-},
-{
-    "model": "auth.permission",
-    "pk": 32,
-    "fields": {
-        "name": "Can view huesped",
-        "content_type": 8,
-        "codename": "view_huesped"
-    }
-},
-{
-    "model": "auth.permission",
-    "pk": 33,
-    "fields": {
-        "name": "Can add servicio",
-        "content_type": 9,
-        "codename": "add_servicio"
-    }
-},
-{
-    "model": "auth.permission",
-    "pk": 34,
-    "fields": {
-        "name": "Can change servicio",
-        "content_type": 9,
-        "codename": "change_servicio"
-    }
-},
-{
-    "model": "auth.permission",
-    "pk": 35,
-    "fields": {
-        "name": "Can delete servicio",
-        "content_type": 9,
-        "codename": "delete_servicio"
-    }
-},
-{
-    "model": "auth.permission",
-    "pk": 36,
-    "fields": {
-        "name": "Can view servicio",
-        "content_type": 9,
-        "codename": "view_servicio"
-    }
-},
-{
-    "model": "auth.permission",
-    "pk": 37,
-    "fields": {
-        "name": "Can add tipo habitacion",
-        "content_type": 10,
-        "codename": "add_tipohabitacion"
-    }
-},
-{
-    "model": "auth.permission",
-    "pk": 38,
-    "fields": {
-        "name": "Can change tipo habitacion",
-        "content_type": 10,
-        "codename": "change_tipohabitacion"
-    }
-},
-{
-    "model": "auth.permission",
-    "pk": 39,
-    "fields": {
-        "name": "Can delete tipo habitacion",
-        "content_type": 10,
-        "codename": "delete_tipohabitacion"
-    }
-},
-{
-    "model": "auth.permission",
-    "pk": 40,
-    "fields": {
-        "name": "Can view tipo habitacion",
-        "content_type": 10,
-        "codename": "view_tipohabitacion"
-    }
-},
-{
-    "model": "auth.permission",
-    "pk": 41,
-    "fields": {
-        "name": "Can add habitacion",
-        "content_type": 11,
-        "codename": "add_habitacion"
-    }
-},
-{
-    "model": "auth.permission",
-    "pk": 42,
-    "fields": {
-        "name": "Can change habitacion",
-        "content_type": 11,
-        "codename": "change_habitacion"
-    }
-},
-{
-    "model": "auth.permission",
-    "pk": 43,
-    "fields": {
-        "name": "Can delete habitacion",
-        "content_type": 11,
-        "codename": "delete_habitacion"
-    }
-},
-{
-    "model": "auth.permission",
-    "pk": 44,
-    "fields": {
-        "name": "Can view habitacion",
-        "content_type": 11,
-        "codename": "view_habitacion"
-    }
-},
-{
-    "model": "auth.permission",
-    "pk": 45,
-    "fields": {
-        "name": "Can add contacto hotel",
-        "content_type": 12,
-        "codename": "add_contactohotel"
-    }
-},
-{
-    "model": "auth.permission",
-    "pk": 46,
-    "fields": {
-        "name": "Can change contacto hotel",
-        "content_type": 12,
-        "codename": "change_contactohotel"
-    }
-},
-{
-    "model": "auth.permission",
-    "pk": 47,
-    "fields": {
-        "name": "Can delete contacto hotel",
-        "content_type": 12,
-        "codename": "delete_contactohotel"
-    }
-},
-{
-    "model": "auth.permission",
-    "pk": 48,
-    "fields": {
-        "name": "Can view contacto hotel",
-        "content_type": 12,
-        "codename": "view_contactohotel"
-    }
-},
-{
-    "model": "auth.permission",
-    "pk": 49,
-    "fields": {
-        "name": "Can add perfil huesped",
-        "content_type": 13,
-        "codename": "add_perfilhuesped"
-    }
-},
-{
-    "model": "auth.permission",
-    "pk": 50,
-    "fields": {
-        "name": "Can change perfil huesped",
-        "content_type": 13,
-        "codename": "change_perfilhuesped"
-    }
-},
-{
-    "model": "auth.permission",
-    "pk": 51,
-    "fields": {
-        "name": "Can delete perfil huesped",
-        "content_type": 13,
-        "codename": "delete_perfilhuesped"
-    }
-},
-{
-    "model": "auth.permission",
-    "pk": 52,
-    "fields": {
-        "name": "Can view perfil huesped",
-        "content_type": 13,
-        "codename": "view_perfilhuesped"
-    }
-},
-{
-    "model": "auth.permission",
-    "pk": 53,
-    "fields": {
-        "name": "Can add reserva",
-        "content_type": 14,
-        "codename": "add_reserva"
-    }
-},
-{
-    "model": "auth.permission",
-    "pk": 54,
-    "fields": {
-        "name": "Can change reserva",
-        "content_type": 14,
-        "codename": "change_reserva"
-    }
-},
-{
-    "model": "auth.permission",
-    "pk": 55,
-    "fields": {
-        "name": "Can delete reserva",
-        "content_type": 14,
-        "codename": "delete_reserva"
-    }
-},
-{
-    "model": "auth.permission",
-    "pk": 56,
-    "fields": {
-        "name": "Can view reserva",
-        "content_type": 14,
-        "codename": "view_reserva"
-    }
-},
-{
-    "model": "auth.permission",
-    "pk": 57,
-    "fields": {
-        "name": "Can add factura",
-        "content_type": 15,
-        "codename": "add_factura"
-    }
-},
-{
-    "model": "auth.permission",
-    "pk": 58,
-    "fields": {
-        "name": "Can change factura",
-        "content_type": 15,
-        "codename": "change_factura"
-    }
-},
-{
-    "model": "auth.permission",
-    "pk": 59,
-    "fields": {
-        "name": "Can delete factura",
-        "content_type": 15,
-        "codename": "delete_factura"
-    }
-},
-{
-    "model": "auth.permission",
-    "pk": 60,
-    "fields": {
-        "name": "Can view factura",
-        "content_type": 15,
-        "codename": "view_factura"
-    }
-},
-{
-    "model": "auth.permission",
-    "pk": 61,
-    "fields": {
-        "name": "Can add reserva servicio",
-        "content_type": 16,
-        "codename": "add_reservaservicio"
-    }
-},
-{
-    "model": "auth.permission",
-    "pk": 62,
-    "fields": {
-        "name": "Can change reserva servicio",
-        "content_type": 16,
-        "codename": "change_reservaservicio"
-    }
-},
-{
-    "model": "auth.permission",
-    "pk": 63,
-    "fields": {
-        "name": "Can delete reserva servicio",
-        "content_type": 16,
-        "codename": "delete_reservaservicio"
-    }
-},
-{
-    "model": "auth.permission",
-    "pk": 64,
-    "fields": {
-        "name": "Can view reserva servicio",
-        "content_type": 16,
-        "codename": "view_reservaservicio"
-    }
-},
-{
-    "model": "contenttypes.contenttype",
+    "model": "hotel.gestor",
     "pk": 1,
     "fields": {
-        "app_label": "admin",
-        "model": "logentry"
-    }
-},
-{
-    "model": "contenttypes.contenttype",
-    "pk": 2,
-    "fields": {
-        "app_label": "auth",
-        "model": "permission"
-    }
-},
-{
-    "model": "contenttypes.contenttype",
-    "pk": 3,
-    "fields": {
-        "app_label": "auth",
-        "model": "group"
-    }
-},
-{
-    "model": "contenttypes.contenttype",
-    "pk": 4,
-    "fields": {
-        "app_label": "auth",
-        "model": "user"
-    }
-},
-{
-    "model": "contenttypes.contenttype",
-    "pk": 5,
-    "fields": {
-        "app_label": "contenttypes",
-        "model": "contenttype"
-    }
-},
-{
-    "model": "contenttypes.contenttype",
-    "pk": 6,
-    "fields": {
-        "app_label": "sessions",
-        "model": "session"
-    }
-},
-{
-    "model": "contenttypes.contenttype",
-    "pk": 7,
-    "fields": {
-        "app_label": "hotel",
-        "model": "hotel"
-    }
-},
-{
-    "model": "contenttypes.contenttype",
-    "pk": 8,
-    "fields": {
-        "app_label": "hotel",
-        "model": "huesped"
-    }
-},
-{
-    "model": "contenttypes.contenttype",
-    "pk": 9,
-    "fields": {
-        "app_label": "hotel",
-        "model": "servicio"
-    }
-},
-{
-    "model": "contenttypes.contenttype",
-    "pk": 10,
-    "fields": {
-        "app_label": "hotel",
-        "model": "tipohabitacion"
-    }
-},
-{
-    "model": "contenttypes.contenttype",
-    "pk": 11,
-    "fields": {
-        "app_label": "hotel",
-        "model": "habitacion"
-    }
-},
-{
-    "model": "contenttypes.contenttype",
-    "pk": 12,
-    "fields": {
-        "app_label": "hotel",
-        "model": "contactohotel"
-    }
-},
-{
-    "model": "contenttypes.contenttype",
-    "pk": 13,
-    "fields": {
-        "app_label": "hotel",
-        "model": "perfilhuesped"
-    }
-},
-{
-    "model": "contenttypes.contenttype",
-    "pk": 14,
-    "fields": {
-        "app_label": "hotel",
-        "model": "reserva"
-    }
-},
-{
-    "model": "contenttypes.contenttype",
-    "pk": 15,
-    "fields": {
-        "app_label": "hotel",
-        "model": "factura"
-    }
-},
-{
-    "model": "contenttypes.contenttype",
-    "pk": 16,
-    "fields": {
-        "app_label": "hotel",
-        "model": "reservaservicio"
+        "fecha_contratacion": "2025-12-10",
+        "especialidad": "Dirección Hotelera",
+        "usuario": 2
     }
 },
 {
     "model": "hotel.hotel",
     "pk": 1,
     "fields": {
-        "nombre": "Camera various poor argue affect young. Of event family live arrive have.",
-        "descripcion": "Citizen against bring rest party manager decision. Identify know word middle discuss image big.\nTraining conference couple forward. Market PM will. Price teach number.",
-        "direccion": "Nice place record. Almost various number pressure garden less organization mother.\nNote this piece accept until. Need save particularly alone head.\nCompany unit we particular cell important.",
-        "fecha_fundacion": "2014-01-06",
-        "calificacion": "0.53",
-        "num_habitaciones": 1,
+        "nombre": "Enríquez y asociados S.Com. Hotel",
+        "descripcion": "Corte tanto opinión gracias explicó usted administración. Presente mismo están general hacerlo. Sueño hora bajo defensa española oficial ha cara.",
+        "direccion": "C. Melisa Ariño 1\nToledo, 13645",
+        "fecha_fundacion": "2024-08-12",
+        "calificacion": "3.95",
+        "num_habitaciones": 49,
         "tiene_restaurante": false,
-        "correo_contacto": null,
+        "correo_contacto": "ihidalgo@example.net",
         "sitio_web": null,
-        "hora_apertura": null,
-        "servicios": []
-    }
-},
-{
-    "model": "hotel.hotel",
-    "pk": 2,
-    "fields": {
-        "nombre": "Instead story how involve bit onto. Discussion our suddenly product guess recognize. Raise you although late father. Moment be meeting.",
-        "descripcion": "About word stuff short spend life. Draw purpose several police tonight sister theory. Society yard school defense station week thus.",
-        "direccion": "Job rest everyone. Concern fly economy night away ground. Attention million Congress threat.\nIdentify almost security Republican just various. Should camera between now discussion call.",
-        "fecha_fundacion": "1991-12-17",
-        "calificacion": "0.65",
-        "num_habitaciones": 1,
-        "tiene_restaurante": false,
-        "correo_contacto": null,
-        "sitio_web": null,
-        "hora_apertura": null,
-        "servicios": []
-    }
-},
-{
-    "model": "hotel.hotel",
-    "pk": 3,
-    "fields": {
-        "nombre": "Prevent school before return letter. Debate will west would your word political record.\nDinner because represent total. Art it blue.",
-        "descripcion": "Wait dinner indicate play never board. Whatever attorney might cup us.\nAttorney good raise yourself. Rest red think think. Likely high network.\nAir mother clearly money figure sense.",
-        "direccion": "Ten head television turn song prepare while doctor. Civil particularly interesting decade. Election by life situation space leave card partner.",
-        "fecha_fundacion": "2016-10-23",
-        "calificacion": "0.95",
-        "num_habitaciones": 1,
-        "tiene_restaurante": false,
-        "correo_contacto": null,
-        "sitio_web": null,
-        "hora_apertura": null,
-        "servicios": []
-    }
-},
-{
-    "model": "hotel.hotel",
-    "pk": 4,
-    "fields": {
-        "nombre": "Meet truth back company sound.\nDesign huge allow local. Result behind subject. Amount activity soldier add trade.\nHard term cultural.",
-        "descripcion": "Soldier adult sometimes open state. Sound stop avoid tax summer former. Very opportunity company toward check. Until star peace any there yes.",
-        "direccion": "Appear letter whole local attention air spring. No measure yes man.\nService artist yes peace during recent. Detail television nothing work avoid watch owner.",
-        "fecha_fundacion": "1998-05-17",
-        "calificacion": "0.01",
-        "num_habitaciones": 1,
-        "tiene_restaurante": false,
-        "correo_contacto": null,
-        "sitio_web": null,
-        "hora_apertura": null,
-        "servicios": []
-    }
-},
-{
-    "model": "hotel.hotel",
-    "pk": 5,
-    "fields": {
-        "nombre": "Whatever few with writer happen. And north offer season. Whatever artist least job student decade. Need try reach huge water.",
-        "descripcion": "Attention customer indeed yet career me since. Which newspaper protect affect.\nChurch grow cold exactly. Discussion around chance move voice care store.",
-        "direccion": "Magazine baby finally edge speak. Others policy conference six old upon only.\nLive scientist expert any former produce white. Act thus performance market value back.",
-        "fecha_fundacion": "1982-01-20",
-        "calificacion": "0.86",
-        "num_habitaciones": 1,
-        "tiene_restaurante": false,
-        "correo_contacto": null,
-        "sitio_web": null,
-        "hora_apertura": null,
-        "servicios": []
-    }
-},
-{
-    "model": "hotel.hotel",
-    "pk": 6,
-    "fields": {
-        "nombre": "Senior hour sort parent. Easy beat professional present eight rock.",
-        "descripcion": "Name among peace into tree never. Start especially my wait put. Structure think design education century main.\nUntil chance personal. Theory all culture himself law world store.",
-        "direccion": "Will stop team during manage. Hand parent difficult bring. Cost hour light material including.\nSurface space whom.\nMind five class should left wonder. Staff positive grow use. Issue it old second no.",
-        "fecha_fundacion": "2015-09-08",
-        "calificacion": "0.56",
-        "num_habitaciones": 1,
-        "tiene_restaurante": false,
-        "correo_contacto": null,
-        "sitio_web": null,
-        "hora_apertura": null,
-        "servicios": []
-    }
-},
-{
-    "model": "hotel.hotel",
-    "pk": 7,
-    "fields": {
-        "nombre": "Three make should. Play sing science message.",
-        "descripcion": "Company partner great state. Speak human authority agency old building.\nWord write group director weight drug. Pretty paper low ground daughter what. Follow majority bank.",
-        "direccion": "Season knowledge method for. Pull bit car although people. Concern turn still office.\nDetail force gas arrive themselves receive one. Quickly skin share animal event.",
-        "fecha_fundacion": "1999-11-02",
-        "calificacion": "0.73",
-        "num_habitaciones": 1,
-        "tiene_restaurante": false,
-        "correo_contacto": null,
-        "sitio_web": null,
-        "hora_apertura": null,
-        "servicios": []
-    }
-},
-{
-    "model": "hotel.hotel",
-    "pk": 8,
-    "fields": {
-        "nombre": "Rock to arrive. Resource travel pull. Almost yourself during high score sea poor.",
-        "descripcion": "Of turn station few song treat could. Old create can factor. Security job brother.\nHalf child we summer thus. Approach son too term.",
-        "direccion": "Player hold later. Allow suddenly artist statement least spend miss. Write class bill catch. Want air far I relate.",
-        "fecha_fundacion": "2018-01-05",
-        "calificacion": "0.07",
-        "num_habitaciones": 1,
-        "tiene_restaurante": false,
-        "correo_contacto": null,
-        "sitio_web": null,
-        "hora_apertura": null,
-        "servicios": []
-    }
-},
-{
-    "model": "hotel.hotel",
-    "pk": 9,
-    "fields": {
-        "nombre": "Live daughter hospital movie can. Particularly whose laugh win official contain. Traditional gun describe leader.",
-        "descripcion": "Point foot meeting. International however while.\nWho drug situation involve director. Build add smile type customer. Car do represent head box toward hospital.",
-        "direccion": "Lead oil wonder better others. Soon view small easy might.\nWin know necessary under its. Town together writer move.\nNecessary article activity goal fear. Conference no late student history somebody.",
-        "fecha_fundacion": "2019-01-31",
-        "calificacion": "0.09",
-        "num_habitaciones": 1,
-        "tiene_restaurante": false,
-        "correo_contacto": null,
-        "sitio_web": null,
-        "hora_apertura": null,
-        "servicios": []
-    }
-},
-{
-    "model": "hotel.hotel",
-    "pk": 10,
-    "fields": {
-        "nombre": "About inside unit local himself. Summer dog TV.\nRecognize defense benefit range hard box only. Me impact eye improve star find.",
-        "descripcion": "Respond mind enter. Professional morning expert never effort person red.\nRequire section mean. Think local option public. Expect market cover free.",
-        "direccion": "Picture fire individual person network believe result. Owner relate picture thousand enjoy kind company.",
-        "fecha_fundacion": "1999-09-07",
-        "calificacion": "0.62",
-        "num_habitaciones": 1,
-        "tiene_restaurante": false,
-        "correo_contacto": null,
-        "sitio_web": null,
-        "hora_apertura": null,
-        "servicios": []
-    }
-},
-{
-    "model": "hotel.hotel",
-    "pk": 12,
-    "fields": {
-        "nombre": "hotelPrueba",
-        "descripcion": "prueba",
-        "direccion": "prueba",
-        "fecha_fundacion": "2000-01-01",
-        "calificacion": "7.00",
-        "num_habitaciones": 33,
-        "tiene_restaurante": true,
-        "correo_contacto": "prueba@a.com",
-        "sitio_web": "http://prueba.com",
-        "hora_apertura": "00:19:00",
+        "hora_apertura": "08:00:00",
         "servicios": [
-            10
+            4,
+            5,
+            6
+        ]
+    }
+},
+{
+    "model": "hotel.hotel",
+    "pk": 2,
+    "fields": {
+        "nombre": "Tecnologías Hoz S.Com. Hotel",
+        "descripcion": "Nuevas próximo uno ministro iba realidad. Su capacidad llevar familia habrá. América diversas pp oficial juicio causa quienes. Consejo vamos claro obra algunos.\nMuerto sí superior consejo.",
+        "direccion": "Pasaje Febe Manzano 42 Piso 0 \nSegovia, 28800",
+        "fecha_fundacion": "2003-04-08",
+        "calificacion": "4.14",
+        "num_habitaciones": 14,
+        "tiene_restaurante": false,
+        "correo_contacto": "mnino@example.com",
+        "sitio_web": null,
+        "hora_apertura": "08:00:00",
+        "servicios": [
+            2,
+            3,
+            4,
+            5
+        ]
+    }
+},
+{
+    "model": "hotel.hotel",
+    "pk": 3,
+    "fields": {
+        "nombre": "Inversiones Céspedes S.L. Hotel",
+        "descripcion": "Problemas aquellas semana universidad después actual. Temas último vio nuevo había. Horas felipe donde vía experiencia presidente entrar.",
+        "direccion": "C. Lola Fuster 6 Puerta 6 \nOurense, 07753",
+        "fecha_fundacion": "1986-08-19",
+        "calificacion": "4.33",
+        "num_habitaciones": 38,
+        "tiene_restaurante": false,
+        "correo_contacto": "canteromarcial@example.com",
+        "sitio_web": null,
+        "hora_apertura": "08:00:00",
+        "servicios": [
+            1,
+            2,
+            5,
+            6
+        ]
+    }
+},
+{
+    "model": "hotel.hotel",
+    "pk": 4,
+    "fields": {
+        "nombre": "Ligia Almagro Herrera S.A. Hotel",
+        "descripcion": "Mayo santa salida hubiera trabajadores señaló. Seguro mayoría trabajadores.",
+        "direccion": "C. de Isaías Acuña 1\nSegovia, 30952",
+        "fecha_fundacion": "2018-08-23",
+        "calificacion": "3.39",
+        "num_habitaciones": 18,
+        "tiene_restaurante": false,
+        "correo_contacto": "anabel39@example.com",
+        "sitio_web": null,
+        "hora_apertura": "08:00:00",
+        "servicios": [
+            1,
+            4,
+            5
+        ]
+    }
+},
+{
+    "model": "hotel.hotel",
+    "pk": 5,
+    "fields": {
+        "nombre": "Logística Solsona & Asociados S.L. Hotel",
+        "descripcion": "Noche calle tenían. Corte objeto derecha estuvo dónde medidas. Sol don paso organización elecciones resultado. París artículo desde parte conocer.",
+        "direccion": "Acceso Silvio Almansa 24 Puerta 3 \nHuelva, 41558",
+        "fecha_fundacion": "1997-05-05",
+        "calificacion": "4.64",
+        "num_habitaciones": 41,
+        "tiene_restaurante": true,
+        "correo_contacto": "farresandra@example.net",
+        "sitio_web": null,
+        "hora_apertura": "08:00:00",
+        "servicios": [
+            3,
+            4,
+            5
         ]
     }
 },
@@ -896,43 +467,43 @@
     "model": "hotel.contactohotel",
     "pk": 1,
     "fields": {
-        "nombre_contacto": "Thousand meeting sister control. Who kind recent popular plant.",
-        "telefono": "Most friend heart.",
-        "correo": "kevinjenkins@example.com",
-        "sitio_web": "http://taylor-hill.biz/category/postsprivacy.php",
-        "hotel": 7
+        "nombre_contacto": "Florentino Abella Gonzalo",
+        "telefono": "+34 978 12 20 8",
+        "correo": "fabianporcel@example.com",
+        "sitio_web": null,
+        "hotel": 1
     }
 },
 {
     "model": "hotel.contactohotel",
     "pk": 2,
     "fields": {
-        "nombre_contacto": "Mrs glass onto sometimes feel cover career. Stay research animal cost read.",
-        "telefono": "Them smile charge.",
-        "correo": "wrightnicholas@example.net",
-        "sitio_web": "http://powell.org/list/main/searchindex.html",
-        "hotel": 6
+        "nombre_contacto": "Elisa Marquez-Bastida",
+        "telefono": "+34985 024 443",
+        "correo": "wmartinez@example.org",
+        "sitio_web": null,
+        "hotel": 2
     }
 },
 {
     "model": "hotel.contactohotel",
     "pk": 3,
     "fields": {
-        "nombre_contacto": "Once ever everybody care at. Out soon board now firm computer through. Magazine start sell case.",
-        "telefono": "Create sea view.",
-        "correo": "kneal@example.com",
-        "sitio_web": "http://www.davis.com/tagsauthor.php",
-        "hotel": 1
+        "nombre_contacto": "Xavier Blasco Lago",
+        "telefono": "+34 868 63 71 4",
+        "correo": "encarnacionpalmer@example.net",
+        "sitio_web": null,
+        "hotel": 3
     }
 },
 {
     "model": "hotel.contactohotel",
     "pk": 4,
     "fields": {
-        "nombre_contacto": "Nation officer north only shoulder help. Their smile team beyond include military base.",
-        "telefono": "Hotel less north.",
-        "correo": "edward88@example.org",
-        "sitio_web": "http://www.gonzalez.org/categorieshome.asp",
+        "nombre_contacto": "Eleuterio Muñoz Barreda",
+        "telefono": "+34 888837674",
+        "correo": "gracianagutierrez@example.org",
+        "sitio_web": null,
         "hotel": 4
     }
 },
@@ -940,505 +511,861 @@
     "model": "hotel.contactohotel",
     "pk": 5,
     "fields": {
-        "nombre_contacto": "Everyone detail word imagine science free power. Job rate wind stock rock yet seat.",
-        "telefono": "The end fear beyond.",
-        "correo": "michellecaldwell@example.org",
-        "sitio_web": "http://www.barton-collins.info/blog/mainpost.htm",
-        "hotel": 8
-    }
-},
-{
-    "model": "hotel.contactohotel",
-    "pk": 6,
-    "fields": {
-        "nombre_contacto": "Region operation standard benefit. Team get conference.",
-        "telefono": "Free cover nor.",
-        "correo": "dgentry@example.net",
-        "sitio_web": "https://beard.net/wp-content/explorepost.php",
-        "hotel": 2
-    }
-},
-{
-    "model": "hotel.contactohotel",
-    "pk": 7,
-    "fields": {
-        "nombre_contacto": "Industry nice sound common area. Together meet either edge family deal. Language level federal us.",
-        "telefono": "Grow question space.",
-        "correo": "richardthompson@example.net",
-        "sitio_web": "https://www.booth.info/posts/wp-contentpost.jsp",
-        "hotel": 10
-    }
-},
-{
-    "model": "hotel.contactohotel",
-    "pk": 8,
-    "fields": {
-        "nombre_contacto": "Unit meeting will two. Difference operation sister. Design travel expert religious.",
-        "telefono": "Prove every network.",
-        "correo": "bakerkelly@example.com",
-        "sitio_web": "https://www.woods.com/categories/app/wp-contentsearch.php",
+        "nombre_contacto": "Teodora Hierro-Quevedo",
+        "telefono": "+34848 120 305",
+        "correo": "ignaciahernandez@example.org",
+        "sitio_web": null,
         "hotel": 5
     }
 },
 {
-    "model": "hotel.contactohotel",
-    "pk": 9,
-    "fields": {
-        "nombre_contacto": "Federal believe after. Price nearly technology. Fly last let boy behavior out.",
-        "telefono": "Teacher now sure.",
-        "correo": "reidvictoria@example.com",
-        "sitio_web": "https://www.valdez-hampton.biz/listlogin.jsp",
-        "hotel": 9
-    }
-},
-{
-    "model": "hotel.contactohotel",
-    "pk": 10,
-    "fields": {
-        "nombre_contacto": "Tend among fight. Painting big fast fly. Item occur view quality this.",
-        "telefono": "By central.",
-        "correo": "andrewstamara@example.com",
-        "sitio_web": "http://osborn.com/posts/categoriesauthor.php",
-        "hotel": 3
-    }
-},
-{
     "model": "hotel.tipohabitacion",
     "pk": 1,
     "fields": {
-        "nombre": "Everyone early start imagine ready vote. Seat industry money which eye action how.",
-        "descripcion": "System stage away quality want learn. Offer between issue usually feel page government husband. Player manage year explain player expect body box. Seven beautiful during position.",
-        "capacidad": 18559,
-        "precio_base": "0.21"
+        "nombre": "Individual",
+        "descripcion": "Habitación Individual",
+        "capacidad": 1,
+        "precio_base": "64.00"
     }
 },
 {
     "model": "hotel.tipohabitacion",
     "pk": 2,
     "fields": {
-        "nombre": "Want member work phone. Find bit deal mission behavior federal already.",
-        "descripcion": "Theory interest around main certain. Kid mouth campaign current option miss end.",
-        "capacidad": -435,
-        "precio_base": "0.91"
+        "nombre": "Doble",
+        "descripcion": "Habitación Doble",
+        "capacidad": 2,
+        "precio_base": "102.00"
     }
 },
 {
     "model": "hotel.tipohabitacion",
     "pk": 3,
     "fields": {
-        "nombre": "He rule offer whether rock. Year toward idea eat. Any develop west leg another.",
-        "descripcion": "Environmental somebody low agency activity moment. Standard her continue affect although. Short radio compare.",
-        "capacidad": -17343,
-        "precio_base": "0.61"
-    }
-},
-{
-    "model": "hotel.tipohabitacion",
-    "pk": 4,
-    "fields": {
-        "nombre": "Very child night course part part. End get card.",
-        "descripcion": "Order of letter look raise everyone special. Board onto if social.\nAdmit image lay few. Painting though research everything. Resource watch lose.",
-        "capacidad": 21524,
-        "precio_base": "0.52"
-    }
-},
-{
-    "model": "hotel.tipohabitacion",
-    "pk": 5,
-    "fields": {
-        "nombre": "Personal four too else. Skill science loss world past draw easy drop.",
-        "descripcion": "Lot worker rate television strong law from.\nGovernment sister soldier close improve town. Despite research tend pick either president take upon.",
-        "capacidad": -1504,
-        "precio_base": "0.96"
-    }
-},
-{
-    "model": "hotel.tipohabitacion",
-    "pk": 6,
-    "fields": {
-        "nombre": "Decade process style present. Against someone discussion.",
-        "descripcion": "Just blue Mr clear detail physical Mr. Under never positive decide find.",
-        "capacidad": -22133,
-        "precio_base": "0.98"
-    }
-},
-{
-    "model": "hotel.tipohabitacion",
-    "pk": 7,
-    "fields": {
-        "nombre": "Partner ask suffer enough meeting. Rock nor east card continue best call.",
-        "descripcion": "Himself number structure figure decision ahead rock. Kid enough lay fact light land six language. Down somebody concern week reach raise PM.\nWatch what win. Yard before in myself young.",
-        "capacidad": -9157,
-        "precio_base": "0.72"
-    }
-},
-{
-    "model": "hotel.tipohabitacion",
-    "pk": 8,
-    "fields": {
-        "nombre": "Up pattern author thing know be evening. Partner cover moment study down eye head still.",
-        "descripcion": "Weight family off trade.\nOn research present big sport control task play. Determine issue exist recently. Lose quickly land rather general choice argue.",
-        "capacidad": 5173,
-        "precio_base": "0.29"
-    }
-},
-{
-    "model": "hotel.tipohabitacion",
-    "pk": 9,
-    "fields": {
-        "nombre": "Hotel democratic base wait art like loss. Rate age hit get story.\nSuch TV allow simple.",
-        "descripcion": "Team travel mission it. Billion want someone claim either clearly church.\nMonth manager nothing subject it reflect. Effect step dog why choose.",
-        "capacidad": -26627,
-        "precio_base": "0.41"
-    }
-},
-{
-    "model": "hotel.tipohabitacion",
-    "pk": 10,
-    "fields": {
-        "nombre": "Off herself large machine whole hit. Herself finish method. Edge hear bit whether or stay employee.",
-        "descripcion": "Poor measure sea fly maybe hard. Unit sport play prove score rock measure. Civil step record player these fund girl support.",
-        "capacidad": 14285,
-        "precio_base": "0.10"
+        "nombre": "Suite",
+        "descripcion": "Habitación Suite",
+        "capacidad": 4,
+        "precio_base": "97.00"
     }
 },
 {
     "model": "hotel.habitacion",
     "pk": 1,
     "fields": {
-        "numero": "Loss.",
-        "piso": -21015,
+        "numero": "301",
+        "piso": 3,
+        "tipo": 1,
+        "hotel": 1,
+        "disponible": true,
+        "servicios": []
+    }
+},
+{
+    "model": "hotel.habitacion",
+    "pk": 2,
+    "fields": {
+        "numero": "302",
+        "piso": 2,
+        "tipo": 3,
+        "hotel": 1,
+        "disponible": true,
+        "servicios": []
+    }
+},
+{
+    "model": "hotel.habitacion",
+    "pk": 3,
+    "fields": {
+        "numero": "403",
+        "piso": 4,
+        "tipo": 1,
+        "hotel": 1,
+        "disponible": true,
+        "servicios": []
+    }
+},
+{
+    "model": "hotel.habitacion",
+    "pk": 4,
+    "fields": {
+        "numero": "104",
+        "piso": 2,
+        "tipo": 1,
+        "hotel": 1,
+        "disponible": true,
+        "servicios": []
+    }
+},
+{
+    "model": "hotel.habitacion",
+    "pk": 5,
+    "fields": {
+        "numero": "505",
+        "piso": 2,
+        "tipo": 2,
+        "hotel": 1,
+        "disponible": true,
+        "servicios": []
+    }
+},
+{
+    "model": "hotel.habitacion",
+    "pk": 6,
+    "fields": {
+        "numero": "106",
+        "piso": 2,
+        "tipo": 2,
+        "hotel": 1,
+        "disponible": true,
+        "servicios": []
+    }
+},
+{
+    "model": "hotel.habitacion",
+    "pk": 7,
+    "fields": {
+        "numero": "207",
+        "piso": 1,
+        "tipo": 3,
+        "hotel": 1,
+        "disponible": true,
+        "servicios": []
+    }
+},
+{
+    "model": "hotel.habitacion",
+    "pk": 8,
+    "fields": {
+        "numero": "208",
+        "piso": 1,
+        "tipo": 3,
+        "hotel": 1,
+        "disponible": true,
+        "servicios": []
+    }
+},
+{
+    "model": "hotel.habitacion",
+    "pk": 9,
+    "fields": {
+        "numero": "109",
+        "piso": 5,
+        "tipo": 1,
+        "hotel": 1,
+        "disponible": true,
+        "servicios": []
+    }
+},
+{
+    "model": "hotel.habitacion",
+    "pk": 10,
+    "fields": {
+        "numero": "5010",
+        "piso": 2,
+        "tipo": 1,
+        "hotel": 1,
+        "disponible": true,
+        "servicios": []
+    }
+},
+{
+    "model": "hotel.habitacion",
+    "pk": 11,
+    "fields": {
+        "numero": "101",
+        "piso": 5,
+        "tipo": 3,
+        "hotel": 2,
+        "disponible": true,
+        "servicios": []
+    }
+},
+{
+    "model": "hotel.habitacion",
+    "pk": 12,
+    "fields": {
+        "numero": "302",
+        "piso": 2,
+        "tipo": 3,
+        "hotel": 2,
+        "disponible": true,
+        "servicios": []
+    }
+},
+{
+    "model": "hotel.habitacion",
+    "pk": 13,
+    "fields": {
+        "numero": "503",
+        "piso": 1,
+        "tipo": 3,
+        "hotel": 2,
+        "disponible": true,
+        "servicios": []
+    }
+},
+{
+    "model": "hotel.habitacion",
+    "pk": 14,
+    "fields": {
+        "numero": "504",
+        "piso": 4,
+        "tipo": 2,
+        "hotel": 2,
+        "disponible": true,
+        "servicios": []
+    }
+},
+{
+    "model": "hotel.habitacion",
+    "pk": 15,
+    "fields": {
+        "numero": "105",
+        "piso": 4,
+        "tipo": 2,
+        "hotel": 2,
+        "disponible": true,
+        "servicios": []
+    }
+},
+{
+    "model": "hotel.habitacion",
+    "pk": 16,
+    "fields": {
+        "numero": "106",
+        "piso": 1,
+        "tipo": 3,
+        "hotel": 2,
+        "disponible": true,
+        "servicios": []
+    }
+},
+{
+    "model": "hotel.habitacion",
+    "pk": 17,
+    "fields": {
+        "numero": "207",
+        "piso": 2,
+        "tipo": 3,
+        "hotel": 2,
+        "disponible": true,
+        "servicios": []
+    }
+},
+{
+    "model": "hotel.habitacion",
+    "pk": 18,
+    "fields": {
+        "numero": "308",
+        "piso": 1,
+        "tipo": 1,
+        "hotel": 2,
+        "disponible": true,
+        "servicios": []
+    }
+},
+{
+    "model": "hotel.habitacion",
+    "pk": 19,
+    "fields": {
+        "numero": "109",
+        "piso": 2,
+        "tipo": 3,
+        "hotel": 2,
+        "disponible": true,
+        "servicios": []
+    }
+},
+{
+    "model": "hotel.habitacion",
+    "pk": 20,
+    "fields": {
+        "numero": "1010",
+        "piso": 4,
+        "tipo": 2,
+        "hotel": 2,
+        "disponible": true,
+        "servicios": []
+    }
+},
+{
+    "model": "hotel.habitacion",
+    "pk": 21,
+    "fields": {
+        "numero": "101",
+        "piso": 3,
+        "tipo": 3,
+        "hotel": 3,
+        "disponible": true,
+        "servicios": []
+    }
+},
+{
+    "model": "hotel.habitacion",
+    "pk": 22,
+    "fields": {
+        "numero": "202",
+        "piso": 3,
+        "tipo": 3,
+        "hotel": 3,
+        "disponible": true,
+        "servicios": []
+    }
+},
+{
+    "model": "hotel.habitacion",
+    "pk": 23,
+    "fields": {
+        "numero": "303",
+        "piso": 3,
+        "tipo": 3,
+        "hotel": 3,
+        "disponible": true,
+        "servicios": []
+    }
+},
+{
+    "model": "hotel.habitacion",
+    "pk": 24,
+    "fields": {
+        "numero": "304",
+        "piso": 1,
+        "tipo": 2,
+        "hotel": 3,
+        "disponible": true,
+        "servicios": []
+    }
+},
+{
+    "model": "hotel.habitacion",
+    "pk": 25,
+    "fields": {
+        "numero": "105",
+        "piso": 1,
         "tipo": 1,
         "hotel": 3,
         "disponible": true,
-        "servicios": [
-            4,
-            6
-        ]
+        "servicios": []
     }
 },
 {
     "model": "hotel.habitacion",
-    "pk": 2,
+    "pk": 26,
     "fields": {
-        "numero": "Must.",
-        "piso": -1739,
+        "numero": "406",
+        "piso": 1,
         "tipo": 2,
-        "hotel": 6,
-        "disponible": true,
-        "servicios": [
-            8,
-            9,
-            10
-        ]
-    }
-},
-{
-    "model": "hotel.habitacion",
-    "pk": 3,
-    "fields": {
-        "numero": "Family.",
-        "piso": -14971,
-        "tipo": 4,
-        "hotel": 2,
-        "disponible": true,
-        "servicios": [
-            5
-        ]
-    }
-},
-{
-    "model": "hotel.habitacion",
-    "pk": 4,
-    "fields": {
-        "numero": "Sing.",
-        "piso": -21473,
-        "tipo": 10,
         "hotel": 3,
         "disponible": true,
-        "servicios": [
-            7,
-            9
-        ]
+        "servicios": []
     }
 },
 {
     "model": "hotel.habitacion",
-    "pk": 5,
+    "pk": 27,
     "fields": {
-        "numero": "Art.",
-        "piso": -10899,
+        "numero": "207",
+        "piso": 3,
         "tipo": 2,
-        "hotel": 6,
+        "hotel": 3,
         "disponible": true,
-        "servicios": [
-            3,
-            9,
-            10
-        ]
+        "servicios": []
     }
 },
 {
     "model": "hotel.habitacion",
-    "pk": 6,
+    "pk": 28,
     "fields": {
-        "numero": "Stage dog.",
-        "piso": -9630,
-        "tipo": 4,
-        "hotel": 1,
-        "disponible": true,
-        "servicios": [
-            2,
-            5,
-            8
-        ]
-    }
-},
-{
-    "model": "hotel.habitacion",
-    "pk": 7,
-    "fields": {
-        "numero": "By relate.",
-        "piso": 25327,
-        "tipo": 10,
-        "hotel": 2,
-        "disponible": true,
-        "servicios": [
-            1,
-            3
-        ]
-    }
-},
-{
-    "model": "hotel.habitacion",
-    "pk": 8,
-    "fields": {
-        "numero": "Year call.",
-        "piso": -6573,
+        "numero": "408",
+        "piso": 3,
         "tipo": 2,
-        "hotel": 8,
+        "hotel": 3,
         "disponible": true,
-        "servicios": [
-            2,
-            3,
-            5
-        ]
+        "servicios": []
     }
 },
 {
     "model": "hotel.habitacion",
-    "pk": 9,
+    "pk": 29,
     "fields": {
-        "numero": "Develop.",
-        "piso": 26077,
+        "numero": "509",
+        "piso": 5,
+        "tipo": 2,
+        "hotel": 3,
+        "disponible": true,
+        "servicios": []
+    }
+},
+{
+    "model": "hotel.habitacion",
+    "pk": 30,
+    "fields": {
+        "numero": "5010",
+        "piso": 5,
+        "tipo": 1,
+        "hotel": 3,
+        "disponible": true,
+        "servicios": []
+    }
+},
+{
+    "model": "hotel.habitacion",
+    "pk": 31,
+    "fields": {
+        "numero": "401",
+        "piso": 5,
         "tipo": 3,
-        "hotel": 10,
+        "hotel": 4,
         "disponible": true,
-        "servicios": [
-            5
-        ]
+        "servicios": []
     }
 },
 {
     "model": "hotel.habitacion",
-    "pk": 10,
+    "pk": 32,
     "fields": {
-        "numero": "Hear high.",
-        "piso": -9744,
-        "tipo": 6,
-        "hotel": 8,
+        "numero": "302",
+        "piso": 5,
+        "tipo": 2,
+        "hotel": 4,
         "disponible": true,
-        "servicios": [
-            6,
-            7
-        ]
+        "servicios": []
+    }
+},
+{
+    "model": "hotel.habitacion",
+    "pk": 33,
+    "fields": {
+        "numero": "303",
+        "piso": 3,
+        "tipo": 2,
+        "hotel": 4,
+        "disponible": true,
+        "servicios": []
+    }
+},
+{
+    "model": "hotel.habitacion",
+    "pk": 34,
+    "fields": {
+        "numero": "504",
+        "piso": 2,
+        "tipo": 3,
+        "hotel": 4,
+        "disponible": true,
+        "servicios": []
+    }
+},
+{
+    "model": "hotel.habitacion",
+    "pk": 35,
+    "fields": {
+        "numero": "405",
+        "piso": 3,
+        "tipo": 2,
+        "hotel": 4,
+        "disponible": true,
+        "servicios": []
+    }
+},
+{
+    "model": "hotel.habitacion",
+    "pk": 36,
+    "fields": {
+        "numero": "206",
+        "piso": 4,
+        "tipo": 2,
+        "hotel": 4,
+        "disponible": true,
+        "servicios": []
+    }
+},
+{
+    "model": "hotel.habitacion",
+    "pk": 37,
+    "fields": {
+        "numero": "307",
+        "piso": 5,
+        "tipo": 1,
+        "hotel": 4,
+        "disponible": true,
+        "servicios": []
+    }
+},
+{
+    "model": "hotel.habitacion",
+    "pk": 38,
+    "fields": {
+        "numero": "208",
+        "piso": 5,
+        "tipo": 1,
+        "hotel": 4,
+        "disponible": true,
+        "servicios": []
+    }
+},
+{
+    "model": "hotel.habitacion",
+    "pk": 39,
+    "fields": {
+        "numero": "209",
+        "piso": 5,
+        "tipo": 3,
+        "hotel": 4,
+        "disponible": true,
+        "servicios": []
+    }
+},
+{
+    "model": "hotel.habitacion",
+    "pk": 40,
+    "fields": {
+        "numero": "2010",
+        "piso": 5,
+        "tipo": 3,
+        "hotel": 4,
+        "disponible": true,
+        "servicios": []
+    }
+},
+{
+    "model": "hotel.habitacion",
+    "pk": 41,
+    "fields": {
+        "numero": "101",
+        "piso": 1,
+        "tipo": 1,
+        "hotel": 5,
+        "disponible": true,
+        "servicios": []
+    }
+},
+{
+    "model": "hotel.habitacion",
+    "pk": 42,
+    "fields": {
+        "numero": "102",
+        "piso": 3,
+        "tipo": 1,
+        "hotel": 5,
+        "disponible": true,
+        "servicios": []
+    }
+},
+{
+    "model": "hotel.habitacion",
+    "pk": 43,
+    "fields": {
+        "numero": "203",
+        "piso": 2,
+        "tipo": 1,
+        "hotel": 5,
+        "disponible": true,
+        "servicios": []
+    }
+},
+{
+    "model": "hotel.habitacion",
+    "pk": 44,
+    "fields": {
+        "numero": "504",
+        "piso": 4,
+        "tipo": 2,
+        "hotel": 5,
+        "disponible": true,
+        "servicios": []
+    }
+},
+{
+    "model": "hotel.habitacion",
+    "pk": 45,
+    "fields": {
+        "numero": "205",
+        "piso": 3,
+        "tipo": 3,
+        "hotel": 5,
+        "disponible": true,
+        "servicios": []
+    }
+},
+{
+    "model": "hotel.habitacion",
+    "pk": 46,
+    "fields": {
+        "numero": "306",
+        "piso": 2,
+        "tipo": 1,
+        "hotel": 5,
+        "disponible": true,
+        "servicios": []
+    }
+},
+{
+    "model": "hotel.habitacion",
+    "pk": 47,
+    "fields": {
+        "numero": "207",
+        "piso": 2,
+        "tipo": 3,
+        "hotel": 5,
+        "disponible": true,
+        "servicios": []
+    }
+},
+{
+    "model": "hotel.habitacion",
+    "pk": 48,
+    "fields": {
+        "numero": "308",
+        "piso": 1,
+        "tipo": 3,
+        "hotel": 5,
+        "disponible": true,
+        "servicios": []
+    }
+},
+{
+    "model": "hotel.habitacion",
+    "pk": 49,
+    "fields": {
+        "numero": "409",
+        "piso": 5,
+        "tipo": 2,
+        "hotel": 5,
+        "disponible": true,
+        "servicios": []
+    }
+},
+{
+    "model": "hotel.habitacion",
+    "pk": 50,
+    "fields": {
+        "numero": "3010",
+        "piso": 2,
+        "tipo": 3,
+        "hotel": 5,
+        "disponible": true,
+        "servicios": []
     }
 },
 {
     "model": "hotel.huesped",
     "pk": 1,
     "fields": {
-        "nombre": "Along former draw site. Cup along their real number example option.",
-        "apellido": "Quality end operation Congress truth point clearly young.",
-        "correo": "lisa39@example.com",
-        "telefono": "Ball artist.",
-        "fecha_nacimiento": "2011-06-22"
+        "nombre": "Juan",
+        "apellido": "Pérez",
+        "correo": "huesped1@hotel.com",
+        "telefono": "600123456",
+        "fecha_nacimiento": null,
+        "usuario": 3
     }
 },
 {
     "model": "hotel.huesped",
     "pk": 2,
     "fields": {
-        "nombre": "Rise share before population event pattern open fire.",
-        "apellido": "Music civil true read appear radio style. Get total soon name about.",
-        "correo": "michaelhernandez@example.com",
-        "telefono": "Chance section.",
-        "fecha_nacimiento": "1998-06-12"
+        "nombre": "Dora",
+        "apellido": "Tormo",
+        "correo": "juliandelgado@example.com",
+        "telefono": "+34 948 83 49 9",
+        "fecha_nacimiento": null,
+        "usuario": 4
     }
 },
 {
     "model": "hotel.huesped",
     "pk": 3,
     "fields": {
-        "nombre": "Cover finally chair no. Line mother player not tonight book.",
-        "apellido": "Impact best pattern toward hotel at performance. Wind cut day term.",
-        "correo": "rscott@example.org",
-        "telefono": "Rather trouble both.",
-        "fecha_nacimiento": "1981-11-05"
+        "nombre": "Luciano",
+        "apellido": "Cuesta",
+        "correo": "rufinobarcelo@example.org",
+        "telefono": "+34885 958 224",
+        "fecha_nacimiento": null,
+        "usuario": 5
     }
 },
 {
     "model": "hotel.huesped",
     "pk": 4,
     "fields": {
-        "nombre": "Three conference large effect instead unit tonight.",
-        "apellido": "Themselves wide result market. Tell pressure toward south toward item consider.",
-        "correo": "shannon25@example.net",
-        "telefono": "Decade nation.",
-        "fecha_nacimiento": "1999-02-03"
+        "nombre": "Chus",
+        "apellido": "Oliva",
+        "correo": "rolandoboada@example.net",
+        "telefono": "+34924 495 538",
+        "fecha_nacimiento": null,
+        "usuario": 6
     }
 },
 {
     "model": "hotel.huesped",
     "pk": 5,
     "fields": {
-        "nombre": "Drive TV you question claim safe those each.",
-        "apellido": "Hear yourself plant industry whatever discuss we property.",
-        "correo": "mercadomiguel@example.com",
-        "telefono": "Daughter up power.",
-        "fecha_nacimiento": "1989-10-13"
+        "nombre": "Narcisa",
+        "apellido": "Blázquez",
+        "correo": "qsalcedo@example.org",
+        "telefono": "+34 925 84 82 5",
+        "fecha_nacimiento": null,
+        "usuario": 7
     }
 },
 {
     "model": "hotel.huesped",
     "pk": 6,
     "fields": {
-        "nombre": "Call I water draw him prevent. Side assume catch lead hot weight.",
-        "apellido": "Sit clear church away cover list foreign. Or nice agency law.",
-        "correo": "cookchristopher@example.com",
-        "telefono": "Break into minute.",
-        "fecha_nacimiento": "2013-04-17"
+        "nombre": "Leandro",
+        "apellido": "Cadenas",
+        "correo": "barrancoloreto@example.net",
+        "telefono": "+34879798950",
+        "fecha_nacimiento": null,
+        "usuario": 8
     }
 },
 {
     "model": "hotel.huesped",
     "pk": 7,
     "fields": {
-        "nombre": "Even main investment thing suffer.",
-        "apellido": "Magazine successful serve than quickly.",
-        "correo": "jamessolomon@example.com",
-        "telefono": "Image ten feeling.",
-        "fecha_nacimiento": "1986-07-08"
+        "nombre": "Mateo",
+        "apellido": "Ríos",
+        "correo": "sergio65@example.net",
+        "telefono": "+34 882171979",
+        "fecha_nacimiento": null,
+        "usuario": 9
     }
 },
 {
     "model": "hotel.huesped",
     "pk": 8,
     "fields": {
-        "nombre": "Outside modern work station recognize factor actually whose.",
-        "apellido": "In yeah trouble prove week little site develop.",
-        "correo": "kespinoza@example.com",
-        "telefono": "Appear again street.",
-        "fecha_nacimiento": "1993-10-25"
+        "nombre": "Nydia",
+        "apellido": "Ugarte",
+        "correo": "casemiropuente@example.com",
+        "telefono": "+34847 496 018",
+        "fecha_nacimiento": null,
+        "usuario": 10
     }
 },
 {
     "model": "hotel.huesped",
     "pk": 9,
     "fields": {
-        "nombre": "Remain home east mouth off customer.",
-        "apellido": "Four care various camera include institution.",
-        "correo": "dguerrero@example.com",
-        "telefono": "Wife prevent.",
-        "fecha_nacimiento": "2022-08-12"
+        "nombre": "Casandra",
+        "apellido": "Coll",
+        "correo": "maricela78@example.org",
+        "telefono": "+34 822207608",
+        "fecha_nacimiento": null,
+        "usuario": 11
     }
 },
 {
     "model": "hotel.huesped",
-    "pk": 12,
+    "pk": 10,
     "fields": {
-        "nombre": "Supermanuelito",
-        "apellido": "A ver sillas",
-        "correo": "manu@a.com",
-        "telefono": "987654321",
-        "fecha_nacimiento": "2000-01-01"
+        "nombre": "Anunciación",
+        "apellido": "Valls",
+        "correo": "montesbuenaventura@example.org",
+        "telefono": "+34 976 90 72 5",
+        "fecha_nacimiento": null,
+        "usuario": 12
+    }
+},
+{
+    "model": "hotel.huesped",
+    "pk": 11,
+    "fields": {
+        "nombre": "Augusto",
+        "apellido": "Pereira",
+        "correo": "bortega@example.org",
+        "telefono": "+34 825 15 83 8",
+        "fecha_nacimiento": null,
+        "usuario": 13
     }
 },
 {
     "model": "hotel.perfilhuesped",
     "pk": 1,
     "fields": {
+        "huesped": 1,
+        "nacionalidad": "Española",
+        "numero_pasaporte": null,
+        "puntos_fidelidad": 100,
+        "preferencias": ""
+    }
+},
+{
+    "model": "hotel.perfilhuesped",
+    "pk": 2,
+    "fields": {
         "huesped": 2,
-        "nacionalidad": "Mention help ten company not.",
-        "numero_pasaporte": "Student month he significant.",
-        "puntos_fidelidad": -6535,
-        "preferencias": "Such rule produce my teacher author. Memory discuss instead yard behavior term rule.\nCapital way attorney manage. Last grow model next field letter. Vote might feel order. Public top age even street."
+        "nacionalidad": "Angola",
+        "numero_pasaporte": "Bo2518883",
+        "puntos_fidelidad": 18,
+        "preferencias": ""
     }
 },
 {
     "model": "hotel.perfilhuesped",
     "pk": 3,
     "fields": {
-        "huesped": 8,
-        "nacionalidad": "South response read piece institution.",
-        "numero_pasaporte": "Bad water continue consumer.",
-        "puntos_fidelidad": 17258,
-        "preferencias": "Far involve month hard image.\nInto country wear option.\nEye eight agreement final. Phone effect daughter radio outside. Well successful magazine shoulder agreement rich."
+        "huesped": 3,
+        "nacionalidad": "Zimbabwe",
+        "numero_pasaporte": "Xh3521423",
+        "puntos_fidelidad": 100,
+        "preferencias": ""
     }
 },
 {
     "model": "hotel.perfilhuesped",
     "pk": 4,
     "fields": {
-        "huesped": 6,
-        "nacionalidad": "Success address inside deal.",
-        "numero_pasaporte": "Sell card ten score.",
-        "puntos_fidelidad": 25878,
-        "preferencias": "Some daughter rich often similar. Deep leg full lawyer.\nOld close total power let. Wonder learn career certain."
+        "huesped": 4,
+        "nacionalidad": "República de Macedonia del Norte",
+        "numero_pasaporte": "mO0375588",
+        "puntos_fidelidad": 109,
+        "preferencias": ""
     }
 },
 {
     "model": "hotel.perfilhuesped",
     "pk": 5,
     "fields": {
-        "huesped": 1,
-        "nacionalidad": "Response case process its.",
-        "numero_pasaporte": "Myself beat perform.",
-        "puntos_fidelidad": 11413,
-        "preferencias": "By here difference again agent vote. Statement let along. So cause amount green politics network.\nBlood wait somebody remain along degree voice."
+        "huesped": 5,
+        "nacionalidad": "Marruecos",
+        "numero_pasaporte": "Ez2201148",
+        "puntos_fidelidad": 244,
+        "preferencias": ""
     }
 },
 {
     "model": "hotel.perfilhuesped",
     "pk": 6,
     "fields": {
-        "huesped": 7,
-        "nacionalidad": "Economic day share poor theory plan loss.",
-        "numero_pasaporte": "Bring catch watch risk PM.",
-        "puntos_fidelidad": -8693,
-        "preferencias": "This respond range evidence his political.\nReligious likely increase maintain myself. Language natural weight business necessary study."
+        "huesped": 6,
+        "nacionalidad": "Croacia",
+        "numero_pasaporte": "wQ7932763",
+        "puntos_fidelidad": 354,
+        "preferencias": ""
     }
 },
 {
     "model": "hotel.perfilhuesped",
     "pk": 7,
     "fields": {
-        "huesped": 3,
-        "nacionalidad": "Boy office try member nature bad certainly.",
-        "numero_pasaporte": "Same what firm hear each.",
-        "puntos_fidelidad": 32628,
-        "preferencias": "Perhaps professor notice. West believe administration you small process debate nearly. Black begin marriage civil make voice allow rather."
+        "huesped": 7,
+        "nacionalidad": "Montenegro",
+        "numero_pasaporte": "ka4002583",
+        "puntos_fidelidad": 365,
+        "preferencias": ""
     }
 },
 {
     "model": "hotel.perfilhuesped",
     "pk": 8,
     "fields": {
-        "huesped": 4,
-        "nacionalidad": "Key range concern nor.",
-        "numero_pasaporte": "Involve season goal nothing.",
-        "puntos_fidelidad": 26135,
-        "preferencias": "Lead him third kid. Own pressure fast level leg cultural pattern such."
+        "huesped": 8,
+        "nacionalidad": "Egipto",
+        "numero_pasaporte": "dG3417448",
+        "puntos_fidelidad": 358,
+        "preferencias": ""
     }
 },
 {
@@ -1446,143 +1373,290 @@
     "pk": 9,
     "fields": {
         "huesped": 9,
-        "nacionalidad": "View way bag senior director seat major.",
-        "numero_pasaporte": "Born age in water.",
-        "puntos_fidelidad": 15924,
-        "preferencias": "Mouth miss spring focus cause cultural author. Edge despite home week space.\nHand ball fight another. Nation president use north picture about."
+        "nacionalidad": "Comoras",
+        "numero_pasaporte": "ek3263812",
+        "puntos_fidelidad": 66,
+        "preferencias": ""
     }
 },
 {
     "model": "hotel.perfilhuesped",
     "pk": 10,
     "fields": {
-        "huesped": 5,
-        "nacionalidad": "Structure blood family baby.",
-        "numero_pasaporte": "Hard source smile.",
-        "puntos_fidelidad": -14999,
-        "preferencias": "Actually likely sea son I exist.\nGoal run positive green firm. Leader relate form drug notice gas early. In around building see by."
+        "huesped": 10,
+        "nacionalidad": "Ecuador",
+        "numero_pasaporte": "wc1401522",
+        "puntos_fidelidad": 303,
+        "preferencias": ""
+    }
+},
+{
+    "model": "hotel.perfilhuesped",
+    "pk": 11,
+    "fields": {
+        "huesped": 11,
+        "nacionalidad": "Côte d'Ivoire",
+        "numero_pasaporte": "FZ0852604",
+        "puntos_fidelidad": 456,
+        "preferencias": ""
     }
 },
 {
     "model": "hotel.servicio",
     "pk": 1,
     "fields": {
-        "nombre": "Growth of study soon voice mean speech. Sometimes open main first thank wonder often.",
-        "descripcion": "Arm city effort election level treat. Able it others color up particular gas. Away certainly live service people follow reveal.\nThird huge indeed dinner show pay kind. Radio such free central.",
-        "precio": "0.37",
-        "es_opcional": true,
-        "duracion_minutos": -31204
+        "nombre": "Wifi",
+        "descripcion": "Servicio de Wifi",
+        "precio": "12.00",
+        "es_opcional": false,
+        "duracion_minutos": null
     }
 },
 {
     "model": "hotel.servicio",
     "pk": 2,
     "fields": {
-        "nombre": "Speech father expert street similar understand herself. Recognize floor raise attack.",
-        "descripcion": "Our step level indicate focus everybody her born. Six in fly technology which management.\nControl government return light middle.",
-        "precio": "0.47",
+        "nombre": "Piscina",
+        "descripcion": "Servicio de Piscina",
+        "precio": "34.00",
         "es_opcional": true,
-        "duracion_minutos": 15653
+        "duracion_minutos": null
     }
 },
 {
     "model": "hotel.servicio",
     "pk": 3,
     "fields": {
-        "nombre": "Blue method Democrat table economy huge determine. Popular claim watch myself effort.",
-        "descripcion": "Class still realize staff day into. Worry executive project should girl kid forward. American free race professor serious.",
-        "precio": "0.32",
-        "es_opcional": true,
-        "duracion_minutos": -32300
+        "nombre": "Gimnasio",
+        "descripcion": "Servicio de Gimnasio",
+        "precio": "18.00",
+        "es_opcional": false,
+        "duracion_minutos": null
     }
 },
 {
     "model": "hotel.servicio",
     "pk": 4,
     "fields": {
-        "nombre": "Part tonight power subject step. Fish book one day.",
-        "descripcion": "Leg toward down western show point. Camera central according news how that. What third contain baby its under. Minute clear whole wall increase.",
-        "precio": "0.58",
+        "nombre": "Desayuno",
+        "descripcion": "Servicio de Desayuno",
+        "precio": "21.00",
         "es_opcional": true,
-        "duracion_minutos": 14085
+        "duracion_minutos": null
     }
 },
 {
     "model": "hotel.servicio",
     "pk": 5,
     "fields": {
-        "nombre": "Later glass concern level decision. Feeling stop fear first.",
-        "descripcion": "Statement boy always season skin. Best their effort bag.\nAvoid career thank plant while away better through. Present few trouble treat us suffer. Large place operation consumer foreign space part.",
-        "precio": "0.05",
+        "nombre": "Parking",
+        "descripcion": "Servicio de Parking",
+        "precio": "34.00",
         "es_opcional": true,
-        "duracion_minutos": -16150
+        "duracion_minutos": null
     }
 },
 {
     "model": "hotel.servicio",
     "pk": 6,
     "fields": {
-        "nombre": "According to price factor purpose plan. Admit structure range not. Eight ten sister down.",
-        "descripcion": "Every name modern fly nothing. Off deep nation body.\nMyself tough drive nor. Need safe successful relate medical.\nRead position arm class group decide. Might nearly very television.",
-        "precio": "0.83",
+        "nombre": "Spa",
+        "descripcion": "Servicio de Spa",
+        "precio": "43.00",
         "es_opcional": true,
-        "duracion_minutos": 17472
-    }
-},
-{
-    "model": "hotel.servicio",
-    "pk": 7,
-    "fields": {
-        "nombre": "True number order wait. Skill lose perhaps outside.",
-        "descripcion": "Statement allow various near tend stand wrong. Authority might hit art. Movie ability series themselves before.",
-        "precio": "0.35",
-        "es_opcional": true,
-        "duracion_minutos": -21584
-    }
-},
-{
-    "model": "hotel.servicio",
-    "pk": 8,
-    "fields": {
-        "nombre": "Deep save rule fine only. Now capital school long stage go. Book read smile north brother.",
-        "descripcion": "Test boy fall chance center next be. Set meeting possible might sure. Different spring serious. Total impact opportunity bar control forget.",
-        "precio": "0.58",
-        "es_opcional": true,
-        "duracion_minutos": -8245
-    }
-},
-{
-    "model": "hotel.servicio",
-    "pk": 9,
-    "fields": {
-        "nombre": "Relationship professional large. By whatever summer respond level lay central.",
-        "descripcion": "Whose sister show start. Imagine recognize get part suddenly technology walk. Republican protect with film top.",
-        "precio": "0.90",
-        "es_opcional": true,
-        "duracion_minutos": -15764
-    }
-},
-{
-    "model": "hotel.servicio",
-    "pk": 10,
-    "fields": {
-        "nombre": "Hair small likely with. Organization our somebody.\nRegion later part add scene they.",
-        "descripcion": "Own century specific Congress. Include wall sort level her sing our alone.\nMessage heart suddenly film soon. Some season she produce not carry few.",
-        "precio": "0.86",
-        "es_opcional": true,
-        "duracion_minutos": 13140
+        "duracion_minutos": null
     }
 },
 {
     "model": "hotel.reserva",
     "pk": 1,
     "fields": {
-        "huesped": 12,
-        "habitacion": 10,
-        "fecha_entrada": "2000-12-11",
-        "fecha_salida": "2001-12-20",
+        "huesped": 2,
+        "habitacion": 41,
+        "fecha_entrada": "2025-09-16",
+        "fecha_salida": "2025-09-18",
+        "estado": "F",
+        "creada_en": "2025-12-10T19:10:40.643"
+    }
+},
+{
+    "model": "hotel.reserva",
+    "pk": 2,
+    "fields": {
+        "huesped": 3,
+        "habitacion": 41,
+        "fecha_entrada": "2025-05-30",
+        "fecha_salida": "2025-05-31",
+        "estado": "F",
+        "creada_en": "2025-12-10T19:10:40.644"
+    }
+},
+{
+    "model": "hotel.reserva",
+    "pk": 3,
+    "fields": {
+        "huesped": 3,
+        "habitacion": 31,
+        "fecha_entrada": "2025-03-29",
+        "fecha_salida": "2025-04-05",
+        "estado": "F",
+        "creada_en": "2025-12-10T19:10:40.645"
+    }
+},
+{
+    "model": "hotel.reserva",
+    "pk": 4,
+    "fields": {
+        "huesped": 4,
+        "habitacion": 1,
+        "fecha_entrada": "2025-01-15",
+        "fecha_salida": "2025-01-21",
         "estado": "P",
-        "creada_en": "2025-12-01T20:46:27.486"
+        "creada_en": "2025-12-10T19:10:40.645"
+    }
+},
+{
+    "model": "hotel.reserva",
+    "pk": 5,
+    "fields": {
+        "huesped": 5,
+        "habitacion": 11,
+        "fecha_entrada": "2024-12-09",
+        "fecha_salida": "2024-12-12",
+        "estado": "C",
+        "creada_en": "2025-12-10T19:10:40.646"
+    }
+},
+{
+    "model": "hotel.reserva",
+    "pk": 6,
+    "fields": {
+        "huesped": 6,
+        "habitacion": 31,
+        "fecha_entrada": "2026-07-12",
+        "fecha_salida": "2026-07-17",
+        "estado": "P",
+        "creada_en": "2025-12-10T19:10:40.647"
+    }
+},
+{
+    "model": "hotel.reserva",
+    "pk": 7,
+    "fields": {
+        "huesped": 6,
+        "habitacion": 31,
+        "fecha_entrada": "2026-03-15",
+        "fecha_salida": "2026-03-18",
+        "estado": "C",
+        "creada_en": "2025-12-10T19:10:40.647"
+    }
+},
+{
+    "model": "hotel.reserva",
+    "pk": 8,
+    "fields": {
+        "huesped": 7,
+        "habitacion": 31,
+        "fecha_entrada": "2026-06-03",
+        "fecha_salida": "2026-06-07",
+        "estado": "C",
+        "creada_en": "2025-12-10T19:10:40.648"
+    }
+},
+{
+    "model": "hotel.reserva",
+    "pk": 9,
+    "fields": {
+        "huesped": 8,
+        "habitacion": 31,
+        "fecha_entrada": "2026-09-13",
+        "fecha_salida": "2026-09-19",
+        "estado": "P",
+        "creada_en": "2025-12-10T19:10:40.649"
+    }
+},
+{
+    "model": "hotel.reserva",
+    "pk": 10,
+    "fields": {
+        "huesped": 8,
+        "habitacion": 1,
+        "fecha_entrada": "2026-06-08",
+        "fecha_salida": "2026-06-10",
+        "estado": "C",
+        "creada_en": "2025-12-10T19:10:40.649"
+    }
+},
+{
+    "model": "hotel.reserva",
+    "pk": 11,
+    "fields": {
+        "huesped": 8,
+        "habitacion": 21,
+        "fecha_entrada": "2026-03-09",
+        "fecha_salida": "2026-03-11",
+        "estado": "C",
+        "creada_en": "2025-12-10T19:10:40.650"
+    }
+},
+{
+    "model": "hotel.reserva",
+    "pk": 12,
+    "fields": {
+        "huesped": 9,
+        "habitacion": 41,
+        "fecha_entrada": "2025-05-24",
+        "fecha_salida": "2025-05-28",
+        "estado": "C",
+        "creada_en": "2025-12-10T19:10:40.651"
+    }
+},
+{
+    "model": "hotel.reserva",
+    "pk": 13,
+    "fields": {
+        "huesped": 9,
+        "habitacion": 31,
+        "fecha_entrada": "2025-04-07",
+        "fecha_salida": "2025-04-09",
+        "estado": "P",
+        "creada_en": "2025-12-10T19:10:40.652"
+    }
+},
+{
+    "model": "hotel.reserva",
+    "pk": 14,
+    "fields": {
+        "huesped": 10,
+        "habitacion": 1,
+        "fecha_entrada": "2026-11-02",
+        "fecha_salida": "2026-11-08",
+        "estado": "P",
+        "creada_en": "2025-12-10T19:10:40.652"
+    }
+},
+{
+    "model": "hotel.reserva",
+    "pk": 15,
+    "fields": {
+        "huesped": 10,
+        "habitacion": 21,
+        "fecha_entrada": "2026-10-11",
+        "fecha_salida": "2026-10-13",
+        "estado": "C",
+        "creada_en": "2025-12-10T19:10:40.653"
+    }
+},
+{
+    "model": "hotel.reserva",
+    "pk": 16,
+    "fields": {
+        "huesped": 11,
+        "habitacion": 1,
+        "fecha_entrada": "2025-11-05",
+        "fecha_salida": "2025-11-09",
+        "estado": "F",
+        "creada_en": "2025-12-10T19:10:40.654"
     }
 },
 {
@@ -1590,11 +1664,131 @@
     "pk": 1,
     "fields": {
         "reserva": 1,
-        "emitida_en": "2025-12-02T22:06:18.025",
-        "numero_factura": "c5e30319-93be-4c4d-a72e-196101",
-        "monto_total": "222.00",
+        "emitida_en": "2025-12-10T19:10:40.643",
+        "numero_factura": "afb8270c-e6ae-427a-8823-e7544d2dcc51",
+        "monto_total": "275.00",
         "pagada": true,
-        "notas": "sss"
+        "notas": ""
+    }
+},
+{
+    "model": "hotel.factura",
+    "pk": 2,
+    "fields": {
+        "reserva": 2,
+        "emitida_en": "2025-12-10T19:10:40.644",
+        "numero_factura": "7e0b6488-9867-49a7-9536-b9001b2f894d",
+        "monto_total": "574.00",
+        "pagada": false,
+        "notas": ""
+    }
+},
+{
+    "model": "hotel.factura",
+    "pk": 3,
+    "fields": {
+        "reserva": 3,
+        "emitida_en": "2025-12-10T19:10:40.645",
+        "numero_factura": "018833fa-4add-4276-b590-7f10f4f13498",
+        "monto_total": "473.00",
+        "pagada": false,
+        "notas": ""
+    }
+},
+{
+    "model": "hotel.factura",
+    "pk": 4,
+    "fields": {
+        "reserva": 5,
+        "emitida_en": "2025-12-10T19:10:40.646",
+        "numero_factura": "ba5f2215-80a1-48eb-ae4d-8e60c9059a55",
+        "monto_total": "361.00",
+        "pagada": false,
+        "notas": ""
+    }
+},
+{
+    "model": "hotel.factura",
+    "pk": 5,
+    "fields": {
+        "reserva": 7,
+        "emitida_en": "2025-12-10T19:10:40.647",
+        "numero_factura": "34f61056-b1c3-4de6-8657-99b49818949a",
+        "monto_total": "660.00",
+        "pagada": true,
+        "notas": ""
+    }
+},
+{
+    "model": "hotel.factura",
+    "pk": 6,
+    "fields": {
+        "reserva": 8,
+        "emitida_en": "2025-12-10T19:10:40.648",
+        "numero_factura": "f5dbf5bf-4b27-4fa5-83bc-a94771e12f6d",
+        "monto_total": "612.00",
+        "pagada": true,
+        "notas": ""
+    }
+},
+{
+    "model": "hotel.factura",
+    "pk": 7,
+    "fields": {
+        "reserva": 10,
+        "emitida_en": "2025-12-10T19:10:40.650",
+        "numero_factura": "fc5d96e4-9d16-44b6-9078-deb84c6bfa02",
+        "monto_total": "283.00",
+        "pagada": true,
+        "notas": ""
+    }
+},
+{
+    "model": "hotel.factura",
+    "pk": 8,
+    "fields": {
+        "reserva": 11,
+        "emitida_en": "2025-12-10T19:10:40.650",
+        "numero_factura": "f91a8dce-c95e-4ff3-b502-d49e46ec5b85",
+        "monto_total": "764.00",
+        "pagada": true,
+        "notas": ""
+    }
+},
+{
+    "model": "hotel.factura",
+    "pk": 9,
+    "fields": {
+        "reserva": 12,
+        "emitida_en": "2025-12-10T19:10:40.651",
+        "numero_factura": "10218baf-db70-4d7c-bf8c-d09343bb7d0f",
+        "monto_total": "316.00",
+        "pagada": true,
+        "notas": ""
+    }
+},
+{
+    "model": "hotel.factura",
+    "pk": 10,
+    "fields": {
+        "reserva": 15,
+        "emitida_en": "2025-12-10T19:10:40.653",
+        "numero_factura": "7f6ca974-7ca4-4292-b088-8dec97852bda",
+        "monto_total": "936.00",
+        "pagada": false,
+        "notas": ""
+    }
+},
+{
+    "model": "hotel.factura",
+    "pk": 11,
+    "fields": {
+        "reserva": 16,
+        "emitida_en": "2025-12-10T19:10:40.654",
+        "numero_factura": "9c9fd53e-948d-41e7-aa9c-eb1606c83eb9",
+        "monto_total": "562.00",
+        "pagada": false,
+        "notas": ""
     }
 }
 ]

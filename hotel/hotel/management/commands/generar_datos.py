@@ -1,200 +1,193 @@
 from django.core.management.base import BaseCommand
 from django.db import transaction
+from django.contrib.auth.models import Group
+from hotel.models import *
 from faker import Faker
 import random
-import uuid
-from datetime import timedelta, datetime
-from decimal import Decimal
-from hotel.models import (
-    Servicio,
-    Hotel,
-    ContactoHotel,
-    TipoHabitacion,
-    Habitacion,
-    Huesped,
-    PerfilHuesped,
-    Reserva,
-    ReservaServicio,
-    Factura
-)
+from datetime import timedelta, date
 
 class Command(BaseCommand):
-    help = 'Generar 10 datos aleatorios por modelo usando Faker'
+    help = 'Genera datos de prueba para la aplicación'
 
-    def handle(self, *args, **options):
+    def handle(self, *args, **kwargs):
+        self.stdout.write(self.style.WARNING('Iniciando generación de datos...'))
         fake = Faker('es_ES')
-        Faker.seed(0)
-        random.seed(0)
 
         with transaction.atomic():
-            # 1. Servicios
-            self.stdout.write("Generando usuarios...")
-            servicios = []
-            for _ in range(10):
-                s = Servicio.objects.create(
-                    nombre=fake.unique.word().capitalize(),
-                    descripcion=fake.sentence(nb_words=8),
-                    precio=Decimal(f"{random.uniform(5, 150):.2f}"),
-                    es_opcional=fake.boolean(chance_of_getting_true=70),
-                    duracion_minutos=random.choice([30, 45, 60, None])
-                )
-                servicios.append(s)
+            # 1. Crear Usuarios Base
+            self.crear_usuarios_base()
+            
+            # 2. Crear Hoteles y Habitaciones
+            hoteles = self.crear_hoteles(fake)
+            
+            # 3. Crear Huespedes Fake
+            huespedes = self.crear_huespedes_fake(fake)
+            
+            # 4. Crear Reservas y Facturas
+            self.crear_reservas(fake, hoteles, huespedes)
 
-            # 2. Hoteles
-            self.stdout.write("Generando usuarios...")
-            hoteles = []
-            for _ in range(10):
-                h = Hotel.objects.create(
-                    nombre=fake.unique.company(),
-                    descripcion=fake.text(max_nb_chars=200),
-                    direccion=fake.address(),
-                    fecha_fundacion=fake.date_between(start_date='-40y', end_date='-1y'),
-                    calificacion=Decimal(f"{random.uniform(0, 5):.2f}")
-                )
-                # añadir algunos servicios aleatorios al hotel
-                servicios_aleatorios = random.sample(servicios, random.randint(0, 4))
-                h.servicios.set(servicios_aleatorios)
-                hoteles.append(h)
+        self.stdout.write(self.style.SUCCESS('¡Datos generados correctamente!'))
 
-            # 3. ContactoHotel (OneToOne con Hotel) - crear solo para algunos hoteles (hasta 10)
-            self.stdout.write("Generando usuarios...")
-            contactos = []
-            for hotel in hoteles:
-                c = ContactoHotel.objects.create(
+    def crear_usuarios_base(self):
+        self.stdout.write('Creando usuarios base...')
+        
+        # Admin
+        if not Usuario.objects.filter(username='admin').exists():
+            admin = Usuario.objects.create_superuser('admin', 'admin@hotel.com', 'admin')
+            grupo_admin = Group.objects.get(name='Administrador')
+            admin.groups.add(grupo_admin)
+            admin.rol = Usuario.ADMINISTRADOR
+            admin.save()
+
+        # Gestor
+        if not Usuario.objects.filter(username='gestor1').exists():
+            gestor = Usuario.objects.create_user('gestor1', 'gestor1@hotel.com', '1234')
+            grupo_gestor = Group.objects.get(name='Gestor')
+            gestor.groups.add(grupo_gestor)
+            gestor.rol = Usuario.GESTOR
+            gestor.save()
+            Gestor.objects.create(usuario=gestor, especialidad='Dirección Hotelera', fecha_contratacion=date.today())
+
+        # Huesped
+        if not Usuario.objects.filter(username='huesped1').exists():
+            huesped_user = Usuario.objects.create_user('huesped1', 'huesped1@hotel.com', '1234')
+            grupo_huesped = Group.objects.get(name='Huesped')
+            huesped_user.groups.add(grupo_huesped)
+            huesped_user.rol = Usuario.HUESPED
+            huesped_user.save()
+            huesped_perfil = Huesped.objects.create(
+                usuario=huesped_user, 
+                nombre='Juan', 
+                apellido='Pérez', 
+                correo='huesped1@hotel.com',
+                telefono='600123456'
+            )
+            PerfilHuesped.objects.create(
+                huesped=huesped_perfil,
+                nacionalidad='Española',
+                puntos_fidelidad=100
+            )
+
+    def crear_hoteles(self, fake):
+        self.stdout.write('Creando hoteles...')
+        hoteles = []
+        
+        # Crear Servicios
+        servicios_nombres = ['Wifi', 'Piscina', 'Gimnasio', 'Desayuno', 'Parking', 'Spa']
+        servicios_objs = []
+        for nombre in servicios_nombres:
+            s, _ = Servicio.objects.get_or_create(
+                nombre=nombre, 
+                defaults={
+                    'descripcion': f'Servicio de {nombre}', 
+                    'precio': random.randint(10, 50),
+                    'es_opcional': random.choice([True, False])
+                }
+            )
+            servicios_objs.append(s)
+
+        # Crear Tipos de Habitación
+        tipos = []
+        for nombre, cap in [('Individual', 1), ('Doble', 2), ('Suite', 4)]:
+            t, _ = TipoHabitacion.objects.get_or_create(
+                nombre=nombre,
+                defaults={
+                    'descripcion': f'Habitación {nombre}',
+                    'capacidad': cap,
+                    'precio_base': random.randint(50, 200)
+                }
+            )
+            tipos.append(t)
+
+        for _ in range(5):
+            hotel = Hotel.objects.create(
+                nombre=fake.company() + " Hotel",
+                descripcion=fake.text(),
+                direccion=fake.address(),
+                fecha_fundacion=fake.date_between(start_date='-50y', end_date='-1y'),
+                calificacion=round(random.uniform(3.0, 5.0), 2),
+                num_habitaciones=random.randint(10, 50),
+                tiene_restaurante=random.choice([True, False]),
+                correo_contacto=fake.email(),
+                hora_apertura='08:00'
+            )
+            hotel.servicios.set(random.sample(servicios_objs, k=random.randint(2, 5)))
+            
+            ContactoHotel.objects.create(
+                hotel=hotel,
+                nombre_contacto=fake.name(),
+                telefono=fake.phone_number()[:15], # Truncate to fit
+                correo=fake.email()
+            )
+
+            # Crear Habitaciones
+            for i in range(1, 11):
+                Habitacion.objects.create(
+                    numero=f"{random.randint(1,5)}0{i}",
+                    piso=random.randint(1, 5),
+                    tipo=random.choice(tipos),
                     hotel=hotel,
-                    nombre_contacto=fake.name(),
-                    telefono=fake.unique.phone_number(),
-                    correo=fake.unique.company_email(),
-                    sitio_web=fake.url()
+                    disponible=True
                 )
-                contactos.append(c)
+            
+            hoteles.append(hotel)
+        return hoteles
 
-            # 4. TipoHabitacion
-            self.stdout.write("Generando usuarios...")
-            tipos = []
-            for _ in range(6):
-                t = TipoHabitacion.objects.create(
-                    nombre=fake.word().capitalize(),
-                    descripcion=fake.sentence(nb_words=6),
-                    capacidad=random.randint(1, 6),
-                    precio_base=Decimal(f"{random.uniform(30, 400):.2f}")
-                )
-                tipos.append(t)
-# ... (código anterior igual) ...
+    def crear_huespedes_fake(self, fake):
+        self.stdout.write('Creando huéspedes fake...')
+        huespedes = []
+        grupo_huesped = Group.objects.get(name='Huesped')
+        
+        for _ in range(10):
+            username = fake.user_name()
+            # Ensure unique username
+            while Usuario.objects.filter(username=username).exists():
+                username = fake.user_name() + str(random.randint(1, 999))
+                
+            user = Usuario.objects.create_user(username, fake.email(), '1234')
+            user.groups.add(grupo_huesped)
+            user.rol = Usuario.HUESPED
+            user.save()
+            
+            huesped = Huesped.objects.create(
+                usuario=user,
+                nombre=fake.first_name(),
+                apellido=fake.last_name(),
+                correo=user.email,
+                telefono=fake.phone_number()[:15]
+            )
+            
+            PerfilHuesped.objects.create(
+                huesped=huesped,
+                nacionalidad=fake.country(),
+                numero_pasaporte=fake.bothify(text='??#######'),
+                puntos_fidelidad=random.randint(0, 500)
+            )
+            huespedes.append(huesped)
+        return huespedes
 
-            # 5. Habitaciones (FK a TipoHabitacion y Hotel) + ManyToMany servicios
-            self.stdout.write("Generando habitaciones...") # Corregido mensaje también
-            habitaciones = []
-            for _ in range(30):
+    def crear_reservas(self, fake, hoteles, huespedes):
+        self.stdout.write('Creando reservas...')
+        for huesped in huespedes:
+            for _ in range(random.randint(1, 3)):
                 hotel = random.choice(hoteles)
-                tipo = random.choice(tipos)
-                numero = str(random.randint(1, 999))
-                h_obj = Habitacion.objects.create(
-                    numero=numero,
-                    piso=random.randint(0, 10),
-                    tipo=tipo,
-                    hotel=hotel,
-                    disponible=fake.boolean(chance_of_getting_true=80)
-                    # SE ELIMINÓ LA LÍNEA: imagen_url="/imagen"
-                )
-                # servicios de la habitación
-                servicios_hab = random.sample(servicios, random.randint(0, 3))
-                h_obj.servicios.set(servicios_hab)
-                habitaciones.append(h_obj)
-
-            # ... (resto del código igual) ...
-
-            # 6. Huespedes
-            self.stdout.write("Generando usuarios...")
-            huespedes = []
-            for _ in range(15):
-                email = fake.unique.email()
-                hu = Huesped.objects.create(
-                    nombre=fake.first_name(),
-                    apellido=fake.last_name(),
-                    correo=email,
-                    telefono=fake.phone_number(),
-                    fecha_nacimiento=fake.date_of_birth(minimum_age=18, maximum_age=80)
-                )
-                huespedes.append(hu)
-
-            # 7. PerfilHuesped (OneToOne con Huesped)
-            self.stdout.write("Generando usuarios...")
-            perfiles = []
-            for huesped in huespedes:
-                # algunos huéspedes pueden no tener pasaporte (null=True)
-                passport = fake.unique.bothify(text='??######') if random.choice([True, False, True]) else None
-                p = PerfilHuesped.objects.create(
-                    huesped=huesped,
-                    nacionalidad=fake.country(),
-                    numero_pasaporte=passport,
-                    puntos_fidelidad=random.randint(0, 5000),
-                    preferencias=fake.sentence(nb_words=6)
-                )
-                perfiles.append(p)
-
-            # 8. Reservas (cada una necesita huesped y habitacion)
-            self.stdout.write("Generando usuarios...")
-            reservas = []
-            for _ in range(20):
-                huesped = random.choice(huespedes)
-                habitacion = random.choice(habitaciones)
-                fecha_entrada = fake.date_between(start_date='-90d', end_date='today')
-                # asegurar salida posterior
-                dias = random.randint(1, 10)
-                fecha_salida = fecha_entrada + timedelta(days=dias)
-
-                estado = random.choice(['P', 'C', 'F', 'X'])
-                r = Reserva.objects.create(
+                habitacion = hotel.habitaciones.first() # Simplificación
+                
+                fecha_ent = fake.date_between(start_date='-1y', end_date='+1y')
+                fecha_sal = fecha_ent + timedelta(days=random.randint(1, 7))
+                
+                reserva = Reserva.objects.create(
                     huesped=huesped,
                     habitacion=habitacion,
-                    fecha_entrada=fecha_entrada,
-                    fecha_salida=fecha_salida,
-                    estado=estado
+                    fecha_entrada=fecha_ent,
+                    fecha_salida=fecha_sal,
+                    estado=random.choice(['P', 'C', 'F'])
                 )
-                reservas.append(r)
-
-            # 9. ReservaServicio (tabla intermedia con atributos extra)
-            self.stdout.write("Generando usuarios...")
-            reservaservicios = []
-            for reserva in reservas:
-                # asignar entre 0 y 4 servicios distintos a la reserva
-                servicios_para_reserva = random.sample(servicios, random.randint(0, 4))
-                for serv in servicios_para_reserva:
-                    cantidad = random.randint(1, 5)
-                    precio_en_momento = serv.precio  # podríamos variar un poco
-                    nota = fake.sentence(nb_words=6) if random.choice([True, False]) else ''
-                    rs = ReservaServicio.objects.create(
+                
+                # Factura
+                if reserva.estado in ['C', 'F']:
+                    Factura.objects.create(
                         reserva=reserva,
-                        servicio=serv,
-                        cantidad=cantidad,
-                        precio_en_momento=precio_en_momento,
-                        nota=nota
+                        monto_total=random.randint(100, 1000),
+                        pagada=random.choice([True, False])
                     )
-                    reservaservicios.append(rs)
-
-            # 10. Facturas (OneToOne con Reserva) - crear factura para algunas reservas
-            self.stdout.write("Generando usuarios...")
-            facturas = []
-            for reserva in reservas:
-                # decidir si esta reserva tiene factura (no todas tienen)
-                if random.choice([True, True, False]):
-                    # calcular monto_total simple: noches * precio_base + suma servicios
-                    noches = (reserva.fecha_salida - reserva.fecha_entrada).days
-                    precio_noche = reserva.habitacion.tipo.precio_base
-                    total_habitacion = precio_noche * noches
-                    total_servicios = Decimal('0.00')
-                    rs_qs = ReservaServicio.objects.filter(reserva=reserva)
-                    for rs in rs_qs:
-                        total_servicios += (rs.precio_en_momento * rs.cantidad)
-                    monto_total = (total_habitacion + total_servicios).quantize(Decimal('0.01'))
-                    f = Factura.objects.create(
-                        reserva=reserva,
-                        numero_factura=str(uuid.uuid4()),
-                        monto_total=monto_total,
-                        pagada=random.choice([True, False]),
-                        notas=fake.sentence(nb_words=8)
-                    )
-                    facturas.append(f)
-
-        self.stdout.write(self.style.SUCCESS('Datos generados correctamente.'))

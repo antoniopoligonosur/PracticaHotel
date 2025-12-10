@@ -849,15 +849,25 @@ def register(request):
         if form.is_valid():
             user = form.save()
             rol = form.cleaned_data.get('rol')
+            telefono = form.cleaned_data.get('telefono')
+            especialidad = form.cleaned_data.get('especialidad')
             
             if int(rol) == Usuario.HUESPED:
                 group = Group.objects.get(name='Huesped')
                 user.groups.add(group)
-                Huesped.objects.create(usuario=user, nombre=user.username, correo=user.email)
+                Huesped.objects.create(
+                    usuario=user, 
+                    nombre=user.username, 
+                    correo=user.email,
+                    telefono=telefono  # Guardamos el teléfono
+                )
             elif int(rol) == Usuario.GESTOR:
                 group = Group.objects.get(name='Gestor')
                 user.groups.add(group)
-                Gestor.objects.create(usuario=user)
+                Gestor.objects.create(
+                    usuario=user,
+                    especialidad=especialidad # Guardamos la especialidad
+                )
             
             login(request, user)
             return redirect('index')

@@ -282,6 +282,8 @@ class ReservaForm(ModelForm):
         if self.user and hasattr(self.user, 'huesped_perfil'):
             self.fields['huesped'].initial = self.user.huesped_perfil
             self.fields['huesped'].widget = forms.HiddenInput()
+            # Filtro dinámico: Los huéspedes solo ven habitaciones disponibles
+            self.fields['habitacion'].queryset = Habitacion.objects.filter(disponible=True)
             # Disable to prevent tampering, but we must handle saving in view or clean
             # self.fields['huesped'].disabled = True 
             # Better: keep it hidden and initial set. View logic handles the rest.
@@ -480,7 +482,28 @@ class RegistroForm(UserCreationForm):
     )
     
     rol = forms.ChoiceField(choices=roles, label="Rol de Usuario")
+    
+    # Campos extra para roles específicos
+    telefono = forms.CharField(max_length=20, required=False, label="Teléfono (Solo Huéspedes)")
+    especialidad = forms.CharField(max_length=100, required=False, label="Especialidad (Solo Gestores)")
 
     class Meta:
         model = Usuario
         fields = ['username', 'email', 'rol']
+
+    def clean(self):
+        cleaned_data = super().clean()
+        rol = cleaned_data.get('rol')
+        telefono = cleaned_data.get('telefono')
+        especialidad = cleaned_data.get('especialidad')
+
+        if rol:
+            rol_int = int(rol)
+            if rol_int == Usuario.HUESPED:
+                if not telefono:
+                    self.add_error('telefono', 'El teléfono es obligatorio para huéspedes.')
+            elif rol_int == Usuario.GESTOR:
+                if not especialidad:
+                    self.add_error('especialidad', 'La especialidad es obligatoria para gestores.')
+        
+        return cleaned_data

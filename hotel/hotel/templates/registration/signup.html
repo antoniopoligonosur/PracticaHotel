@@ -9,4 +9,42 @@
 
     {% bootstrap_button "Enviar" button_type="submit" button_class="btn-primary" %}
 </form>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const rolSelect = document.getElementById('id_rol');
+        const telefonoInput = document.getElementById('id_telefono');
+        const especialidadInput = document.getElementById('id_especialidad');
+        
+        // Helper to find the container div (usually .mb-3 for bootstrap forms)
+        function getContainer(element) {
+            return element.closest('.mb-3') || element.parentElement;
+        }
+
+        const telefonoContainer = getContainer(telefonoInput);
+        const especialidadContainer = getContainer(especialidadInput);
+
+        function toggleFields() {
+            const rol = rolSelect.value;
+            // 2 = HUESPED, 3 = GESTOR (según models.py)
+            
+            if (rol === '2') { // Huesped
+                telefonoContainer.style.display = 'block';
+                especialidadContainer.style.display = 'none';
+            } else if (rol === '3') { // Gestor
+                telefonoContainer.style.display = 'none';
+                especialidadContainer.style.display = 'block';
+            } else {
+                telefonoContainer.style.display = 'none';
+                especialidadContainer.style.display = 'none';
+            }
+        }
+
+        // Initial check
+        toggleFields();
+
+        // Listen for changes
+        rolSelect.addEventListener('change', toggleFields);
+    });
+</script>
 {% endblock %}
